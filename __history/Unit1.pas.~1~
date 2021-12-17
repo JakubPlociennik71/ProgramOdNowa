@@ -1,0 +1,89 @@
+unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.StdCtrls,
+  Vcl.StdActns, Vcl.Menus, System.Actions, Vcl.ActnList, Vcl.ToolWin,
+  System.ImageList, Vcl.ImgList, Vcl.ExtActns;
+
+type
+  TForm1 = class(TForm)
+    TreeView1: TTreeView;
+    Button2: TButton;
+    Usun: TButton;
+    Edit1: TEdit;
+    Edit2: TEdit;
+    Edit3: TEdit;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    MainMenu1: TMainMenu;
+    ActionList1: TActionList;
+    ImageList1: TImageList;
+    ToolBar1: TToolBar;
+    Action1: TAction;
+    FileSaveAs1: TFileSaveAs;
+    FileExit1: TFileExit;
+    FileOpen1: TFileOpen;
+    Action2: TAction;
+    ControlAction1: TControlAction;
+    ControlAction11: TMenuItem;
+    Exit1: TMenuItem;
+    Open1: TMenuItem;
+    Open2: TMenuItem;
+
+    procedure Button2Click(Sender: TObject);
+    procedure UsunClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+ type
+ NodePodpora_Przesuwna = class
+   odleglosc: Real;
+   silaX: Real;
+   SilaY:Real;
+ end;
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.Button2Click(Sender: TObject);
+var
+  Node: TTreeNode ;
+  note: NodePodpora_Przesuwna;
+begin
+      note:= NodePodpora_Przesuwna.Create;
+      note.odleglosc:= StrToFloat(Edit1.Text);
+      note.silaX:=StrToFloat(Edit2.Text);
+      note.SilaY:=StrToFloat(Edit3.Text);
+      Node:=TreeView1.Items.AddChild(TreeView1.Selected,'Odleg³oœæ od pocz¹tku wa³u: '+FloatToStr(note.odleglosc));
+      //Node:=TreeView1.Items.AddChild(TreeView1.Selected,'Si³a X: '+FloatToStr(note.silaX));
+      //Node:=TreeView1.Items.AddChild(TreeView1.Selected,'Si³a Y: '+FloatToStr(note.SilaY));
+      Node.Selected:=True;
+      Node.editText;
+end;
+
+procedure TForm1.UsunClick(Sender: TObject);
+var
+indeks: integer;
+ok: Boolean;
+begin
+if TreeView1.Items.Count=0 then
+    MessageDlg('Brak obiektów do usuniêcia',mtInformation,[mbOk],0)
+else
+begin
+
+        TreeView1.Selected.Delete;
+
+
+end;
+end;
+
+end.
