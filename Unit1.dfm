@@ -11,7 +11,6 @@ object Form1: TForm1
   Font.Name = 'Tahoma'
   Font.Style = []
   Menu = MainMenu1
-  OldCreateOrder = False
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
@@ -37,8 +36,8 @@ object Form1: TForm1
     Caption = 'Warto'#347#263' Y'
   end
   object TreeView1: TTreeView
-    Left = 0
-    Top = 0
+    Left = 8
+    Top = 7
     Width = 185
     Height = 353
     Indent = 19
@@ -113,6 +112,21 @@ object Form1: TForm1
     Caption = 'Dodaj obci'#261'zenie'
     TabOrder = 7
     OnClick = Button1Click
+  end
+  object edt1: TRichEdit
+    Left = 272
+    Top = 24
+    Width = 329
+    Height = 329
+    Font.Charset = EASTEUROPE_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    Lines.Strings = (
+      'edt1')
+    ParentFont = False
+    TabOrder = 8
   end
   object MainMenu1: TMainMenu
     Left = 696

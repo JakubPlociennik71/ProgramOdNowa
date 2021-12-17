@@ -34,6 +34,7 @@ type
     Open1: TMenuItem;
     Open2: TMenuItem;
     Button1: TButton;
+    edt1: TRichEdit;
 
     procedure Button2Click(Sender: TObject);
     procedure UsunClick(Sender: TObject);
