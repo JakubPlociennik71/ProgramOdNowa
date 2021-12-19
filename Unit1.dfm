@@ -113,11 +113,11 @@ object Form1: TForm1
     TabOrder = 7
     OnClick = Button1Click
   end
-  object edt1: TRichEdit
+  object edtReport: TRichEdit
     Left = 272
     Top = 24
-    Width = 329
-    Height = 329
+    Width = 361
+    Height = 145
     Font.Charset = EASTEUROPE_CHARSET
     Font.Color = clWindowText
     Font.Height = -11
@@ -127,6 +127,15 @@ object Form1: TForm1
       'edt1')
     ParentFont = False
     TabOrder = 8
+  end
+  object btn1: TButton
+    Left = 272
+    Top = 216
+    Width = 329
+    Height = 153
+    Caption = 'btn1'
+    TabOrder = 9
+    OnClick = btn1Click
   end
   object MainMenu1: TMainMenu
     Left = 696

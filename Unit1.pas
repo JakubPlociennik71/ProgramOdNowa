@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.StdCtrls,
   Vcl.StdActns, Vcl.Menus, System.Actions, Vcl.ActnList, Vcl.ToolWin,
-  System.ImageList, Vcl.ImgList, Vcl.ExtActns;
+  System.ImageList, Vcl.ImgList, Vcl.ExtActns, Loads;
 
 type
   TForm1 = class(TForm)
@@ -34,18 +34,20 @@ type
     Open1: TMenuItem;
     Open2: TMenuItem;
     Button1: TButton;
-    edt1: TRichEdit;
+    edtReport: TRichEdit;
+    btn1: TButton;
 
     procedure Button2Click(Sender: TObject);
     procedure UsunClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure btn1Click(Sender: TObject);
   private
-    { Private declarations }
   public
     { Public declarations }
   end;
  type
+
  Obciazenie = class
    odleglosc: Real;
    silaX: Real;
@@ -59,14 +61,79 @@ implementation
 
 {$R *.dfm}
 
+procedure TForm1.btn1Click(Sender: TObject);
+var
+  points: TAoD;
+  z, s, m, t: Double;
+  f: TForce;
+begin
+  // zmieniam po³o¿enie podpór
+  Shaft.BeginUpdate;
+
+//  Shaft.Angular.Z := 1;
+//  Shaft.Radial.Z := 0;
+  Shaft.RadialReaction.Z := 3;
+  Shaft.AddTorque(1, 1);
+  Shaft.AddForce(P3D(-1, 0, 0), P3D(0, 1, 2));
+  Shaft.EndUpdate;
+
+//  Shaft[0].Z := 2.5;
+  f := Shaft.AddForce(P3D(5, 0, 0), P3D(0, 0, 0.5));
+  Shaft.DeleteLoad(f);
+
+  // niebezpieczne przekroje
+  t := Shaft.RadialReaction.Force.X;
+  points := Shaft.ZPositions;
+  for z in points do begin
+    s := Shaft.Shear(z, ltLeftLimit);
+    s := Shaft.Shear(z);
+    m := Shaft.Moment(z, ltLeftLimit);
+    m := Shaft.Moment(z);
+    t := Shaft.Torque(z, ltLeftLimit);
+    t := Shaft.Torque(z);
+  end;
+
+//  // zmieniam po³o¿enie podpór
+//  Shaft.BeginUpdate;
+//  Shaft.Radial.Z := 6;
+//  Shaft.AddForce(P3D(-15, 0), P3D(2));
+//  Shaft.AddForce(P3D(-6, 0), P3D(4));
+//  Shaft.EndUpdate;
+//
+//  // niebezpieczne przekroje
+//  points := Shaft.ZPositions;
+//  for z in points do begin
+//    s := Shaft.ShearX(z, ltLeftLimit);
+//    s := Shaft.ShearX(z, ltRightLimit);
+//
+//    m := Shaft.MomentX(z, ltLeftLimit);
+//    m := Shaft.MomentX(z, ltRightLimit);
+//  end;
+
+//  // dodajê si³y
+//  Shaft.Clear;
+//  Shaft.Radial.Z := 2;
+//  Shaft.AddForce(P3D(0, 0, 1), P3D(1, 0, 1));
+//  Shaft.AddMoment(-1, 0, 1.5);
+//
+//  // niebezpieczne przekroje
+//  points := Shaft.ZPositions;
+//  for z in points do begin
+//    s := Shaft.ShearX(z, ltLeftLimit);
+//    s := Shaft.ShearX(z);
+//
+//    m := Shaft.MomentX(z, ltLeftLimit);
+//    m := Shaft.MomentX(z);
+//  end;
+end;
+
 procedure TForm1.Button1Click(Sender: TObject);
 var
   Node: TTreeNode ;
 begin
-
-      Node:=TreeView1.Items.AddChild(TreeView1.Selected,'Nowe obci¹zenie');
-      Node.Selected:=True;
-      Node.editText;
+  Node:=TreeView1.Items.AddChild(TreeView1.Selected,'Nowe obci¹zenie');
+  Node.Selected:=True;
+  Node.editText;
 end;
 
 procedure TForm1.Button2Click(Sender: TObject);
@@ -92,6 +159,8 @@ Lista:TList;
 begin
   Lista:=TList.Create;
 
+
+  Lista.Free;
 end;
 
 
