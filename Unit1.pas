@@ -43,6 +43,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure btn1Click(Sender: TObject);
   private
+    procedure CalculationsChanged(Sender: TObject);
   public
     { Public declarations }
   end;
@@ -65,33 +66,56 @@ procedure TForm1.btn1Click(Sender: TObject);
 var
   points: TAoD;
   z, s, m, t: Double;
-  f: TForce;
+  f1, f2: TForce;
 begin
-  // zmieniam po³o¿enie podpór
+  Shaft.Clear;
   Shaft.BeginUpdate;
-
-//  Shaft.Angular.Z := 1;
-//  Shaft.Radial.Z := 0;
-  Shaft.RadialReaction.Z := 3;
-  Shaft.AddTorque(1, 1);
-  Shaft.AddForce(P3D(-1, 0, 0), P3D(0, 1, 2));
+  Shaft.PlaceSupports(0.5, 1.5);
+  Shaft.AddForce(P3D(0, -2, 0), 0);
+  Shaft.AddForce(P3D(0, -1, 1), 1);
+  Shaft.AddForce(P3D(0, -1, 0), 2);
+  Shaft.AddForce(0.3, 0.5, 0.1, 1, 30, 1);
   Shaft.EndUpdate;
 
-//  Shaft[0].Z := 2.5;
-  f := Shaft.AddForce(P3D(5, 0, 0), P3D(0, 0, 0.5));
-  Shaft.DeleteLoad(f);
-
-  // niebezpieczne przekroje
-  t := Shaft.RadialReaction.Force.X;
   points := Shaft.ZPositions;
   for z in points do begin
-    s := Shaft.Shear(z, ltLeftLimit);
-    s := Shaft.Shear(z);
-    m := Shaft.Moment(z, ltLeftLimit);
-    m := Shaft.Moment(z);
-    t := Shaft.Torque(z, ltLeftLimit);
+    s := Shaft.ShearY(z, ltLeft);
+    m := Shaft.MomentY(z, ltLeft);
+    t := Shaft.Torque(z, ltLeft);
+
+    s := Shaft.ShearY(z);
+    m := Shaft.MomentY(z);
     t := Shaft.Torque(z);
+
+    f1 := f1;
   end;
+
+
+//  // zmieniam po³o¿enie podpór
+//  Shaft.BeginUpdate;
+//
+////  Shaft.Angular.Z := 1;
+////  Shaft.Radial.Z := 0;
+//  Shaft.RadialReaction.Z := 3;
+//  Shaft.AddTorque(1, 1);
+//  Shaft.AddForce(P3D(-1, 0, 0), P3D(0, 1, 2));
+//  Shaft.EndUpdate;
+//
+////  Shaft[0].Z := 2.5;
+//  f1 := Shaft.AddForce(P3D(5, 0, 0), P3D(0, 0, 0.5));
+//  Shaft.DeleteLoad(f);
+//
+//  // niebezpieczne przekroje
+//  t := Shaft.RadialReaction.Force.X;
+//  points := Shaft.ZPositions;
+//  for z in points do begin
+//    s := Shaft.Shear(z, ltLeftLimit);
+//    s := Shaft.Shear(z);
+//    m := Shaft.Moment(z, ltLeftLimit);
+//    m := Shaft.Moment(z);
+//    t := Shaft.Torque(z, ltLeftLimit);
+//    t := Shaft.Torque(z);
+//  end;
 
 //  // zmieniam po³o¿enie podpór
 //  Shaft.BeginUpdate;
@@ -152,11 +176,23 @@ begin
       Node.editText;
 end;
 
+var
+  fCount: Integer = 0;
+
+procedure TForm1.CalculationsChanged(Sender: TObject);
+begin
+  Inc(fCount);
+
+  Caption := IntToStr(fCount);
+end;
+
 procedure TForm1.FormCreate(Sender: TObject);
 
 var
 Lista:TList;
 begin
+  Shaft.OnChange := CalculationsChanged;
+
   Lista:=TList.Create;
 
 
