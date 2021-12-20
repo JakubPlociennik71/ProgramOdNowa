@@ -11,30 +11,10 @@ object Form1: TForm1
   Font.Name = 'Tahoma'
   Font.Style = []
   Menu = MainMenu1
+  OldCreateOrder = True
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
-  object Label1: TLabel
-    Left = 224
-    Top = 400
-    Width = 47
-    Height = 13
-    Caption = 'Odleg'#322'o'#347#263
-  end
-  object Label2: TLabel
-    Left = 224
-    Top = 432
-    Width = 49
-    Height = 13
-    Caption = 'Warto'#347#263' X'
-  end
-  object Label3: TLabel
-    Left = 224
-    Top = 459
-    Width = 49
-    Height = 13
-    Caption = 'Warto'#347#263' Y'
-  end
   object TreeView1: TTreeView
     Left = 8
     Top = 7
@@ -43,58 +23,17 @@ object Form1: TForm1
     Indent = 19
     TabOrder = 0
     Items.NodeData = {
-      0305000000380000000000000000000000FFFFFFFFFFFFFFFF00000000000000
-      0000000000000D50006F00640070006F00720061002000730074006100420161
-      00400000000000000000000000FFFFFFFFFFFFFFFF0000000000000000000000
-      00001150006F00640070006F00720061002000700072007A0065007300750077
-      006E006100260000000000000000000000FFFFFFFFFFFFFFFF00000000000000
-      0000000000000453006900420179002C0000000000000000000000FFFFFFFFFF
-      FFFFFF00000000000000000000000000074D006F006D0065006E007400790040
-      0000000000000000000000FFFFFFFFFFFFFFFF00000000000000000000000000
-      114D006F006D0065006E007400200053006B0072001901630061006A00050163
-      007900}
-  end
-  object Button2: TButton
-    Left = 472
-    Top = 425
-    Width = 97
-    Height = 29
-    Caption = 'Przypisz warto'#347#263
-    TabOrder = 1
-    OnClick = Button2Click
+      0301000000320000000000000000000000FFFFFFFFFFFFFFFF00000000000000
+      0000000000000A4F0062006300690005017C0165006E0069006100}
   end
   object Usun: TButton
-    Left = 16
-    Top = 428
+    Left = 199
+    Top = 42
     Width = 97
     Height = 27
     Caption = 'Usu'#324' obiekt'
-    TabOrder = 2
+    TabOrder = 1
     OnClick = UsunClick
-  end
-  object Edit1: TEdit
-    Left = 312
-    Top = 402
-    Width = 121
-    Height = 21
-    TabOrder = 3
-    Text = '0'
-  end
-  object Edit2: TEdit
-    Left = 312
-    Top = 429
-    Width = 121
-    Height = 21
-    TabOrder = 4
-    Text = '0'
-  end
-  object Edit3: TEdit
-    Left = 312
-    Top = 456
-    Width = 121
-    Height = 21
-    TabOrder = 5
-    Text = '0'
   end
   object ToolBar1: TToolBar
     Left = 0
@@ -102,22 +41,22 @@ object Form1: TForm1
     Width = 792
     Height = 1
     Caption = 'ToolBar1'
-    TabOrder = 6
+    TabOrder = 2
   end
   object Button1: TButton
-    Left = 16
-    Top = 394
+    Left = 199
+    Top = 8
     Width = 97
     Height = 28
     Caption = 'Dodaj obci'#261'zenie'
-    TabOrder = 7
+    TabOrder = 3
     OnClick = Button1Click
   end
-  object edtReport: TRichEdit
-    Left = 272
-    Top = 24
-    Width = 361
-    Height = 145
+  object edt1: TRichEdit
+    Left = 317
+    Top = 8
+    Width = 260
+    Height = 345
     Font.Charset = EASTEUROPE_CHARSET
     Font.Color = clWindowText
     Font.Height = -11
@@ -126,16 +65,79 @@ object Form1: TForm1
     Lines.Strings = (
       'edt1')
     ParentFont = False
-    TabOrder = 8
+    TabOrder = 4
+    Zoom = 100
   end
-  object btn1: TButton
-    Left = 272
-    Top = 216
-    Width = 329
-    Height = 153
-    Caption = 'btn1'
+  object Button3: TButton
+    Left = 632
+    Top = 395
+    Width = 121
+    Height = 59
+    Caption = 'Rysowanie Wykres'#243'w'
+    TabOrder = 5
+    OnClick = Button3Click
+  end
+  object ListBox1: TListBox
+    Left = 632
+    Top = 24
+    Width = 121
+    Height = 329
+    ItemHeight = 13
+    TabOrder = 6
+  end
+  object Button4: TButton
+    Left = 8
+    Top = 382
+    Width = 75
+    Height = 25
+    Caption = 'Si'#322'a skupiona'
+    TabOrder = 7
+    OnClick = Button4Click
+  end
+  object Button5: TButton
+    Left = 96
+    Top = 382
+    Width = 75
+    Height = 25
+    Caption = 'Si'#322'a poza wa'#322'em'
+    TabOrder = 8
+    OnClick = Button5Click
+  end
+  object Button6: TButton
+    Left = 8
+    Top = 429
+    Width = 75
+    Height = 25
+    Caption = 'Moment Gn'#261'cy'
     TabOrder = 9
-    OnClick = btn1Click
+    OnClick = Button6Click
+  end
+  object Button7: TButton
+    Left = 96
+    Top = 429
+    Width = 75
+    Height = 25
+    Caption = 'Moment skr'#281'caj'#261'cy'
+    TabOrder = 10
+    OnClick = Button7Click
+  end
+  object Button8: TButton
+    Left = 96
+    Top = 460
+    Width = 75
+    Height = 25
+    Caption = 'Podpora sta'#322'a'
+    TabOrder = 11
+    OnClick = Button8Click
+  end
+  object Button9: TButton
+    Left = 8
+    Top = 460
+    Width = 75
+    Height = 25
+    Caption = 'Podpora przesuwna'
+    TabOrder = 12
+    OnClick = Button9Click
   end
   object MainMenu1: TMainMenu
     Left = 696

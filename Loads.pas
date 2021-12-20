@@ -5,13 +5,10 @@ interface
 uses System.Classes, Math, Generics.Collections, Generics.Defaults;
 
 const
-  EPSILON = 1e-12;
+  EPSILON = 1e-12;  // wartość wykorzystywana do obliczeń obciążeń
   PRECISION = -6;   // wyniki zaokrąglam do 6 miejsca po przecinku
 
 type
-  // przyjmujemy układ współrzędnych jak w Kurmazie, czyli:
-  // oś Z w prawo, oś Y w górę, a oś X wychodzi z ekranu
-
   TAoD = TArray<Double>;
 
   TP3D = record X, Y, Z: Double; end;
@@ -44,6 +41,9 @@ type
     property Torque: Double read fTorque write SetTorque;
     property MomentX: Double read fMomentX write SetMomentX;
     property MomentY: Double read fMomentY write SetMomentY;
+    property FX: Double read fForce.X;
+    property FY: Double read fForce.Y;
+    property FZ: Double read fForce.Z;
   public
     property X: Double read fPoint.X;
     property Y: Double read fPoint.Y;
@@ -53,6 +53,9 @@ type
   TForce = class(TLoad)
     property Point;
     property Force write SetForce;
+    property FX;
+    property FY;
+    property FZ;
   end;
 
   TMoment = class(TLoad)
@@ -74,46 +77,52 @@ type
 
   TShaft = class(TObjectList<TLoad>)
   type
-    TLimit = (ltLeftLimit, ltRightLimit);
+    TLimit = (ltLeft, ltRight);
     TLoadCalculator = reference to function (ALoad: TLoad; AZ: Double): Double;
  private
-    fAngularReaction: TReaction;  // podpora stała (obciążenia pod dowolnym kątem)
-    fRadialReaction: TReaction;   // podpora ruchoma (obciążenie promieniowe)
+    fSupportA: TReaction;         // podpora stała (obciążenia pod dowolnym kątem)
+    fSupportB: TReaction;         // podpora ruchoma (obciążenie promieniowe)
     fOnChange: TNotifyEvent;      // procedure obsługi zdarzenia, wywoływana po wykonaniu obliczeń
     fUpdating: Integer;           // licznik wywołań zwiększany po wywołaniu BeginUpdate, a zmniejszany po wywołaniu EndUpdate
     fUpdateRequest: Boolean;      // flaga przechowująca informacje o tym, że dane lub obliczenia uległy zmianie
-    function Calculate(ACalculator: TLoadCalculator; AZ: Double; ACalcKind: TLimit): Double;
-    procedure UpdateReactions;    // oblicza reakcje podporowa
+    function Calculate(ACalculator: TLoadCalculator; AZ: Double; ALimit: TLimit): Double;
     procedure Update;
     procedure ValidityCheck;
+    function GetReaction(AIdx: Integer): TP3D;
   public
     constructor Create; overload;
     destructor Destroy; override;
+    // funkcje pomocnicze
     procedure BeginUpdate;
     procedure EndUpdate;
-    procedure Clear; reintroduce;
     function IsUpdating: Boolean;
-
-    // definiowanie obciążeń
+    procedure Clear; reintroduce;
+    // podpory
+    procedure PlaceSupports(AAZ, ABZ: Double);
+    procedure SwapSupports;
+    // obciążenia
     function AddForce(AForce: TP3D; AZ: Double): TForce; overload;
     function AddForce(AForce, APoint: TP3D): TForce; overload;
+    function AddForce(AFt, AFr, AFa: Double; AR, APhi, AZ: Double): TForce; overload;
     function AddTorque(ATorque: Double; AZ: Double): TTorque;
     function AddMoment(AMomentX, AMomentY: Double; AZ: Double): TMoment;
     procedure DeleteLoad(ALoad: TLoad);
     // lista punktów przyłożenia obciążeń (sortowana rosnąco wg współrzędnej Z)
     function ZPositions: TAoD;
     // siły i momenty
-    function Axial(AZ: Double; ACalcKind: TLimit = ltRightLimit): Double;
-    function ShearX(AZ: Double; ACalcKind: TLimit = ltRightLimit): Double;
-    function ShearY(AZ: Double; ACalcKind: TLimit = ltRightLimit): Double;
-    function Shear(AZ: Double; ACalcKind: TLimit = ltRightLimit): Double;
-    function MomentX(AZ: Double; ACalcKind: TLimit = ltRightLimit): Double;
-    function MomentY(AZ: Double; ACalcKind: TLimit = ltRightLimit): Double;
-    function Moment(AZ: Double; ACalcKind: TLimit = ltRightLimit): Double;
-    function Torque(AZ: Double; ACalcKind: TLimit = ltRightLimit): Double;
+    function Axial(AZ: Double; ALimit: TLimit = ltRight): Double;
+    function ShearX(AZ: Double; ALimit: TLimit = ltRight): Double;
+    function ShearY(AZ: Double; ALimit: TLimit = ltRight): Double;
+    function Shear(AZ: Double; ALimit: TLimit = ltRight): Double;
+    function MomentX(AZ: Double; ALimit: TLimit = ltRight): Double;
+    function MomentY(AZ: Double; ALimit: TLimit = ltRight): Double;
+    function Moment(AZ: Double; ALimit: TLimit = ltRight): Double;
+    function Torque(AZ: Double; ALimit: TLimit = ltRight): Double;
     // właściwości
-    property AngularReaction: TReaction read fAngularReaction;
-    property RadialReaction: TReaction read fRadialReaction;
+    property SupportA: TReaction read fSupportA;
+    property SupportB: TReaction read fSupportB;
+    property ReactionA: TP3D index 0 read GetReaction;
+    property ReactionB: TP3D index 1 read GetReaction;
     property OnChange: TNotifyEvent read fOnChange write fOnChange;
   end;
 
@@ -121,6 +130,8 @@ type
   function P3D(AX, AY, AZ: Double): TP3D; overload;
   function P3D(AX, AY: Double): TP3D; overload;
   function P3D(AZ: Double): TP3D; overload;
+  function Polar(AR, APhi: Double): TP3D; overload;
+  function Polar(AR, APhi, AZ: Double): TP3D; overload;
 
 var
   Shaft: TShaft;
@@ -151,6 +162,19 @@ begin
   Result.X := 0;
   Result.Y := 0;
   Result.Z := AZ;
+end;
+
+function Polar(AR, APhi: Double): TP3D;
+begin
+  Result := Polar(AR, APhi, 0);
+end;
+
+function Polar(AR, APhi, AZ: Double): TP3D;
+var
+  s, c: Double;
+begin
+  SinCos(DegToRad(APhi), s, c);
+  Result := P3D(AR * c, AR * s, AZ);
 end;
 
 function Zero3D: TP3D;
@@ -249,7 +273,7 @@ var
   valid: Boolean;
 begin
   // warunek sprawdzający czy zmiana nie doprowadzi do sytuacji, w której podpory znajdą się w tym samym miejscu
-  valid := ((fShaft.fAngularReaction = Self) and (fShaft.fRadialReaction.Z <> AZ)) or ((fShaft.fRadialReaction = Self) and (fShaft.fAngularReaction.Z <> AZ));
+  valid := ((fShaft.fSupportA = Self) and (fShaft.fSupportB.Z <> AZ)) or ((fShaft.fSupportB = Self) and (fShaft.fSupportA.Z <> AZ));
   Assert(valid, 'Podpora stała i ruchoma nie mogą się znajdować w tym samym miejscu');
 
   inherited;
@@ -273,6 +297,20 @@ begin
   Update;
 end;
 
+function TShaft.AddForce(AFt, AFr, AFa, AR, APhi, AZ: Double): TForce;
+// dodaje siłę obciążającą zdefiniowaną za pomocą: siły obwodowej (Ft), siły promieniowej (Fr) i siły osiowej (Fa)
+var
+  c, s: Double;
+begin
+  Assert(AR <> 0, 'Długość promienia AR musi być różna od 0');
+
+  // obliczenie współrzędny wersorów obróconego układu współrzędnych ηζ w układzie XY
+  SinCos(DegToRad(APhi), s, c);
+
+  // konwersja siły i punktu jej przyczepienia z układu ηζ do układu XY
+  Result := AddForce(P3D(AFr * c - AFt * s, AFr * s + AFt * c, AFa), P3D(AR * c, AR * s, AZ));
+end;
+
 function TShaft.AddMoment(AMomentX, AMomentY, AZ: Double): TMoment;
 // dodaje moment gnący
 begin
@@ -288,14 +326,14 @@ begin
   Update;
 end;
 
-function TShaft.Axial(AZ: Double; ACalcKind: TLimit): Double;
+function TShaft.Axial(AZ: Double; ALimit: TLimit): Double;
 // zwraca wypadkową siłę osiową dla przekroju AZ
 begin
   Result := Calculate(
     function (ALoad: TLoad; AZ: Double): Double
     begin
       Result := ALoad.Force.Z;
-    end, AZ, ACalcKind);
+    end, AZ, ALimit);
 end;
 
 procedure TShaft.BeginUpdate;
@@ -304,7 +342,7 @@ begin
   Inc(fUpdating);
 end;
 
-function TShaft.Calculate(ACalculator: TLoadCalculator; AZ: Double; ACalcKind: TLimit): Double;
+function TShaft.Calculate(ACalculator: TLoadCalculator; AZ: Double; ALimit: TLimit): Double;
 // zwraca wypadkową siłę osiową Fz (Fa) w przekroju AZ
 const
   DELTAS: array [TLimit] of Double = (-EPSILON, EPSILON);
@@ -313,8 +351,8 @@ var
 begin
   Result := 0;
 
-  // uwględnieni obczlień granicznych (wartość w punkcie, granica lewostronna, granica prawostronna)
-  AZ := AZ + DELTAS[ACalcKind];
+  // korekta pozwalająca na obliczenia wartość jako granicy lewo lub prawostronnej
+  AZ := AZ + DELTAS[ALimit];
 
   // obciążenia
   for load in ToArray do
@@ -322,11 +360,11 @@ begin
       Result := Result + ACalculator(load, AZ);
 
   // podpory
-  if fAngularReaction.Z <= AZ then
-    Result := Result + ACalculator(fAngularReaction, AZ);
+  if fSupportA.Z <= AZ then
+    Result := Result + ACalculator(fSupportA, AZ);
 
-  if fRadialReaction.Z <= AZ then
-    Result := Result + ACalculator(fRadialReaction, AZ);
+  if fSupportB.Z <= AZ then
+    Result := Result + ACalculator(fSupportB, AZ);
 
   // wynik zaokrąglam do kilku miejsc po przecinku
   Result := Round(Result);
@@ -337,10 +375,10 @@ procedure TShaft.Clear;
 begin
   inherited Clear;
 
-  fAngularReaction.fPoint := Zero3D;
-  fAngularReaction.fForce := Zero3D;
-  fRadialReaction.fPoint := P3D(1);
-  fRadialReaction.fForce := Zero3D;
+  fSupportA.fPoint := Zero3D;
+  fSupportA.fForce := Zero3D;
+  fSupportB.fPoint := P3D(1);
+  fSupportB.fForce := Zero3D;
   Update;
 end;
 
@@ -355,8 +393,8 @@ begin
   True);
 
   // domyślne położenie podpór
-  fAngularReaction := TReaction.Create(Self, P3D(0), Zero3D, 0, 0, 0);
-  fRadialReaction := TReaction.Create(Self, P3D(1), Zero3D, 0, 0, 0);
+  fSupportA := TReaction.Create(Self, P3D(0), Zero3D, 0, 0, 0);
+  fSupportB := TReaction.Create(Self, P3D(1), Zero3D, 0, 0, 0);
 end;
 
 procedure TShaft.DeleteLoad(ALoad: TLoad);
@@ -371,8 +409,8 @@ destructor TShaft.Destroy;
 begin
   inherited Clear;
 
-  fAngularReaction.Free;
-  fRadialReaction.Free;
+  fSupportA.Free;
+  fSupportB.Free;
 
   inherited;
 end;
@@ -386,19 +424,26 @@ begin
   if fUpdating < 1 then Update;
 end;
 
+function TShaft.GetReaction(AIdx: Integer): TP3D;
+// zwraca wartość reakcji (AIdx = 0 -> podpora stała, AIdx = 1 -> podpora ruchoma)
+begin
+  Result := fSupportA.Force;
+  if AIdx = 1 then Result := fSupportB.Force;
+end;
+
 function TShaft.IsUpdating: Boolean;
 // zwraca True jeśli trwa aktualizacja danych
 begin
   Result := fUpdating > 0;
 end;
 
-function TShaft.Moment(AZ: Double; ACalcKind: TLimit): Double;
+function TShaft.Moment(AZ: Double; ALimit: TLimit): Double;
 // zwraca wypadkowy moment gnący dla przekroju AZ
 begin
-  Result := Sqrt(Sqr(MomentX(AZ, ACalcKind)) + Sqr(MomentY(AZ, ACalcKind)));
+  Result := Sqrt(Sqr(MomentX(AZ, ALimit)) + Sqr(MomentY(AZ, ALimit)));
 end;
 
-function TShaft.MomentX(AZ: Double; ACalcKind: TLimit): Double;
+function TShaft.MomentX(AZ: Double; ALimit: TLimit): Double;
 // zwraca wypadkowy moment gnący w płaszczyźnie XZ dla przekroju AZ
 begin
   ValidityCheck;
@@ -406,10 +451,10 @@ begin
     function (ALoad: TLoad; AZ: Double): Double
     begin
       Result := ALoad.CalculateMomentX(AZ);
-    end, AZ, ACalcKind);
+    end, AZ, ALimit);
 end;
 
-function TShaft.MomentY(AZ: Double; ACalcKind: TLimit): Double;
+function TShaft.MomentY(AZ: Double; ALimit: TLimit): Double;
 // zwraca wypadkowy moment gnący w płaszczyźnie YZ dla przekroju AZ
 begin
   ValidityCheck;
@@ -417,16 +462,26 @@ begin
     function (ALoad: TLoad; AZ: Double): Double
     begin
       Result := ALoad.CalculateMomentY(AZ);
-    end, AZ, ACalcKind);
+    end, AZ, ALimit);
 end;
 
-function TShaft.Shear(AZ: Double; ACalcKind: TLimit): Double;
+procedure TShaft.PlaceSupports(AAZ, ABZ: Double);
+// zmienia położenie podpór
+begin
+  Assert(AAZ <> ABZ, 'Podpory nie mogą się znajdować w tym samym miejscu');
+
+  fSupportA.fPoint.Z := AAZ;
+  fSupportB.fPoint.Z := ABZ;
+  Update;
+end;
+
+function TShaft.Shear(AZ: Double; ALimit: TLimit): Double;
 // zwraca wypadkową siłę tnącą dla przekroju AZ
 begin
-  Result := Sqrt(Sqr(ShearX(AZ, ACalcKind)) + Sqr(ShearY(AZ, ACalcKind)));
+  Result := Sqrt(Sqr(ShearX(AZ, ALimit)) + Sqr(ShearY(AZ, ALimit)));
 end;
 
-function TShaft.ShearX(AZ: Double; ACalcKind: TLimit): Double;
+function TShaft.ShearX(AZ: Double; ALimit: TLimit): Double;
 // zwraca wypadkową siłę tnącą w osi X dla przekroju AZ
 begin
   ValidityCheck;
@@ -434,10 +489,10 @@ begin
     function (ALoad: TLoad; AZ: Double): Double
     begin
       Result := ALoad.Force.X;
-    end, AZ, ACalcKind);
+    end, AZ, ALimit);
 end;
 
-function TShaft.ShearY(AZ: Double; ACalcKind: TLimit): Double;
+function TShaft.ShearY(AZ: Double; ALimit: TLimit): Double;
 // zwraca wypadkową siłę tnącą w osi Y dla przekroju AZ
 begin
   ValidityCheck;
@@ -445,10 +500,21 @@ begin
     function (ALoad: TLoad; AZ: Double): Double
     begin
       Result := ALoad.Force.Y;
-    end, AZ, ACalcKind);
+    end, AZ, ALimit);
 end;
 
-function TShaft.Torque(AZ: Double; ACalcKind: TLimit): Double;
+procedure TShaft.SwapSupports;
+// zamiania podpory miejscami
+var
+  tmp: Double;
+begin
+  tmp := fSupportA.Z;
+  fSupportA.fPoint.Z := fSupportB.fPoint.Z;
+  fSupportB.fPoint.Z := tmp;
+  Update;
+end;
+
+function TShaft.Torque(AZ: Double; ALimit: TLimit): Double;
 // zwraca wypadkowy moment skręcający dla przekroju AZ
 begin
   ValidityCheck;
@@ -458,11 +524,43 @@ begin
       // Moment skręcający w płaszczyźnie XY powodujący obrót wału
       // zgodnie z ruchem wskazówek zegara przyjęto jako dodatni
       Result := ALoad.CalculateTorque; //  ALoad.Force.X * ALoad.Y - ALoad.Force.Y * ALoad.X + ALoad.Torque;
-    end, AZ, ACalcKind);
+    end, AZ, ALimit);
 end;
 
 procedure TShaft.Update;
 // wywoływane zawsze po zmianie obciążeń
+
+  procedure CalculateReactions;
+  // aktualizuje wartości reakcji
+  var
+    load: TLoad;
+    mfz, max, may, mbx, mby, dz: Double;
+  begin
+    // inicjalizuję wartości reakcji
+    mfz := 0;
+    max := 0;
+    may := 0;
+    mbx := 0;
+    mby := 0;
+
+    // wyznaczanie reakcji podporowych
+    for load in ToArray do begin
+      // obliczenie dla podpory stałej
+      mfz := mfz - load.Force.Z;
+      max := max - load.CalculateMomentX(fSupportA.Z);
+      may := may - load.CalculateMomentY(fSupportA.Z);
+
+      // obliczenie dla podpory ruchomej
+      mbx := mbx - load.CalculateMomentX(fSupportB.Z);
+      mby := mby - load.CalculateMomentY(fSupportB.Z);
+    end;
+
+    // zapamiętanie reakcji podporowych
+    dz := fSupportB.Z - fSupportA.Z;
+    fSupportA.fForce := P3D(Round(mbx / dz), Round(mby / dz), Round(mfz));
+    fSupportB.fForce := P3D(Round(-max / dz), Round(-may / dz), Round(0));
+  end;
+
 begin
   // ustawiam flagę żądania aktualizacji reakcji
   fUpdateRequest := True;
@@ -472,40 +570,9 @@ begin
 
   // sortuję obciążenia, obliczam reakcje, obsługuję zdarzenie (jeśli jest taka potrzeba) i kasuję flagę żądania aktualizacji
   Sort;
-  if fUpdateRequest then UpdateReactions;
+  if fUpdateRequest then CalculateReactions;
   if fUpdateRequest and Assigned(fOnChange) then fOnChange(Self);
   fUpdateRequest := False;
-end;
-
-procedure TShaft.UpdateReactions;
-// aktualizuje wartości reakcji
-var
-  load: TLoad;
-  mfz, max, may, mbx, mby, dz: Double;
-begin
-  // inicjalizuję wartości reakcji
-  mfz := 0;
-  max := 0;
-  may := 0;
-  mbx := 0;
-  mby := 0;
-
-  // wyznaczanie reakcji podporowych
-  for load in ToArray do begin
-    // obliczenie dla podpory stałej
-    mfz := mfz - load.Force.Z;
-    max := max - load.CalculateMomentX(fAngularReaction.Z);
-    may := may - load.CalculateMomentY(fAngularReaction.Z);
-
-    // obliczenie dla podpory ruchomej
-    mbx := mbx - load.CalculateMomentX(fRadialReaction.Z);
-    mby := mby - load.CalculateMomentY(fRadialReaction.Z);
-  end;
-
-  // zapamiętanie reakcji podporowych
-  dz := fRadialReaction.Z - fAngularReaction.Z;
-  fAngularReaction.fForce := P3D(Round(mbx / dz), Round(mby / dz), Round(mfz));
-  fRadialReaction.fForce := P3D(Round(-max / dz), Round(-may / dz), Round(0));
 end;
 
 procedure TShaft.ValidityCheck;
@@ -515,7 +582,7 @@ begin
 end;
 
 function TShaft.ZPositions: TAoD;
-// zwraca listę współrzędnych Z niebezpiecznych przekrojów (czyli tych, w których przyłożone jest jakieś obciążenie)
+// zwraca listę granic przedziałów
 
   procedure AddZ(AZ: Double);
   var
@@ -536,9 +603,10 @@ begin
   // tworzę tablicę wyników
   SetLength(Result, 0);
   for load in ToArray do AddZ(load.Z);
-  AddZ(fAngularReaction.Z);
-  AddZ(fRadialReaction.Z);
+  AddZ(fSupportA.Z);
+  AddZ(fSupportB.Z);
 
+  Sort;
   TArray.Sort<Double>(Result);
 end;
 
