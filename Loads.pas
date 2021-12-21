@@ -132,6 +132,7 @@ type
   function P3D(AZ: Double): TP3D; overload;
   function Polar(AR, APhi: Double): TP3D; overload;
   function Polar(AR, APhi, AZ: Double): TP3D; overload;
+  function Find_Max(Tab: array of double;size:integer): Double;
 
 var
   Shaft: TShaft;
@@ -182,6 +183,25 @@ begin
   Result.X := 0;
   Result.Y := 0;
   Result.Z := 0;
+end;
+
+function Find_Max(Tab: array of double;size:integer): Double;
+var
+i: integer;
+M: double;
+begin
+M:=Tab[0];
+for I := 0 to size-1 do
+  begin
+     if Tab[i]>M then M:=Tab[i];
+
+
+
+
+
+  end;
+ Result:=M;
+
 end;
 
 { TLoad }

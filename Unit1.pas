@@ -28,7 +28,6 @@ type
     Exit1: TMenuItem;
     Open1: TMenuItem;
     Open2: TMenuItem;
-    edt1: TRichEdit;
     Button3: TButton;
     ListBox1: TListBox;
     PopupMenu1: TPopupMenu;
@@ -47,6 +46,37 @@ type
     Zmianapooeniapodprystaej1: TMenuItem;
     actRedukcja: TAction;
     actBezpiecz: TAction;
+    ScrollBox1: TScrollBox;
+    Image1: TImage;
+    Label4: TLabel;
+    Label5: TLabel;
+    Si³a: TLabel;
+    Label6: TLabel;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    Image2: TImage;
+    Label10: TLabel;
+    Label12: TLabel;
+    Label13: TLabel;
+    Label14: TLabel;
+    Label15: TLabel;
+    Label11: TLabel;
+    Label16: TLabel;
+    Label17: TLabel;
+    Label18: TLabel;
+    Label19: TLabel;
+    Label20: TLabel;
+    Label21: TLabel;
+    v: TLabel;
+    Label23: TLabel;
+    Label24: TLabel;
+    Label25: TLabel;
+    Label22: TLabel;
+    Label26: TLabel;
+    Label27: TLabel;
 
 
     procedure UsunClick(Sender: TObject);
@@ -69,9 +99,18 @@ type
     { Private declarations }
   public
     { Public declarations }
-   x: array of Double;
-    y:array of Double;
+   sila_Y_x: array of Double;
+    sila_Y_y:array of Double;
+    sila_X_x: array of Double;
+    sila_X_y: array of Double;
+    sila_x: array of Double;
+    sila_y: array of Double;
+    moment_y: array of double;
+    torque_y: array of double;
+    diameter_y: array of double;
+
     d: integer;
+    points: TAoD;
   end;
  type
  Obciazenie = class
@@ -158,52 +197,74 @@ end;
 
 procedure TForm1.Button3Click(Sender: TObject);
 var
-points: TAoD;
 f1,f2: TForce;
-z,s,m,t,skala1,skala2: double;
+z,s,m,t,skala1,skala2,skalaF,skalaY,skalaX,skalaM,skalaTor,skalaRed,skalaD,max: double;
 licznik,i:integer;
 
 begin
-Form8.Show;
+//Form8.Show;
 
 
 Shaft.BeginUpdate;
 Shaft.SupportB.Z:=6;
 f1:=Shaft.AddForce(P3D(0,-15,0),2);
-f2:=Shaft.AddForce(P3D(0,-6,0),4);
+f2:=Shaft.AddForce(P3D(0,-8,0),4);
 Shaft.EndUpdate;
 
 
 points:=Shaft.ZPositions;
-d:=length(points) ;
-SetLength(x,2*d);
-SetLength(y,2*d) ;
+d:=length(points);
+SetLength(sila_Y_x,2*d);
+SetLength(sila_Y_y,2*d) ;
+SetLength(sila_X_x,2*d);
+SetLength(sila_X_y,2*d) ;
+SetLength(sila_x,2*d);
+SetLength(sila_y,2*d) ;
+SetLength(moment_y,2*d) ;
+SetLength(torque_y,2*d);
 licznik:=0;
 for z in points do begin
 
     s:=Shaft.ShearY(z,ltLeft);
-    //ListBox1.Items.Add(FloatToStr(z)+' '+FloatToStr(s));
-    y[licznik]:=Shaft.ShearY(z,ltLeft);
-    x[licznik]:=z;
-    ListBox1.Items.Add(FloatToStr(x[licznik])+' '+FloatToStr(y[licznik]));
 
-  //Image1.Picture.Bitmap.canvas.moveto(Trunc(skala1*z),Trunc(s)+Trunc(Image1.Height/2));
+    sila_Y_y[licznik]:=Shaft.ShearY(z,ltLeft);
+    sila_Y_x[licznik]:=z;
+    //ListBox1.Items.Add(FloatToStr(sila_Y_x[licznik])+' '+FloatToStr(sila_Y_y[licznik]));
+    sila_X_y[licznik]:=Shaft.ShearX(z,ltLeft);
+    sila_X_x[licznik]:=z;
+
+    sila_y[licznik]:=Shaft.Shear(z,ltLeft);
+    sila_x[licznik]:=z;
+
+     moment_y[licznik]:=Shaft.Moment(z,ltLeft);
+     torque_y[licznik]:=Shaft.Torque(z,ltLeft);
+
+
      licznik:=licznik+1;
    s:=Shaft.ShearY(z);
-    y[licznik]:=Shaft.ShearY(z);
-    x[licznik]:=z;
-     ListBox1.Items.Add(FloatToStr(x[licznik])+' '+FloatToStr(y[licznik]));
-    licznik:=licznik+1;
-   //ListBox1.Items.Add(FloatToStr(s));
-   //Image1.Picture.Bitmap.canvas.lineto(Trunc((skala1*z)),Trunc(s)+Trunc(Image1.Height/2));
+    sila_Y_y[licznik]:=Shaft.ShearY(z);
+    sila_Y_x[licznik]:=z;
+     //ListBox1.Items.Add(FloatToStr(sila_Y_x[licznik])+' '+FloatToStr(sila_Y_y[licznik]));
+     sila_X_y[licznik]:=Shaft.ShearX(z);
+    sila_X_x[licznik]:=z;
 
-   //ListBox1.Items.Add(FloatToStr(z)+' '+FloatToStr(s));
-  //ListBox1.Items.Add(FloatToStr(s));
+    sila_y[licznik]:=Shaft.Shear(z);
+    sila_x[licznik]:=z;
+
+    moment_y[licznik]:= Shaft.Moment(z);
+     torque_y[licznik]:= Shaft.Torque(z);
+
+
+
+    licznik:=licznik+1;
+
+
+
 
   m:=Shaft.Moment(z,ltLeft);
-  //ListBox1.Items.Add(FloatToStr(m));
+
   m:=Shaft.Moment(z);
-  //ListBox1.Items.Add(FloatToStr(m));
+
   t:=Shaft.Torque(z,ltLeft);
 
   t:=Shaft.Torque(z);
@@ -212,6 +273,55 @@ for z in points do begin
 
 
 end;
+ skala1:=Abs((300/Shaft.ZPositions[Form1.d-1])-1);
+
+ if Find_Max(Form1.sila_Y_Y,2*d)=0 then skalaY:=0.1
+else  skalaY:=Abs((200/Find_Max(Form1.sila_Y_y,d))-10);
+
+
+
+
+if Find_Max(Form1.sila_X_Y,2*d)=0 then skalaX:=0.1
+else skalaX:=Abs((200/Find_Max(Form1.sila_X_y,2*d))-10);
+
+
+if Find_Max(Form1.sila_Y,2*d)=0 then skalaF:=0.1
+else skalaF:=Abs((200/Find_Max(Form1.sila_Y,2*d))-10);
+
+if Find_Max( moment_y,2*d)=0 then skalaM:=0.1
+else skalaM:=Abs((200/Find_Max(moment_y,2*d))-10);
+
+if Find_Max( torque_y,2*d)=0 then skalaTor:=0.1
+else skalaTor:=Abs((200/Find_Max(torque_y,2*d))-10);
+
+
+
+
+
+Image1.Picture.Bitmap.canvas.pen.color:=clRed;
+for I := 0 to (Form1.d*2)-2  do  begin
+
+    Image1.Picture.Bitmap.canvas.moveto(Trunc(skala1*Form1.sila_Y_x[i]),(Trunc(skalaY*Form1.sila_Y_y[i])+Trunc(200/2)));
+    Image1.Picture.Bitmap.canvas.lineto(Trunc(skala1*Form1.sila_Y_x[i+1]),(Trunc(skalaY*Form1.sila_Y_y[i+1])+Trunc(200/2)));
+
+    Image1.Picture.Bitmap.canvas.moveto(Trunc(skala1*Form1.sila_X_x[i]),(Trunc(skalaX*Form1.sila_X_y[i])+Trunc(300)));
+    Image1.Picture.Bitmap.canvas.lineto(Trunc(skala1*Form1.sila_X_x[i+1]),(Trunc(skalaX*Form1.sila_X_y[i+1])+Trunc(300)));
+
+    Image1.Picture.Bitmap.canvas.moveto(Trunc(skala1*Form1.sila_x[i]),(Trunc(skalaF*Form1.sila_y[i])+Trunc(500)));
+    Image1.Picture.Bitmap.canvas.lineto(Trunc(skala1*Form1.sila_x[i+1]),(Trunc(skalaF*Form1.sila_y[i+1])+Trunc(500)));
+
+    Image1.Picture.Bitmap.canvas.moveto(Trunc(skala1*Form1.sila_x[i]),(Trunc(skalaM*moment_y[i])+Trunc(700)));
+    Image1.Picture.Bitmap.canvas.lineto(Trunc(skala1*Form1.sila_x[i+1]),(Trunc(skalaM*moment_y[i+1])+Trunc(700)));
+
+    Image1.Picture.Bitmap.canvas.moveto(Trunc(skala1*Form1.sila_x[i]),(Trunc(skalaTor*torque_y[i])+Trunc(900)));
+    Image1.Picture.Bitmap.canvas.lineto(Trunc(skala1*Form1.sila_x[i+1]),(Trunc(skalaTor*torque_y[i+1])+Trunc(900)));
+
+
+end;
+
+
+
+
 
 
 end;
@@ -255,8 +365,56 @@ Lista:TList;
 var Bitmap:TBitmap;
 points: TAoD;
 Node: TTreeNode ;
-begin
 
+begin
+ Bitmap:=TBitmap.create;
+Bitmap.width:=300;
+Bitmap.height:=2000;
+Image1.Picture.Graphic:=Bitmap;
+Image1.width:=300;
+Image1.height:=2000;
+Image1.Picture.Bitmap.canvas.pen.color:=clBlack;
+Image1.Picture.Bitmap.canvas.moveto(0,0);
+  Image1.Picture.Bitmap.canvas.lineto(0,2000);
+
+  Image1.Picture.Bitmap.canvas.moveto(0,Trunc(100));
+  Image1.Picture.Bitmap.canvas.lineto(300,Trunc(100));
+
+    Image1.Picture.Bitmap.canvas.moveto(0,Trunc(300));
+  Image1.Picture.Bitmap.canvas.lineto(300,Trunc(300));
+
+
+   Image1.Picture.Bitmap.canvas.moveto(0,Trunc(500));
+  Image1.Picture.Bitmap.canvas.lineto(300,Trunc(500));
+
+  Image1.Picture.Bitmap.canvas.moveto(0,Trunc(700));
+  Image1.Picture.Bitmap.canvas.lineto(300,Trunc(700));
+
+  Image1.Picture.Bitmap.canvas.moveto(0,Trunc(900));
+  Image1.Picture.Bitmap.canvas.lineto(300,Trunc(900));
+
+  Image1.Picture.Bitmap.canvas.moveto(0,Trunc(1100));
+  Image1.Picture.Bitmap.canvas.lineto(300,Trunc(1100));
+
+   Image1.Picture.Bitmap.canvas.moveto(0,Trunc(1300));
+  Image1.Picture.Bitmap.canvas.lineto(300,Trunc(1300));
+
+   Image1.Picture.Bitmap.canvas.moveto(0,Trunc(1500));
+  Image1.Picture.Bitmap.canvas.lineto(300,Trunc(1500));
+
+   Image1.Picture.Bitmap.canvas.moveto(0,Trunc(1700));
+  Image1.Picture.Bitmap.canvas.lineto(300,Trunc(1700));
+
+   Image1.Picture.Bitmap.canvas.moveto(0,Trunc(1900));
+  Image1.Picture.Bitmap.canvas.lineto(300,Trunc(1900));
+{Image1.Picture.Bitmap.canvas.pen.color:=clBlack;
+  Image1.Picture.Bitmap.canvas.moveto(0,Trunc(Image1.Height/2));
+  Image1.Picture.Bitmap.canvas.lineto(Image1.Width,Trunc(Image1.Height/2));
+  Image1.Picture.Bitmap.canvas.moveto(0,0);
+  Image1.Picture.Bitmap.canvas.lineto(0,Image1.Height); }
+
+
+ListBox1.Items.Add('Wyniki Obliczeñ: ');
 
  end;
 procedure TForm1.UsunClick(Sender: TObject);

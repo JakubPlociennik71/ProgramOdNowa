@@ -1,9 +1,9 @@
-object Form1: TForm1
+﻿object Form1: TForm1
   Left = 0
   Top = 0
   Caption = 'Form1'
-  ClientHeight = 511
-  ClientWidth = 792
+  ClientHeight = 638
+  ClientWidth = 843
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -15,11 +15,17 @@ object Form1: TForm1
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
+  object Image2: TImage
+    Left = 0
+    Top = -1362
+    Width = 300
+    Height = 2000
+  end
   object TreeView1: TTreeView
-    Left = 8
-    Top = 7
-    Width = 185
-    Height = 353
+    Left = 0
+    Top = 0
+    Width = 177
+    Height = 592
     Indent = 19
     PopupMenu = PopupMenu1
     TabOrder = 0
@@ -30,7 +36,7 @@ object Form1: TForm1
   object Usun: TButton
     Left = 8
     Top = 378
-    Width = 97
+    Width = 121
     Height = 27
     Caption = 'Usu'#324' obci'#261#380'enie'
     TabOrder = 1
@@ -39,47 +45,245 @@ object Form1: TForm1
   object ToolBar1: TToolBar
     Left = 0
     Top = 0
-    Width = 792
+    Width = 843
     Height = 1
     Caption = 'ToolBar1'
     TabOrder = 2
-  end
-  object edt1: TRichEdit
-    Left = 317
-    Top = 8
-    Width = 260
-    Height = 345
-    Font.Charset = EASTEUROPE_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    Lines.Strings = (
-      'edt1')
-    ParentFont = False
-    TabOrder = 3
-    Zoom = 100
+    ExplicitWidth = 792
   end
   object Button3: TButton
-    Left = 632
-    Top = 395
+    Left = 8
+    Top = 423
     Width = 121
     Height = 59
     Caption = 'Rysowanie Wykres'#243'w'
-    TabOrder = 4
+    TabOrder = 3
     OnClick = Button3Click
   end
   object ListBox1: TListBox
-    Left = 632
-    Top = 24
-    Width = 121
-    Height = 329
+    Left = 306
+    Top = 128
+    Width = 110
+    Height = 226
     ItemHeight = 13
+    TabOrder = 4
+  end
+  object ScrollBox1: TScrollBox
+    Left = 543
+    Top = 1
+    Width = 300
+    Height = 637
+    HorzScrollBar.Position = 16
+    VertScrollBar.Position = 350
+    Align = alRight
     TabOrder = 5
+    ExplicitLeft = 492
+    object Image1: TImage
+      Left = -21
+      Top = -353
+      Width = 300
+      Height = 2000
+    end
+    object Label4: TLabel
+      Left = 238
+      Top = -233
+      Width = 22
+      Height = 13
+      Caption = 'x[m]'
+    end
+    object Label5: TLabel
+      Left = -13
+      Top = -208
+      Width = 8
+      Height = 13
+      Caption = '+'
+    end
+    object Siła: TLabel
+      Left = -12
+      Top = -330
+      Width = 37
+      Height = 13
+      Caption = 'Si'#322'a[kN]'
+    end
+    object Label6: TLabel
+      Left = -11
+      Top = -311
+      Width = 4
+      Height = 13
+      Caption = '-'
+    end
+    object Label1: TLabel
+      Left = -13
+      Top = -174
+      Width = 46
+      Height = 13
+      Caption = 'Si'#322'a[kN]'
+    end
+    object Label2: TLabel
+      Left = -13
+      Top = -139
+      Width = 9
+      Height = 13
+      Caption = '-'
+    end
+    object Label3: TLabel
+      Left = 238
+      Top = -12
+      Width = 22
+      Height = 13
+      Caption = 'x[m]'
+    end
+    object Label7: TLabel
+      Left = -13
+      Top = -59
+      Width = 8
+      Height = 13
+      Caption = '+'
+    end
+    object Label8: TLabel
+      Left = -13
+      Top = 31
+      Width = 37
+      Height = 13
+      Caption = 'Si'#322'a[kN]'
+    end
+    object Label10: TLabel
+      Left = -5
+      Top = 69
+      Width = 4
+      Height = 13
+      Caption = '-'
+    end
+    object Label12: TLabel
+      Left = 238
+      Top = 183
+      Width = 22
+      Height = 13
+      Caption = 'x[m]'
+    end
+    object Label13: TLabel
+      Left = -13
+      Top = 250
+      Width = 63
+      Height = 13
+      Caption = 'Moment [nM]'
+    end
+    object Label14: TLabel
+      Left = -5
+      Top = 269
+      Width = 4
+      Height = 13
+      Caption = '-'
+    end
+    object Label15: TLabel
+      Left = 238
+      Top = 359
+      Width = 22
+      Height = 13
+      Caption = 'x[m]'
+    end
+    object Label11: TLabel
+      Left = -5
+      Top = 175
+      Width = 8
+      Height = 13
+      Caption = '+'
+    end
+    object Label16: TLabel
+      Left = -5
+      Top = 399
+      Width = 8
+      Height = 13
+      Caption = '+'
+    end
+    object Label17: TLabel
+      Left = -13
+      Top = 426
+      Width = 117
+      Height = 13
+      Caption = 'Moment skr'#281'caj'#261'cy [nM]'
+    end
+    object Label18: TLabel
+      Left = -5
+      Top = 445
+      Width = 4
+      Height = 13
+      Caption = '-'
+    end
+    object Label19: TLabel
+      Left = -5
+      Top = 551
+      Width = 8
+      Height = 13
+      Caption = '+'
+    end
+    object Label20: TLabel
+      Left = 238
+      Top = 527
+      Width = 22
+      Height = 13
+      Caption = 'x[m]'
+    end
+    object Label21: TLabel
+      Left = -13
+      Top = 586
+      Width = 130
+      Height = 13
+      Caption = 'Moment zredukowany [nM]'
+    end
+    object v: TLabel
+      Left = -5
+      Top = 605
+      Width = 4
+      Height = 13
+      Caption = '-'
+    end
+    object Label23: TLabel
+      Left = -5
+      Top = 743
+      Width = 8
+      Height = 13
+      Caption = '+'
+    end
+    object Label24: TLabel
+      Left = 238
+      Top = 706
+      Width = 22
+      Height = 13
+      Caption = 'x[m]'
+    end
+    object Label25: TLabel
+      Left = -13
+      Top = 802
+      Width = 129
+      Height = 13
+      Caption = #346'rednica teoretyczna [mm]'
+    end
+    object Label22: TLabel
+      Left = -5
+      Top = 821
+      Width = 4
+      Height = 13
+      Caption = '-'
+    end
+    object Label26: TLabel
+      Left = -13
+      Top = 926
+      Width = 8
+      Height = 13
+      Caption = '+'
+    end
+    object Label27: TLabel
+      Left = 238
+      Top = 874
+      Width = 22
+      Height = 13
+      Caption = 'x[m]'
+    end
   end
   object MainMenu1: TMainMenu
-    Left = 696
-    Top = 136
+    Left = 256
+    Top = 32
     object ControlAction11: TMenuItem
       Action = ControlAction1
       Caption = 'File'
@@ -96,8 +300,8 @@ object Form1: TForm1
   end
   object ActionList1: TActionList
     Images = ImageList1
-    Left = 696
-    Top = 208
+    Left = 304
+    Top = 32
     object Action1: TAction
       Caption = 'File'
     end
@@ -165,8 +369,8 @@ object Form1: TForm1
     end
   end
   object ImageList1: TImageList
-    Left = 696
-    Top = 272
+    Left = 352
+    Top = 48
     Bitmap = {
       494C01010A001800040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
@@ -572,8 +776,8 @@ object Form1: TForm1
       000000000000}
   end
   object PopupMenu1: TPopupMenu
-    Left = 432
-    Top = 424
+    Left = 200
+    Top = 16
     object Sia1: TMenuItem
       Action = actSila
     end

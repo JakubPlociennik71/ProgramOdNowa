@@ -40,16 +40,17 @@ uses Unit1, Unit2, Unit3, Unit4, Unit5, Unit6;
 
 procedure TForm8.Button1Click(Sender: TObject);
  var
- skala1:double;
+ skala1,skala2:double;
 begin
 var
 i: integer;
-skala1:=(image1.Width/6)-1;
+skala1:=Abs((image1.Width/Shaft.ZPositions[Form1.d-1])-1);
+skala2:=Abs((image1.Height/12)-10);
 Image1.Picture.Bitmap.canvas.pen.color:=clRed;
 for I := 0 to (Form1.d*2)-2  do  begin
 
-    Image1.Picture.Bitmap.canvas.moveto(Trunc(skala1*Form1.x[i]),(Trunc(Form1.y[i])+Trunc(Image1.Height/2)));
-    Image1.Picture.Bitmap.canvas.lineto(Trunc(skala1*Form1.x[i+1]),(Trunc(Form1.y[i+1])+Trunc(Image1.Height/2)));
+    Image1.Picture.Bitmap.canvas.moveto(Trunc(skala1*Form1.sila_Y_x[i]),(Trunc(skala2*Form1.sila_Y_y[i])+Trunc(Image1.Height/2)));
+    Image1.Picture.Bitmap.canvas.lineto(Trunc(skala1*Form1.sila_Y_x[i+1]),(Trunc(skala2*Form1.sila_Y_y[i+1])+Trunc(Image1.Height/2)));
 end;
 
 end;
@@ -58,11 +59,11 @@ procedure TForm8.FormCreate(Sender: TObject);
 var Bitmap:TBitmap;
 begin
  Bitmap:=TBitmap.create;
-Bitmap.width:=800;
-Bitmap.height:=400;
+Bitmap.width:=300;
+Bitmap.height:=200;
 Image1.Picture.Graphic:=Bitmap;
-Image1.width:=800;
-Image1.height:=400;
+Image1.width:=300;
+Image1.height:=200;
 Image1.Picture.Bitmap.canvas.pen.color:=clBlack;
   Image1.Picture.Bitmap.canvas.moveto(0,Trunc(Image1.Height/2));
   Image1.Picture.Bitmap.canvas.lineto(Image1.Width,Trunc(Image1.Height/2));
