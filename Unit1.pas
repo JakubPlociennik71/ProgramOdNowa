@@ -44,8 +44,6 @@ type
     Momentskrcajcy1: TMenuItem;
     Zmianapooeniapodporyprzesuwnej1: TMenuItem;
     Zmianapooeniapodprystaej1: TMenuItem;
-    actRedukcja: TAction;
-    actBezpiecz: TAction;
     ScrollBox1: TScrollBox;
     Image1: TImage;
     Label4: TLabel;
@@ -77,6 +75,8 @@ type
     Label22: TLabel;
     Label26: TLabel;
     Label27: TLabel;
+    Wspczynnikbezpieczestwa1: TMenuItem;
+    Wybrwspczynnikaredukujcego1: TMenuItem;
 
 
     procedure UsunClick(Sender: TObject);
@@ -95,6 +95,8 @@ type
     procedure actTorqueExecute(Sender: TObject);
     procedure actPrzesuwnaExecute(Sender: TObject);
     procedure actStalaExecute(Sender: TObject);
+    procedure Wspczynnikbezpieczestwa1Click(Sender: TObject);
+    procedure Wybrwspczynnikaredukujcego1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -108,7 +110,8 @@ type
     moment_y: array of double;
     torque_y: array of double;
     diameter_y: array of double;
-
+    safety_factor: double;
+    reduction: double;
     d: integer;
     points: TAoD;
   end;
@@ -126,7 +129,7 @@ implementation
 
 {$R *.dfm}
 
-uses Unit2, Unit3, Unit4, Unit5, Unit6, Unit7, Unit8;
+uses Unit2, Unit3, Unit4, Unit5, Unit6, Unit7, Unit8, Unit9, Unit10;
 
 
 
@@ -431,4 +434,24 @@ else  begin
 
 end;
  end;
+procedure TForm1.Wspczynnikbezpieczestwa1Click(Sender: TObject);
+var
+  Node: TTreeNode ;
+begin
+Node:=TreeView1.Items.AddChild(TreeView1.Selected,'Wspó³czynnik bezpieczeñstwa');
+      Node.Selected:=True;
+      Node.editText;
+Form9.Show;
+end;
+
+procedure TForm1.Wybrwspczynnikaredukujcego1Click(Sender: TObject);
+var
+ Node: TTreeNode ;
+begin
+Node:=TreeView1.Items.AddChild(TreeView1.Selected,'Wspólczynnik redukuj¹cy');
+      Node.Selected:=True;
+      Node.editText;
+Form10.Show;
+end;
+
 end.

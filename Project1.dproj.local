@@ -1,9 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
 	<Transactions>
-    <Transaction>1899.12.30 00:00:00.000.521,C:\Users\mks19\Documents\Embarcadero\Studio\Projects\Unit1.dfm=C:\Users\mks19\Documents\Embarcadero\Studio\Projects\dobreDrzewo\Unit1.dfm</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.521,C:\Users\mks19\Documents\Embarcadero\Studio\Projects\Unit1.pas=C:\Users\mks19\Documents\Embarcadero\Studio\Projects\dobreDrzewo\Unit1.pas</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.930,=C:\Users\mks19\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.704,C:\Users\mks19\Documents\Embarcadero\Studio\Projects\Project1.dproj=C:\Users\mks19\Documents\Embarcadero\Studio\Projects\dobreDrzewo\Project1.dproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.930,=C:\Users\mks19\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.521,C:\Users\mks19\Documents\Embarcadero\Studio\Projects\Unit1.pas=C:\Users\mks19\Documents\Embarcadero\Studio\Projects\dobreDrzewo\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.277,=C:\Users\mks19\Desktop\ProgramOdNowa\Unit9.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.521,C:\Users\mks19\Documents\Embarcadero\Studio\Projects\Unit1.dfm=C:\Users\mks19\Documents\Embarcadero\Studio\Projects\dobreDrzewo\Unit1.dfm</Transaction>
+    <Transaction>2021.12.21 17:41:42.748,=C:\Users\mks19\Desktop\ProgramOdNowa\Unit10.pas</Transaction>
+    <Transaction>2021.12.21 18:09:22.842,=C:\Users\mks19\Desktop\ProgramOdNowa\Unit11.pas</Transaction>
   </Transactions>
 </BorlandProject>

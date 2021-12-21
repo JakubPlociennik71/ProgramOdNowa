@@ -49,7 +49,6 @@
     Height = 1
     Caption = 'ToolBar1'
     TabOrder = 2
-    ExplicitWidth = 792
   end
   object Button3: TButton
     Left = 8
@@ -73,209 +72,206 @@
     Top = 1
     Width = 300
     Height = 637
-    HorzScrollBar.Position = 16
-    VertScrollBar.Position = 350
     Align = alRight
     TabOrder = 5
-    ExplicitLeft = 492
     object Image1: TImage
-      Left = -21
-      Top = -353
+      Left = -5
+      Top = -3
       Width = 300
       Height = 2000
     end
     object Label4: TLabel
-      Left = 238
-      Top = -233
+      Left = 254
+      Top = 117
       Width = 22
       Height = 13
       Caption = 'x[m]'
     end
     object Label5: TLabel
-      Left = -13
-      Top = -208
+      Left = 3
+      Top = 142
       Width = 8
       Height = 13
       Caption = '+'
     end
     object Siła: TLabel
-      Left = -12
-      Top = -330
+      Left = 4
+      Top = 20
       Width = 37
       Height = 13
       Caption = 'Si'#322'a[kN]'
     end
     object Label6: TLabel
-      Left = -11
-      Top = -311
+      Left = 5
+      Top = 39
       Width = 4
       Height = 13
       Caption = '-'
     end
     object Label1: TLabel
-      Left = -13
-      Top = -174
-      Width = 46
+      Left = 3
+      Top = 176
+      Width = 37
       Height = 13
       Caption = 'Si'#322'a[kN]'
     end
     object Label2: TLabel
-      Left = -13
-      Top = -139
-      Width = 9
+      Left = 3
+      Top = 211
+      Width = 4
       Height = 13
       Caption = '-'
     end
     object Label3: TLabel
-      Left = 238
-      Top = -12
+      Left = 254
+      Top = 338
       Width = 22
       Height = 13
       Caption = 'x[m]'
     end
     object Label7: TLabel
-      Left = -13
-      Top = -59
+      Left = 3
+      Top = 291
       Width = 8
       Height = 13
       Caption = '+'
     end
     object Label8: TLabel
-      Left = -13
-      Top = 31
+      Left = 3
+      Top = 381
       Width = 37
       Height = 13
       Caption = 'Si'#322'a[kN]'
     end
     object Label10: TLabel
-      Left = -5
-      Top = 69
+      Left = 11
+      Top = 419
       Width = 4
       Height = 13
       Caption = '-'
     end
     object Label12: TLabel
-      Left = 238
-      Top = 183
+      Left = 254
+      Top = 533
       Width = 22
       Height = 13
       Caption = 'x[m]'
     end
     object Label13: TLabel
-      Left = -13
-      Top = 250
+      Left = 3
+      Top = 600
       Width = 63
       Height = 13
       Caption = 'Moment [nM]'
     end
     object Label14: TLabel
-      Left = -5
-      Top = 269
+      Left = 11
+      Top = 619
       Width = 4
       Height = 13
       Caption = '-'
     end
     object Label15: TLabel
-      Left = 238
-      Top = 359
+      Left = 254
+      Top = 709
       Width = 22
       Height = 13
       Caption = 'x[m]'
     end
     object Label11: TLabel
-      Left = -5
-      Top = 175
+      Left = 11
+      Top = 525
       Width = 8
       Height = 13
       Caption = '+'
     end
     object Label16: TLabel
-      Left = -5
-      Top = 399
+      Left = 11
+      Top = 749
       Width = 8
       Height = 13
       Caption = '+'
     end
     object Label17: TLabel
-      Left = -13
-      Top = 426
+      Left = 3
+      Top = 776
       Width = 117
       Height = 13
       Caption = 'Moment skr'#281'caj'#261'cy [nM]'
     end
     object Label18: TLabel
-      Left = -5
-      Top = 445
+      Left = 11
+      Top = 795
       Width = 4
       Height = 13
       Caption = '-'
     end
     object Label19: TLabel
-      Left = -5
-      Top = 551
+      Left = 11
+      Top = 901
       Width = 8
       Height = 13
       Caption = '+'
     end
     object Label20: TLabel
-      Left = 238
-      Top = 527
+      Left = 254
+      Top = 877
       Width = 22
       Height = 13
       Caption = 'x[m]'
     end
     object Label21: TLabel
-      Left = -13
-      Top = 586
+      Left = 3
+      Top = 936
       Width = 130
       Height = 13
       Caption = 'Moment zredukowany [nM]'
     end
     object v: TLabel
-      Left = -5
-      Top = 605
+      Left = 11
+      Top = 955
       Width = 4
       Height = 13
       Caption = '-'
     end
     object Label23: TLabel
-      Left = -5
-      Top = 743
+      Left = 11
+      Top = 1093
       Width = 8
       Height = 13
       Caption = '+'
     end
     object Label24: TLabel
-      Left = 238
-      Top = 706
+      Left = 254
+      Top = 1056
       Width = 22
       Height = 13
       Caption = 'x[m]'
     end
     object Label25: TLabel
-      Left = -13
-      Top = 802
+      Left = 3
+      Top = 1152
       Width = 129
       Height = 13
       Caption = #346'rednica teoretyczna [mm]'
     end
     object Label22: TLabel
-      Left = -5
-      Top = 821
+      Left = 11
+      Top = 1171
       Width = 4
       Height = 13
       Caption = '-'
     end
     object Label26: TLabel
-      Left = -13
-      Top = 926
+      Left = 3
+      Top = 1276
       Width = 8
       Height = 13
       Caption = '+'
     end
     object Label27: TLabel
-      Left = 238
-      Top = 874
+      Left = 254
+      Top = 1224
       Width = 22
       Height = 13
       Caption = 'x[m]'
@@ -360,12 +356,6 @@
     object actStala: TAction
       Caption = 'Zmiana po'#322'o'#380'enia podpry sta'#322'ej'
       OnExecute = actStalaExecute
-    end
-    object actRedukcja: TAction
-      Caption = 'Wyb'#243'r wsp'#243#322'czynnika redukuj'#261'cego'
-    end
-    object actBezpiecz: TAction
-      Caption = 'Wsp'#243#322'czynnik bezpiecze'#324'stwa'
     end
   end
   object ImageList1: TImageList
@@ -795,6 +785,14 @@
     end
     object Zmianapooeniapodprystaej1: TMenuItem
       Action = actStala
+    end
+    object Wspczynnikbezpieczestwa1: TMenuItem
+      Caption = 'Wsp'#243#322'czynnik bezpiecze'#324'stwa'
+      OnClick = Wspczynnikbezpieczestwa1Click
+    end
+    object Wybrwspczynnikaredukujcego1: TMenuItem
+      Caption = 'Wyb'#243'r wsp'#243#322'czynnika redukuj'#261'cego'
+      OnClick = Wybrwspczynnikaredukujcego1Click
     end
   end
 end
