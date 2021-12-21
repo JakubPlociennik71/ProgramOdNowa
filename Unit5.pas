@@ -43,6 +43,7 @@ Shaft.BeginUpdate;
       Form1.TreeView1.Items.AddChild(Form1.TreeView1.Selected,'Odleg³oœæ: '+Edit5.Text);
 
   ShowMessage('Moment skrêcaj¹cy  dodany');
+  Form5.Close;
 end;
 
 procedure TForm5.Button2Click(Sender: TObject);

@@ -54,6 +54,7 @@ Shaft.BeginUpdate;
        Form1.TreeView1.Items.AddChild(Form1.TreeView1.Selected,'Odleg³oœæ Y: '+Edit5.Text);
         Form1.TreeView1.Items.AddChild(Form1.TreeView1.Selected,'Odleg³oœæ Z: '+Edit6.Text);
   ShowMessage('Si³a dodana');
+  Form3.Close;
 end;
 
 procedure TForm3.Button2Click(Sender: TObject);

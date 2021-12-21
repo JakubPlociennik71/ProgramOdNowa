@@ -28,16 +28,25 @@ type
     Exit1: TMenuItem;
     Open1: TMenuItem;
     Open2: TMenuItem;
-    Button1: TButton;
     edt1: TRichEdit;
     Button3: TButton;
     ListBox1: TListBox;
-    Button4: TButton;
-    Button5: TButton;
-    Button6: TButton;
-    Button7: TButton;
-    Button8: TButton;
-    Button9: TButton;
+    PopupMenu1: TPopupMenu;
+    FileOpen2: TFileOpen;
+    actSila: TAction;
+    Sia1: TMenuItem;
+    actSilaPozaWalem: TAction;
+    actMoment: TAction;
+    actTorque: TAction;
+    actPrzesuwna: TAction;
+    actStala: TAction;
+    SiaPozaWaem1: TMenuItem;
+    Momentgncy1: TMenuItem;
+    Momentskrcajcy1: TMenuItem;
+    Zmianapooeniapodporyprzesuwnej1: TMenuItem;
+    Zmianapooeniapodprystaej1: TMenuItem;
+    actRedukcja: TAction;
+    actBezpiecz: TAction;
 
 
     procedure UsunClick(Sender: TObject);
@@ -50,6 +59,12 @@ type
     procedure Button7Click(Sender: TObject);
     procedure Button9Click(Sender: TObject);
     procedure Button8Click(Sender: TObject);
+    procedure actSilaExecute(Sender: TObject);
+    procedure actSilaPozaWalemExecute(Sender: TObject);
+    procedure actMomentExecute(Sender: TObject);
+    procedure actTorqueExecute(Sender: TObject);
+    procedure actPrzesuwnaExecute(Sender: TObject);
+    procedure actStalaExecute(Sender: TObject);
   private
     { Private declarations }
   public
@@ -76,6 +91,61 @@ uses Unit2, Unit3, Unit4, Unit5, Unit6, Unit7, Unit8;
 
 
 
+procedure TForm1.actMomentExecute(Sender: TObject);
+var
+  Node: TTreeNode ;
+begin
+Node:=TreeView1.Items.AddChild(TreeView1.Selected,'Moment gn¹cy');
+      Node.Selected:=True;
+      Node.editText;
+ Form4.Show;
+end;
+procedure TForm1.actPrzesuwnaExecute(Sender: TObject);
+var
+  Node: TTreeNode ;
+begin
+Node:=TreeView1.Items.AddChild(TreeView1.Selected,'Podpora przesuwna');
+      Node.Selected:=True;
+      Node.editText;
+ Form6.Show;
+end;
+procedure TForm1.actSilaExecute(Sender: TObject);
+var
+  Node: TTreeNode ;
+begin
+Node:=TreeView1.Items.AddChild(TreeView1.Selected,'Si³a');
+      Node.Selected:=True;
+      Node.editText;
+ Form2.Show;
+end;
+
+procedure TForm1.actSilaPozaWalemExecute(Sender: TObject);
+var
+  Node: TTreeNode ;
+begin
+Node:=TreeView1.Items.AddChild(TreeView1.Selected,'Si³a poza wa³em');
+      Node.Selected:=True;
+      Node.editText;
+ Form3.Show;
+end;
+procedure TForm1.actStalaExecute(Sender: TObject);
+var
+  Node: TTreeNode ;
+begin
+Node:=TreeView1.Items.AddChild(TreeView1.Selected,'Podpora sta³a');
+      Node.Selected:=True;
+      Node.editText;
+ Form7.Show;
+end;
+procedure TForm1.actTorqueExecute(Sender: TObject);
+var
+  Node: TTreeNode ;
+begin
+Node:=TreeView1.Items.AddChild(TreeView1.Selected,'Moment skrêcaj¹cy');
+      Node.Selected:=True;
+      Node.editText;
+ Form5.Show;
+end;
 procedure TForm1.Button1Click(Sender: TObject);
 var
   Node: TTreeNode ;

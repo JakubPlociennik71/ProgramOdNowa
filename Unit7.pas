@@ -38,6 +38,7 @@ Shaft.BeginUpdate;
       Form1.TreeView1.Items.AddChild(Form1.TreeView1.Selected,'Odleg³oœæ  od pocz¹tku wa³u: '+Edit1.Text);
 
   ShowMessage('Podpora zosta³a przesuniêta');
+  Form7.Close;
 end;
 
 procedure TForm7.Button2Click(Sender: TObject);
