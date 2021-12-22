@@ -23,24 +23,30 @@
   end
   object TreeView1: TTreeView
     Left = 0
-    Top = 0
+    Top = 1
     Width = 177
-    Height = 592
+    Height = 580
+    Align = alLeft
     Indent = 19
     PopupMenu = PopupMenu1
     TabOrder = 0
     Items.NodeData = {
       0301000000320000000000000000000000FFFFFFFFFFFFFFFF00000000000000
       0000000000000A4F0062006300690005017C0165006E0069006100}
+    ExplicitTop = 0
+    ExplicitHeight = 592
   end
   object Usun: TButton
-    Left = 8
-    Top = 378
-    Width = 121
-    Height = 27
+    Left = 0
+    Top = 631
+    Width = 843
+    Height = 50
+    Align = alBottom
     Caption = 'Usu'#324' obci'#261#380'enie'
     TabOrder = 1
     OnClick = UsunClick
+    ExplicitLeft = 8
+    ExplicitWidth = 89
   end
   object ToolBar1: TToolBar
     Left = 0
@@ -51,30 +57,39 @@
     TabOrder = 2
   end
   object Button3: TButton
-    Left = 8
-    Top = 423
-    Width = 121
-    Height = 59
-    Caption = 'Rysowanie Wykres'#243'w'
+    Left = 0
+    Top = 581
+    Width = 843
+    Height = 50
+    Align = alBottom
+    Caption = 'Start oblicze'#324
     TabOrder = 3
     OnClick = Button3Click
+    ExplicitLeft = 8
+    ExplicitTop = 510
+    ExplicitWidth = 89
   end
   object ListBox1: TListBox
-    Left = 306
-    Top = 128
-    Width = 110
-    Height = 226
+    Left = 177
+    Top = 1
+    Width = 263
+    Height = 580
+    Align = alClient
     ItemHeight = 13
     TabOrder = 4
+    ExplicitLeft = 178
+    ExplicitTop = -7
+    ExplicitHeight = 680
   end
   object ScrollBox1: TScrollBox
     Left = 440
     Top = 1
     Width = 403
-    Height = 680
+    Height = 580
     Align = alRight
     Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 5
+    ExplicitHeight = 680
     object Image1: TImage
       Left = 47
       Top = 20
@@ -287,8 +302,8 @@
     end
   end
   object MainMenu1: TMainMenu
-    Left = 256
-    Top = 32
+    Left = 704
+    Top = 592
     object ControlAction11: TMenuItem
       Action = ControlAction1
       Caption = 'File'
@@ -308,8 +323,8 @@
   end
   object ActionList1: TActionList
     Images = ImageList1
-    Left = 304
-    Top = 32
+    Left = 648
+    Top = 576
     object Action1: TAction
       Caption = 'File'
     end
@@ -378,8 +393,8 @@
     end
   end
   object ImageList1: TImageList
-    Left = 352
-    Top = 48
+    Left = 592
+    Top = 592
     Bitmap = {
       494C01010B001800040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
@@ -785,8 +800,8 @@
       000000000000}
   end
   object PopupMenu1: TPopupMenu
-    Left = 200
-    Top = 16
+    Left = 760
+    Top = 592
     object Sia1: TMenuItem
       Action = actSila
     end

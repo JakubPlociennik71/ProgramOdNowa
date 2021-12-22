@@ -210,6 +210,7 @@ end;
 procedure TForm1.Button3Click(Sender: TObject);
 var
   f1,f2: TForce;
+  fa,fb: TP3D;
   z,s,m,t,skala1,skala2,skalaF,skalaY,skalaX,skalaM,skalaTor,skalaRed,skalaD,max: double;
   licznik,i:integer;
   can: TCanvas;
@@ -221,6 +222,7 @@ begin
 
   Shaft.BeginUpdate;
   Shaft.SupportB.Z:=6;
+
   f1:=Shaft.AddForce(P3D(0,-150,80),2);
   f2:=Shaft.AddForce(P3D(0,-80,0),4);
   Shaft.EndUpdate;
@@ -237,6 +239,13 @@ begin
   SetLength(moment_y,2*d) ;
   SetLength(torque_y,2*d);
   licznik:=0;
+  fa:=Shaft.SupportA.Force;
+  fb:=Shaft.SupportB.Force;
+   ListBox1.Items.Add('Wartoœci reakcji w podporze sta³ej (X,Y,Z):');
+   ListBox1.Items.Add(FloatToStr(fa.X)+' '+FloatToStr(fa.Y)+' '+FloatToStr(fa.Z));
+    ListBox1.Items.Add('Wartoœci reakcji w podporze przesuwnej (X,Y,Z):');
+   ListBox1.Items.Add(FloatToStr(fb.X)+' '+FloatToStr(fb.Y)+' '+FloatToStr(fb.Z));
+
   for z in points do begin
 
       s:=Shaft.ShearY(z,ltLeft);
@@ -461,6 +470,7 @@ begin
 
 
   ListBox1.Items.Add('Wyniki Obliczeñ: ');
+
 
 end;
 

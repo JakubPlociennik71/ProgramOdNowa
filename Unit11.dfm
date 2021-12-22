@@ -16,12 +16,14 @@ object Form11: TForm11
   object Label1: TLabel
     Left = 20
     Top = 8
-    Width = 127
-    Height = 24
-    Caption = 'Wpisz warto'#347#263
+    Width = 607
+    Height = 19
+    Caption = 
+      'Wpisz warto'#347#263'  dopuszczalnych napr'#281#380'e'#324' materia'#322'u z jakiego ma by' +
+      ' wykonany wa'#322
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -20
+    Font.Height = -16
     Font.Name = 'Tahoma'
     Font.Style = []
     ParentFont = False
@@ -29,12 +31,12 @@ object Form11: TForm11
   object Label3: TLabel
     Left = 20
     Top = 59
-    Width = 65
+    Width = 43
     Height = 13
-    Caption = 'Wsp'#243#322'czynnik'
+    Caption = 'Warto'#347#263' '
   end
   object Edit1: TEdit
-    Left = 144
+    Left = 88
     Top = 56
     Width = 121
     Height = 21
@@ -42,8 +44,8 @@ object Form11: TForm11
     Text = '0'
   end
   object Button1: TButton
-    Left = 298
-    Top = 34
+    Left = 215
+    Top = 33
     Width = 89
     Height = 65
     Caption = 'Wpisz warto'#347#263

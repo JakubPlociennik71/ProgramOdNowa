@@ -45,7 +45,7 @@ Shaft.BeginUpdate;
       Form1.TreeView1.Items.AddChild(Form1.TreeView1.Selected,'Wartoœæ p³aszczyzna Y: '+Edit5.Text);
       Form1.TreeView1.Items.AddChild(Form1.TreeView1.Selected,'Odleg³oœæ od pocz¹tku wa³u: '+Edit6.Text);
   ShowMessage('Moment  dodany');
-  Shaft.EndUpdate;
+
   Form4.Close;
 end;
 
