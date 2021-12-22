@@ -2,7 +2,7 @@
   Left = 0
   Top = 0
   Caption = 'Form1'
-  ClientHeight = 638
+  ClientHeight = 681
   ClientWidth = 843
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -11,7 +11,6 @@
   Font.Name = 'Tahoma'
   Font.Style = []
   Menu = MainMenu1
-  OldCreateOrder = True
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
@@ -68,17 +67,19 @@
     TabOrder = 4
   end
   object ScrollBox1: TScrollBox
-    Left = 543
+    Left = 440
     Top = 1
-    Width = 300
-    Height = 637
+    Width = 403
+    Height = 680
     Align = alRight
+    Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 5
+    ExplicitTop = -7
     object Image1: TImage
-      Left = -5
-      Top = -3
-      Width = 300
-      Height = 2000
+      Left = 47
+      Top = 20
+      Width = 100
+      Height = 81
     end
     object Label4: TLabel
       Left = 254
@@ -275,6 +276,14 @@
       Width = 22
       Height = 13
       Caption = 'x[m]'
+    end
+    object pbPaintBox: TPaintBox
+      Left = 0
+      Top = 0
+      Width = 382
+      Height = 1000
+      Align = alTop
+      OnPaint = pbPaintBoxPaint
     end
   end
   object MainMenu1: TMainMenu

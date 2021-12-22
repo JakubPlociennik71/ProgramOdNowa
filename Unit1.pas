@@ -77,6 +77,7 @@ type
     Label27: TLabel;
     Wspczynnikbezpieczestwa1: TMenuItem;
     Wybrwspczynnikaredukujcego1: TMenuItem;
+    pbPaintBox: TPaintBox;
 
 
     procedure UsunClick(Sender: TObject);
@@ -97,19 +98,20 @@ type
     procedure actStalaExecute(Sender: TObject);
     procedure Wspczynnikbezpieczestwa1Click(Sender: TObject);
     procedure Wybrwspczynnikaredukujcego1Click(Sender: TObject);
+    procedure pbPaintBoxPaint(Sender: TObject);
   private
-    { Private declarations }
+    procedure PaintDiagrams;
   public
     { Public declarations }
-   sila_Y_x: array of Double;
-    sila_Y_y:array of Double;
-    sila_X_x: array of Double;
-    sila_X_y: array of Double;
-    sila_x: array of Double;
-    sila_y: array of Double;
-    moment_y: array of double;
-    torque_y: array of double;
-    diameter_y: array of double;
+   sila_Y_x: TAoD;
+    sila_Y_y:TAoD;
+    sila_X_x: TAoD;
+    sila_X_y: TAoD;
+    sila_x: TAoD;
+    sila_y: TAoD;
+    moment_y: TAoD;
+    torque_y: TAoD;
+    diameter_y: TAoD;
     safety_factor: double;
     reduction: double;
     d: integer;
@@ -129,7 +131,7 @@ implementation
 
 {$R *.dfm}
 
-uses Unit2, Unit3, Unit4, Unit5, Unit6, Unit7, Unit8, Unit9, Unit10;
+uses Math, Diagrams, Unit2, Unit3, Unit4, Unit5, Unit6, Unit7, Unit8, Unit9, Unit10;
 
 
 
@@ -200,127 +202,149 @@ end;
 
 procedure TForm1.Button3Click(Sender: TObject);
 var
-f1,f2: TForce;
-z,s,m,t,skala1,skala2,skalaF,skalaY,skalaX,skalaM,skalaTor,skalaRed,skalaD,max: double;
-licznik,i:integer;
+  f1,f2: TForce;
+  z,s,m,t,skala1,skala2,skalaF,skalaY,skalaX,skalaM,skalaTor,skalaRed,skalaD,max: double;
+  licznik,i:integer;
+  can: TCanvas;
+  rct: TRect;
 
 begin
 //Form8.Show;
 
 
-Shaft.BeginUpdate;
-Shaft.SupportB.Z:=6;
-f1:=Shaft.AddForce(P3D(0,-15,0),2);
-f2:=Shaft.AddForce(P3D(0,-8,0),4);
-Shaft.EndUpdate;
+  Shaft.BeginUpdate;
+  Shaft.SupportB.Z:=6;
+  f1:=Shaft.AddForce(P3D(0,-150,80),2);
+  f2:=Shaft.AddForce(P3D(0,-80,0),4);
+  Shaft.EndUpdate;
 
 
-points:=Shaft.ZPositions;
-d:=length(points);
-SetLength(sila_Y_x,2*d);
-SetLength(sila_Y_y,2*d) ;
-SetLength(sila_X_x,2*d);
-SetLength(sila_X_y,2*d) ;
-SetLength(sila_x,2*d);
-SetLength(sila_y,2*d) ;
-SetLength(moment_y,2*d) ;
-SetLength(torque_y,2*d);
-licznik:=0;
-for z in points do begin
+  points:=Shaft.ZPositions;
+  d:=length(points);
+  SetLength(sila_Y_x,2*d);
+  SetLength(sila_Y_y,2*d) ;
+  SetLength(sila_X_x,2*d);
+  SetLength(sila_X_y,2*d) ;
+  SetLength(sila_x,2*d);
+  SetLength(sila_y,2*d) ;
+  SetLength(moment_y,2*d) ;
+  SetLength(torque_y,2*d);
+  licznik:=0;
+  for z in points do begin
 
-    s:=Shaft.ShearY(z,ltLeft);
+      s:=Shaft.ShearY(z,ltLeft);
 
-    sila_Y_y[licznik]:=Shaft.ShearY(z,ltLeft);
-    sila_Y_x[licznik]:=z;
-    //ListBox1.Items.Add(FloatToStr(sila_Y_x[licznik])+' '+FloatToStr(sila_Y_y[licznik]));
-    sila_X_y[licznik]:=Shaft.ShearX(z,ltLeft);
-    sila_X_x[licznik]:=z;
+      sila_Y_y[licznik]:=Shaft.ShearY(z,ltLeft);
+      sila_Y_x[licznik]:=z;
+      //ListBox1.Items.Add(FloatToStr(sila_Y_x[licznik])+' '+FloatToStr(sila_Y_y[licznik]));
+      sila_X_y[licznik]:=Shaft.ShearX(z,ltLeft);
+      sila_X_x[licznik]:=z;
 
-    sila_y[licznik]:=Shaft.Shear(z,ltLeft);
-    sila_x[licznik]:=z;
+      sila_y[licznik]:=Shaft.Shear(z,ltLeft);
+      sila_x[licznik]:=z;
 
-     moment_y[licznik]:=Shaft.Moment(z,ltLeft);
-     torque_y[licznik]:=Shaft.Torque(z,ltLeft);
-
-
-     licznik:=licznik+1;
-   s:=Shaft.ShearY(z);
-    sila_Y_y[licznik]:=Shaft.ShearY(z);
-    sila_Y_x[licznik]:=z;
-     //ListBox1.Items.Add(FloatToStr(sila_Y_x[licznik])+' '+FloatToStr(sila_Y_y[licznik]));
-     sila_X_y[licznik]:=Shaft.ShearX(z);
-    sila_X_x[licznik]:=z;
-
-    sila_y[licznik]:=Shaft.Shear(z);
-    sila_x[licznik]:=z;
-
-    moment_y[licznik]:= Shaft.Moment(z);
-     torque_y[licznik]:= Shaft.Torque(z);
+       moment_y[licznik]:=Shaft.Moment(z,ltLeft);
+       torque_y[licznik]:=Shaft.Torque(z,ltLeft);
 
 
+       licznik:=licznik+1;
+     s:=Shaft.ShearY(z);
+      sila_Y_y[licznik]:=Shaft.ShearY(z);
+      sila_Y_x[licznik]:=z;
+       //ListBox1.Items.Add(FloatToStr(sila_Y_x[licznik])+' '+FloatToStr(sila_Y_y[licznik]));
+       sila_X_y[licznik]:=Shaft.ShearX(z);
+      sila_X_x[licznik]:=z;
 
-    licznik:=licznik+1;
+      sila_y[licznik]:=Shaft.Shear(z);
+      sila_x[licznik]:=z;
+
+      moment_y[licznik]:= Shaft.Moment(z);
+       torque_y[licznik]:= Shaft.Torque(z);
 
 
 
-
-  m:=Shaft.Moment(z,ltLeft);
-
-  m:=Shaft.Moment(z);
-
-  t:=Shaft.Torque(z,ltLeft);
-
-  t:=Shaft.Torque(z);
+      licznik:=licznik+1;
 
 
 
 
-end;
- skala1:=Abs((300/Shaft.ZPositions[Form1.d-1])-1);
+    m:=Shaft.Moment(z,ltLeft);
 
- if Find_Max(Form1.sila_Y_Y,2*d)=0 then skalaY:=0.1
-else  skalaY:=Abs((200/Find_Max(Form1.sila_Y_y,d))-10);
+    m:=Shaft.Moment(z);
 
+    t:=Shaft.Torque(z,ltLeft);
 
-
-
-if Find_Max(Form1.sila_X_Y,2*d)=0 then skalaX:=0.1
-else skalaX:=Abs((200/Find_Max(Form1.sila_X_y,2*d))-10);
-
-
-if Find_Max(Form1.sila_Y,2*d)=0 then skalaF:=0.1
-else skalaF:=Abs((200/Find_Max(Form1.sila_Y,2*d))-10);
-
-if Find_Max( moment_y,2*d)=0 then skalaM:=0.1
-else skalaM:=Abs((200/Find_Max(moment_y,2*d))-10);
-
-if Find_Max( torque_y,2*d)=0 then skalaTor:=0.1
-else skalaTor:=Abs((200/Find_Max(torque_y,2*d))-10);
+    t:=Shaft.Torque(z);
 
 
 
 
+  end;
 
-Image1.Picture.Bitmap.canvas.pen.color:=clRed;
-for I := 0 to (Form1.d*2)-2  do  begin
+  // test rysowania diagramu si³
+//  can.Pen.Color := clGray;
+//  can.Rectangle(8, 8, 152, 122);
 
-    Image1.Picture.Bitmap.canvas.moveto(Trunc(skala1*Form1.sila_Y_x[i]),(Trunc(skalaY*Form1.sila_Y_y[i])+Trunc(200/2)));
-    Image1.Picture.Bitmap.canvas.lineto(Trunc(skala1*Form1.sila_Y_x[i+1]),(Trunc(skalaY*Form1.sila_Y_y[i+1])+Trunc(200/2)));
+  can := pbPaintBox.Canvas;
 
-    Image1.Picture.Bitmap.canvas.moveto(Trunc(skala1*Form1.sila_X_x[i]),(Trunc(skalaX*Form1.sila_X_y[i])+Trunc(300)));
-    Image1.Picture.Bitmap.canvas.lineto(Trunc(skala1*Form1.sila_X_x[i+1]),(Trunc(skalaX*Form1.sila_X_y[i+1])+Trunc(300)));
+  rct := Rect(10, 10, pbPaintBox.Width - 10, 110);
+  PrepareMap(MinValue(sila_Y_X), MinValue(sila_Y_Y), MaxValue(sila_Y_X), MaxValue(sila_Y_Y), rct);
+  Diagram(can, clRed, sila_Y_X, sila_Y_Y);
 
-    Image1.Picture.Bitmap.canvas.moveto(Trunc(skala1*Form1.sila_x[i]),(Trunc(skalaF*Form1.sila_y[i])+Trunc(500)));
-    Image1.Picture.Bitmap.canvas.lineto(Trunc(skala1*Form1.sila_x[i+1]),(Trunc(skalaF*Form1.sila_y[i+1])+Trunc(500)));
-
-    Image1.Picture.Bitmap.canvas.moveto(Trunc(skala1*Form1.sila_x[i]),(Trunc(skalaM*moment_y[i])+Trunc(700)));
-    Image1.Picture.Bitmap.canvas.lineto(Trunc(skala1*Form1.sila_x[i+1]),(Trunc(skalaM*moment_y[i+1])+Trunc(700)));
-
-    Image1.Picture.Bitmap.canvas.moveto(Trunc(skala1*Form1.sila_x[i]),(Trunc(skalaTor*torque_y[i])+Trunc(900)));
-    Image1.Picture.Bitmap.canvas.lineto(Trunc(skala1*Form1.sila_x[i+1]),(Trunc(skalaTor*torque_y[i+1])+Trunc(900)));
+  rct.Offset(0, 120);
+  PrepareMap(MinValue(sila_X_X), MinValue(sila_X_Y), MaxValue(sila_X_X), MaxValue(sila_X_Y), rct);
+  Diagram(can, clGreen, sila_X_X, sila_X_Y);
+//  PrepareMap(MinValue(sila_Y_X), MinValue(sila_Y_Y), MaxValue(sila_Y_X), MaxValue(sila_Y_Y), rct);
+//  Diagram(can, clGreen, sila_Y_X, sila_Y_Y);
 
 
-end;
+
+//  skala1:=Abs((300/Shaft.ZPositions[Form1.d-1])-1);
+
+  // if Find_Max(Form1.sila_Y_Y,2*d)=0 then skalaY:=0.1
+  //else  skalaY:=Abs((200/Find_Max(Form1.sila_Y_y,d))-10);
+  //
+  //
+  //
+  //
+  //if Find_Max(Form1.sila_X_Y,2*d)=0 then skalaX:=0.1
+  //else skalaX:=Abs((200/Find_Max(Form1.sila_X_y,2*d))-10);
+  //
+  //
+  //if Find_Max(Form1.sila_Y,2*d)=0 then skalaF:=0.1
+  //else skalaF:=Abs((200/Find_Max(Form1.sila_Y,2*d))-10);
+  //
+  //if Find_Max( moment_y,2*d)=0 then skalaM:=0.1
+  //else skalaM:=Abs((200/Find_Max(moment_y,2*d))-10);
+  //
+  //if Find_Max( torque_y,2*d)=0 then skalaTor:=0.1
+  //else skalaTor:=Abs((200/Find_Max(torque_y,2*d))-10);
+
+
+
+
+
+
+//  Image1.Picture.Bitmap.canvas.pen.color:=clRed;
+//  for I := 0 to (Form1.d*2)-2  do  begin
+//
+//      Image1.Picture.Bitmap.canvas.moveto(Trunc(skala1*Form1.sila_Y_x[i]),(Trunc(skalaY*Form1.sila_Y_y[i])+Trunc(200/2)));
+//      Image1.Picture.Bitmap.canvas.lineto(Trunc(skala1*Form1.sila_Y_x[i+1]),(Trunc(skalaY*Form1.sila_Y_y[i+1])+Trunc(200/2)));
+//
+//      Image1.Picture.Bitmap.canvas.moveto(Trunc(skala1*Form1.sila_X_x[i]),(Trunc(skalaX*Form1.sila_X_y[i])+Trunc(300)));
+//      Image1.Picture.Bitmap.canvas.lineto(Trunc(skala1*Form1.sila_X_x[i+1]),(Trunc(skalaX*Form1.sila_X_y[i+1])+Trunc(300)));
+//
+//      Image1.Picture.Bitmap.canvas.moveto(Trunc(skala1*Form1.sila_x[i]),(Trunc(skalaF*Form1.sila_y[i])+Trunc(500)));
+//      Image1.Picture.Bitmap.canvas.lineto(Trunc(skala1*Form1.sila_x[i+1]),(Trunc(skalaF*Form1.sila_y[i+1])+Trunc(500)));
+//
+//      Image1.Picture.Bitmap.canvas.moveto(Trunc(skala1*Form1.sila_x[i]),(Trunc(skalaM*moment_y[i])+Trunc(700)));
+//      Image1.Picture.Bitmap.canvas.lineto(Trunc(skala1*Form1.sila_x[i+1]),(Trunc(skalaM*moment_y[i+1])+Trunc(700)));
+//
+//      Image1.Picture.Bitmap.canvas.moveto(Trunc(skala1*Form1.sila_x[i]),(Trunc(skalaTor*torque_y[i])+Trunc(900)));
+//      Image1.Picture.Bitmap.canvas.lineto(Trunc(skala1*Form1.sila_x[i+1]),(Trunc(skalaTor*torque_y[i+1])+Trunc(900)));
+//
+//
+//  end;
 
 
 
@@ -370,56 +394,197 @@ points: TAoD;
 Node: TTreeNode ;
 
 begin
- Bitmap:=TBitmap.create;
-Bitmap.width:=300;
-Bitmap.height:=2000;
-Image1.Picture.Graphic:=Bitmap;
-Image1.width:=300;
-Image1.height:=2000;
-Image1.Picture.Bitmap.canvas.pen.color:=clBlack;
-Image1.Picture.Bitmap.canvas.moveto(0,0);
-  Image1.Picture.Bitmap.canvas.lineto(0,2000);
-
-  Image1.Picture.Bitmap.canvas.moveto(0,Trunc(100));
-  Image1.Picture.Bitmap.canvas.lineto(300,Trunc(100));
-
-    Image1.Picture.Bitmap.canvas.moveto(0,Trunc(300));
-  Image1.Picture.Bitmap.canvas.lineto(300,Trunc(300));
+  Shaft.BeginUpdate;
+  Shaft.SupportB.Z := 6;
+  Shaft.AddForce(P3D(15, -15, 0), 2);
+  Shaft.AddForce(P3D(-15, -6, 0), 4);
+  Shaft.AddTorque(10, 3);
+  Shaft.AddTorque(10, 5);
+  Shaft.EndUpdate;
 
 
-   Image1.Picture.Bitmap.canvas.moveto(0,Trunc(500));
-  Image1.Picture.Bitmap.canvas.lineto(300,Trunc(500));
 
-  Image1.Picture.Bitmap.canvas.moveto(0,Trunc(700));
-  Image1.Picture.Bitmap.canvas.lineto(300,Trunc(700));
+// Bitmap:=TBitmap.create;
+//Bitmap.width:=300;
+//Bitmap.height:=2000;
+//Image1.Picture.Graphic:=Bitmap;
+//Image1.width:=300;
+//Image1.height:=2000;
+//Image1.Picture.Bitmap.canvas.pen.color:=clBlack;
+//Image1.Picture.Bitmap.canvas.moveto(0,0);
+//  Image1.Picture.Bitmap.canvas.lineto(0,2000);
+//
+//  Image1.Picture.Bitmap.canvas.moveto(0,Trunc(100));
+//  Image1.Picture.Bitmap.canvas.lineto(300,Trunc(100));
+//
+//    Image1.Picture.Bitmap.canvas.moveto(0,Trunc(300));
+//  Image1.Picture.Bitmap.canvas.lineto(300,Trunc(300));
+//
+//
+//   Image1.Picture.Bitmap.canvas.moveto(0,Trunc(500));
+//  Image1.Picture.Bitmap.canvas.lineto(300,Trunc(500));
+//
+//  Image1.Picture.Bitmap.canvas.moveto(0,Trunc(700));
+//  Image1.Picture.Bitmap.canvas.lineto(300,Trunc(700));
+//
+//  Image1.Picture.Bitmap.canvas.moveto(0,Trunc(900));
+//  Image1.Picture.Bitmap.canvas.lineto(300,Trunc(900));
+//
+//  Image1.Picture.Bitmap.canvas.moveto(0,Trunc(1100));
+//  Image1.Picture.Bitmap.canvas.lineto(300,Trunc(1100));
+//
+//   Image1.Picture.Bitmap.canvas.moveto(0,Trunc(1300));
+//  Image1.Picture.Bitmap.canvas.lineto(300,Trunc(1300));
+//
+//   Image1.Picture.Bitmap.canvas.moveto(0,Trunc(1500));
+//  Image1.Picture.Bitmap.canvas.lineto(300,Trunc(1500));
+//
+//   Image1.Picture.Bitmap.canvas.moveto(0,Trunc(1700));
+//  Image1.Picture.Bitmap.canvas.lineto(300,Trunc(1700));
+//
+//   Image1.Picture.Bitmap.canvas.moveto(0,Trunc(1900));
+//  Image1.Picture.Bitmap.canvas.lineto(300,Trunc(1900));
+//{Image1.Picture.Bitmap.canvas.pen.color:=clBlack;
+//  Image1.Picture.Bitmap.canvas.moveto(0,Trunc(Image1.Height/2));
+//  Image1.Picture.Bitmap.canvas.lineto(Image1.Width,Trunc(Image1.Height/2));
+//  Image1.Picture.Bitmap.canvas.moveto(0,0);
+//  Image1.Picture.Bitmap.canvas.lineto(0,Image1.Height); }
 
-  Image1.Picture.Bitmap.canvas.moveto(0,Trunc(900));
-  Image1.Picture.Bitmap.canvas.lineto(300,Trunc(900));
-
-  Image1.Picture.Bitmap.canvas.moveto(0,Trunc(1100));
-  Image1.Picture.Bitmap.canvas.lineto(300,Trunc(1100));
-
-   Image1.Picture.Bitmap.canvas.moveto(0,Trunc(1300));
-  Image1.Picture.Bitmap.canvas.lineto(300,Trunc(1300));
-
-   Image1.Picture.Bitmap.canvas.moveto(0,Trunc(1500));
-  Image1.Picture.Bitmap.canvas.lineto(300,Trunc(1500));
-
-   Image1.Picture.Bitmap.canvas.moveto(0,Trunc(1700));
-  Image1.Picture.Bitmap.canvas.lineto(300,Trunc(1700));
-
-   Image1.Picture.Bitmap.canvas.moveto(0,Trunc(1900));
-  Image1.Picture.Bitmap.canvas.lineto(300,Trunc(1900));
-{Image1.Picture.Bitmap.canvas.pen.color:=clBlack;
-  Image1.Picture.Bitmap.canvas.moveto(0,Trunc(Image1.Height/2));
-  Image1.Picture.Bitmap.canvas.lineto(Image1.Width,Trunc(Image1.Height/2));
-  Image1.Picture.Bitmap.canvas.moveto(0,0);
-  Image1.Picture.Bitmap.canvas.lineto(0,Image1.Height); }
 
 
-ListBox1.Items.Add('Wyniki Obliczeñ: ');
 
- end;
+  ListBox1.Items.Add('Wyniki Obliczeñ: ');
+
+end;
+
+procedure TForm1.PaintDiagrams;
+
+  procedure AddValue(var AValues: TAoD; AValue: Double);
+  begin
+    if (Length(AValues) > 0) and (AValue - AValues[High(AValues)] <= EPSILON) then Exit;
+
+    SetLength(AValues, Length(AValues) + 1);
+    AValues[High(AValues)] := AValue;
+  end;
+
+  procedure ResetEndingValues(var AValues: TAoD);
+  begin
+    AValues[0] := 0;
+    AValues[High(AValues)] := 0;
+  end;
+
+  procedure PaintDiagram(ACanvas: TCanvas; AColor: TColor; AXs, AYs: TAoD; var ARect: TRect);
+  begin
+    // jeœli nie ma co rysowaæ to wychodzê z procedury
+    if (MinValue(AYs) = 0) and (MinValue(AYs) = MaxValue(AYs)) then Exit;
+
+    // rysowanie wykresu
+    ACanvas.Pen.Style := psSolid;
+    ACanvas.Brush.Style := bsSolid;
+    PrepareMap(MinValue(AXs), MinValue(AYs), MaxValue(AXs), MaxValue(AYs), ARect);
+    Diagram(ACanvas, AColor, AXs, AYs);
+    ARect.Offset(0, ARect.Height + 10);
+  end;
+
+  procedure PaintDottedLines(ACanvas: TCanvas; AValues: TAoD);
+  var
+    value: Double;
+    pt: TPoint;
+  begin
+    for value in AValues do begin
+      ACanvas.Pen.Style := psDot;
+      ACanvas.Pen.Color := clGray;
+      ACanvas.Brush.Style := bsClear;
+
+      pt := Map(value, 0);
+      ACanvas.MoveTo(pt.X, 0);
+      ACanvas.LineTo(pt.X, 10000);
+    end;
+  end;
+
+const
+  COUNT = 256;
+var
+  rct: TRect;
+  pts, xvals, a, sx, sy, s, mx, my, m, t: TAoD;
+  x, dx: Double;
+  cnt, idx, pidx: Integer;
+begin
+  // przygotowanie tablicy wspó³rzêdnych X
+  pts:=Shaft.ZPositions;
+
+  dx := (pts[High(pts)] - pts[0]) / (COUNT - 1);
+  x := pts[0];
+  SetLength(xvals, 0);
+  pidx := 0;
+  while x <= pts[High(pts)] do begin
+    if x >= pts[pidx] - EPSILON then begin
+      AddValue(xvals, pts[pidx] - 2 * EPSILON);
+      AddValue(xvals, pts[pidx]);
+      Inc(pidx);
+    end;
+    AddValue(xvals, x);
+
+    x := x + dx;
+  end;
+
+  // przygotowanie tablic dla wspó³rzêdnych Y
+  cnt := Length(xvals);
+  SetLength(xvals, cnt);
+  SetLength(a, cnt);
+  SetLength(sx, cnt);
+  SetLength(sy, cnt);
+  SetLength(s, cnt);
+  SetLength(mx, cnt);
+  SetLength(my, cnt);
+  SetLength(m, cnt);
+  SetLength(t, cnt);
+
+  // przygotowanie wartoœci dla osi Y
+  for idx := 0 to High(xvals) do begin
+    a[idx] := Shaft.Axial(xvals[idx]);
+    sx[idx] := Shaft.ShearX(xvals[idx]);
+    sy[idx] := Shaft.ShearY(xvals[idx]);
+    s[idx] := Shaft.Shear(xvals[idx]);
+    mx[idx] := Shaft.MomentX(xvals[idx]);
+    my[idx] := Shaft.MomentY(xvals[idx]);
+    m[idx] := Shaft.Moment(xvals[idx]);
+    t[idx] := Shaft.Torque(xvals[idx]);
+  end;
+
+  // korekcja dla pierwszej i ostatniej wartoœci si³ i momentów
+  ResetEndingValues(a);
+  ResetEndingValues(sx);
+  ResetEndingValues(sy);
+  ResetEndingValues(s);
+  ResetEndingValues(mx);
+  ResetEndingValues(my);
+  ResetEndingValues(m);
+  ResetEndingValues(t);
+
+  // rysowanie diagramów
+  rct := Rect(30, 10, pbPaintBox.Width - 10, 110);
+  PaintDiagram(pbPaintBox.Canvas, clRed, xvals, a, rct);
+
+  PaintDiagram(pbPaintBox.Canvas, clGreen, xvals, sx, rct);
+  PaintDiagram(pbPaintBox.Canvas, clGreen, xvals, sy, rct);
+  PaintDiagram(pbPaintBox.Canvas, clGreen, xvals, s, rct);
+
+  PaintDiagram(pbPaintBox.Canvas, clBlue, xvals, mx, rct);
+  PaintDiagram(pbPaintBox.Canvas, clBlue, xvals, my, rct);
+  PaintDiagram(pbPaintBox.Canvas, clBlue, xvals, m, rct);
+
+  PaintDiagram(pbPaintBox.Canvas, clMaroon, xvals, t, rct);
+
+  // na koniec rysujê jeszcze krañce przedzia³ów
+  PaintDottedLines(pbPaintBox.Canvas, pts);
+end;
+
+procedure TForm1.pbPaintBoxPaint(Sender: TObject);
+begin
+  PaintDiagrams;
+end;
+
 procedure TForm1.UsunClick(Sender: TObject);
 var
 indeks: integer;

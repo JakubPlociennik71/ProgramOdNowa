@@ -132,7 +132,7 @@ type
   function P3D(AZ: Double): TP3D; overload;
   function Polar(AR, APhi: Double): TP3D; overload;
   function Polar(AR, APhi, AZ: Double): TP3D; overload;
-  function Find_Max(Tab: array of double;size:integer): Double;
+//  function Find_Max(Tab: array of double;size:integer): Double;
 
 var
   Shaft: TShaft;
@@ -185,24 +185,24 @@ begin
   Result.Z := 0;
 end;
 
-function Find_Max(Tab: array of double;size:integer): Double;
-var
-i: integer;
-M: double;
-begin
-M:=Tab[0];
-for I := 0 to size-1 do
-  begin
-     if Tab[i]>M then M:=Tab[i];
-
-
-
-
-
-  end;
- Result:=M;
-
-end;
+//function Find_Max(Tab: array of double;size:integer): Double;
+//var
+//i: integer;
+//M: double;
+//begin
+//M:=Tab[0];
+//for I := 0 to size-1 do
+//  begin
+//     if Tab[i]>M then M:=Tab[i];
+//
+//
+//
+//
+//
+//  end;
+// Result:=M;
+//
+//end;
 
 { TLoad }
 
@@ -460,7 +460,7 @@ end;
 function TShaft.Moment(AZ: Double; ALimit: TLimit): Double;
 // zwraca wypadkowy moment gnący dla przekroju AZ
 begin
-  Result := Sqrt(Sqr(MomentX(AZ, ALimit)) + Sqr(MomentY(AZ, ALimit)));
+  Result := Round(Sqrt(Sqr(MomentX(AZ, ALimit)) + Sqr(MomentY(AZ, ALimit))));
 end;
 
 function TShaft.MomentX(AZ: Double; ALimit: TLimit): Double;
@@ -498,7 +498,7 @@ end;
 function TShaft.Shear(AZ: Double; ALimit: TLimit): Double;
 // zwraca wypadkową siłę tnącą dla przekroju AZ
 begin
-  Result := Sqrt(Sqr(ShearX(AZ, ALimit)) + Sqr(ShearY(AZ, ALimit)));
+  Result := Round(Sqrt(Sqr(ShearX(AZ, ALimit)) + Sqr(ShearY(AZ, ALimit))));
 end;
 
 function TShaft.ShearX(AZ: Double; ALimit: TLimit): Double;
@@ -541,9 +541,8 @@ begin
   Result := Calculate(
     function (ALoad: TLoad; AZ: Double): Double
     begin
-      // Moment skręcający w płaszczyźnie XY powodujący obrót wału
-      // zgodnie z ruchem wskazówek zegara przyjęto jako dodatni
-      Result := ALoad.CalculateTorque; //  ALoad.Force.X * ALoad.Y - ALoad.Force.Y * ALoad.X + ALoad.Torque;
+      // Moment skręcający w płaszczyźnie XY powodujący obrót wału zgodnie z ruchem wskazówek zegara przyjęto jako dodatni
+      Result := ALoad.CalculateTorque;
     end, AZ, ALimit);
 end;
 

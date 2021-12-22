@@ -14,7 +14,9 @@ uses
   Unit8 in 'Unit8.pas' {Form8},
   Unit9 in 'Unit9.pas' {Form9},
   Unit10 in 'Unit10.pas' {Form10},
-  Unit11 in 'Unit11.pas' {Form11};
+  Unit11 in 'Unit11.pas' {Form11},
+  Loads in 'Loads.pas',
+  Diagrams in 'Diagrams.pas';
 
 {$R *.res}
 
