@@ -78,6 +78,9 @@ type
     Wspczynnikbezpieczestwa1: TMenuItem;
     Wybrwspczynnikaredukujcego1: TMenuItem;
     pbPaintBox: TPaintBox;
+    Wybrwaciwocimateriaowych1: TMenuItem;
+    HelpContents1: THelpContents;
+    Contents1: TMenuItem;
 
 
     procedure UsunClick(Sender: TObject);
@@ -99,6 +102,7 @@ type
     procedure Wspczynnikbezpieczestwa1Click(Sender: TObject);
     procedure Wybrwspczynnikaredukujcego1Click(Sender: TObject);
     procedure pbPaintBoxPaint(Sender: TObject);
+    procedure Wybrwaciwocimateriaowych1Click(Sender: TObject);
   private
     procedure PaintDiagrams;
   public
@@ -116,6 +120,8 @@ type
     reduction: double;
     d: integer;
     points: TAoD;
+    naprezenia: double;
+
   end;
  type
  Obciazenie = class
@@ -131,7 +137,8 @@ implementation
 
 {$R *.dfm}
 
-uses Math, Diagrams, Unit2, Unit3, Unit4, Unit5, Unit6, Unit7, Unit8, Unit9, Unit10;
+uses Math, Diagrams, Unit2, Unit3, Unit4, Unit5, Unit6, Unit7, Unit8, Unit9, Unit10,
+  Unit11;
 
 
 
@@ -607,6 +614,17 @@ Node:=TreeView1.Items.AddChild(TreeView1.Selected,'Wspó³czynnik bezpieczeñstwa')
       Node.Selected:=True;
       Node.editText;
 Form9.Show;
+end;
+
+procedure TForm1.Wybrwaciwocimateriaowych1Click(Sender: TObject);
+var
+  Node: TTreeNode ;
+begin
+
+Node:=TreeView1.Items.AddChild(TreeView1.Selected,'Naprê¿enie maksymalne');
+      Node.Selected:=True;
+      Node.editText;
+Form11.Show;
 end;
 
 procedure TForm1.Wybrwspczynnikaredukujcego1Click(Sender: TObject);

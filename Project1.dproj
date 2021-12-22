@@ -147,6 +147,10 @@
         </DCCReference>
         <DCCReference Include="Loads.pas"/>
         <DCCReference Include="Diagrams.pas"/>
+        <BuildConfiguration Include="Release">
+            <Key>Cfg_2</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

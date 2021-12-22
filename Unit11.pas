@@ -13,6 +13,7 @@ type
     Edit1: TEdit;
     Button1: TButton;
     Button2: TButton;
+    procedure Button1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -25,5 +26,15 @@ var
 implementation
 
 {$R *.dfm}
+
+uses Diagrams, Loads, Unit1, Unit10, Unit2, Unit3, Unit4, Unit5, Unit6, Unit7,
+  Unit8, Unit9;
+
+procedure TForm11.Button1Click(Sender: TObject);
+begin
+Form1.naprezenia:=StrToFloat(edit1.Text);
+Form1.TreeView1.Items.AddChild(Form1.TreeView1.Selected,'Wartoœæ: '+Edit1.Text);
+Form11.Close;
+end;
 
 end.

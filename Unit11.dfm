@@ -48,6 +48,7 @@ object Form11: TForm11
     Height = 65
     Caption = 'Wpisz warto'#347#263
     TabOrder = 1
+    OnClick = Button1Click
   end
   object Button2: TButton
     Left = 20
