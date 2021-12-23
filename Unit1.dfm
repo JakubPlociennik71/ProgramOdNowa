@@ -1,4 +1,4 @@
-﻿object Form1: TForm1
+object Form1: TForm1
   Left = 0
   Top = 0
   Caption = 'Form1'
@@ -11,7 +11,6 @@
   Font.Name = 'Tahoma'
   Font.Style = []
   Menu = MainMenu1
-  OldCreateOrder = True
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
@@ -33,8 +32,6 @@
     Items.NodeData = {
       0301000000320000000000000000000000FFFFFFFFFFFFFFFF00000000000000
       0000000000000A4F0062006300690005017C0165006E0069006100}
-    ExplicitTop = 0
-    ExplicitHeight = 592
   end
   object Usun: TButton
     Left = 0
@@ -45,8 +42,6 @@
     Caption = 'Usu'#324' obci'#261#380'enie'
     TabOrder = 1
     OnClick = UsunClick
-    ExplicitLeft = 8
-    ExplicitWidth = 89
   end
   object ToolBar1: TToolBar
     Left = 0
@@ -65,9 +60,6 @@
     Caption = 'Start oblicze'#324
     TabOrder = 3
     OnClick = Button3Click
-    ExplicitLeft = 8
-    ExplicitTop = 510
-    ExplicitWidth = 89
   end
   object ListBox1: TListBox
     Left = 177
@@ -77,9 +69,6 @@
     Align = alClient
     ItemHeight = 13
     TabOrder = 4
-    ExplicitLeft = 178
-    ExplicitTop = -7
-    ExplicitHeight = 680
   end
   object ScrollBox1: TScrollBox
     Left = 440
@@ -89,216 +78,17 @@
     Align = alRight
     Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 5
-    ExplicitHeight = 680
-    object Image1: TImage
-      Left = 47
-      Top = 20
-      Width = 100
-      Height = 81
-    end
-    object Label4: TLabel
-      Left = 254
-      Top = 117
-      Width = 22
-      Height = 13
-      Caption = 'x[m]'
-    end
-    object Label5: TLabel
-      Left = 3
-      Top = 142
-      Width = 8
-      Height = 13
-      Caption = '+'
-    end
-    object Siła: TLabel
-      Left = 4
-      Top = 20
-      Width = 37
-      Height = 13
-      Caption = 'Si'#322'a[kN]'
-    end
-    object Label6: TLabel
-      Left = 5
-      Top = 39
-      Width = 4
-      Height = 13
-      Caption = '-'
-    end
-    object Label1: TLabel
-      Left = 3
-      Top = 176
-      Width = 37
-      Height = 13
-      Caption = 'Si'#322'a[kN]'
-    end
-    object Label2: TLabel
-      Left = 3
-      Top = 211
-      Width = 4
-      Height = 13
-      Caption = '-'
-    end
-    object Label3: TLabel
-      Left = 254
-      Top = 338
-      Width = 22
-      Height = 13
-      Caption = 'x[m]'
-    end
-    object Label7: TLabel
-      Left = 3
-      Top = 291
-      Width = 8
-      Height = 13
-      Caption = '+'
-    end
-    object Label8: TLabel
-      Left = 3
-      Top = 381
-      Width = 37
-      Height = 13
-      Caption = 'Si'#322'a[kN]'
-    end
-    object Label10: TLabel
-      Left = 11
-      Top = 419
-      Width = 4
-      Height = 13
-      Caption = '-'
-    end
-    object Label12: TLabel
-      Left = 254
-      Top = 533
-      Width = 22
-      Height = 13
-      Caption = 'x[m]'
-    end
-    object Label13: TLabel
-      Left = 3
-      Top = 600
-      Width = 63
-      Height = 13
-      Caption = 'Moment [nM]'
-    end
-    object Label14: TLabel
-      Left = 11
-      Top = 619
-      Width = 4
-      Height = 13
-      Caption = '-'
-    end
-    object Label15: TLabel
-      Left = 254
-      Top = 709
-      Width = 22
-      Height = 13
-      Caption = 'x[m]'
-    end
-    object Label11: TLabel
-      Left = 11
-      Top = 525
-      Width = 8
-      Height = 13
-      Caption = '+'
-    end
-    object Label16: TLabel
-      Left = 11
-      Top = 749
-      Width = 8
-      Height = 13
-      Caption = '+'
-    end
-    object Label17: TLabel
-      Left = 3
-      Top = 776
-      Width = 117
-      Height = 13
-      Caption = 'Moment skr'#281'caj'#261'cy [nM]'
-    end
-    object Label18: TLabel
-      Left = 11
-      Top = 795
-      Width = 4
-      Height = 13
-      Caption = '-'
-    end
-    object Label19: TLabel
-      Left = 11
-      Top = 901
-      Width = 8
-      Height = 13
-      Caption = '+'
-    end
-    object Label20: TLabel
-      Left = 254
-      Top = 877
-      Width = 22
-      Height = 13
-      Caption = 'x[m]'
-    end
-    object Label21: TLabel
-      Left = 3
-      Top = 936
-      Width = 130
-      Height = 13
-      Caption = 'Moment zredukowany [nM]'
-    end
-    object v: TLabel
-      Left = 11
-      Top = 955
-      Width = 4
-      Height = 13
-      Caption = '-'
-    end
-    object Label23: TLabel
-      Left = 11
-      Top = 1093
-      Width = 8
-      Height = 13
-      Caption = '+'
-    end
-    object Label24: TLabel
-      Left = 254
-      Top = 1056
-      Width = 22
-      Height = 13
-      Caption = 'x[m]'
-    end
-    object Label25: TLabel
-      Left = 3
-      Top = 1152
-      Width = 129
-      Height = 13
-      Caption = #346'rednica teoretyczna [mm]'
-    end
-    object Label22: TLabel
-      Left = 11
-      Top = 1171
-      Width = 4
-      Height = 13
-      Caption = '-'
-    end
-    object Label26: TLabel
-      Left = 3
-      Top = 1276
-      Width = 8
-      Height = 13
-      Caption = '+'
-    end
-    object Label27: TLabel
-      Left = 254
-      Top = 1224
-      Width = 22
-      Height = 13
-      Caption = 'x[m]'
-    end
-    object pbPaintBox: TPaintBox
+    ExplicitLeft = 446
+    ExplicitTop = -5
+    object pbDiagrams: TPaintBox
       Left = 0
       Top = 0
-      Width = 382
-      Height = 1000
+      Width = 399
+      Height = 425
       Align = alTop
-      OnPaint = pbPaintBoxPaint
+      OnPaint = pbDiagramsPaint
+      ExplicitLeft = 4
+      ExplicitTop = 4
     end
   end
   object MainMenu1: TMainMenu

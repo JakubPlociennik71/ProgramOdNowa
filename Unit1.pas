@@ -1,4 +1,4 @@
-unit Unit1;
+ï»¿unit Unit1;
 
 interface
 
@@ -45,42 +45,13 @@ type
     Zmianapooeniapodporyprzesuwnej1: TMenuItem;
     Zmianapooeniapodprystaej1: TMenuItem;
     ScrollBox1: TScrollBox;
-    Image1: TImage;
-    Label4: TLabel;
-    Label5: TLabel;
-    Si³a: TLabel;
-    Label6: TLabel;
-    Label1: TLabel;
-    Label2: TLabel;
-    Label3: TLabel;
-    Label7: TLabel;
-    Label8: TLabel;
     Image2: TImage;
-    Label10: TLabel;
-    Label12: TLabel;
-    Label13: TLabel;
-    Label14: TLabel;
-    Label15: TLabel;
-    Label11: TLabel;
-    Label16: TLabel;
-    Label17: TLabel;
-    Label18: TLabel;
-    Label19: TLabel;
-    Label20: TLabel;
-    Label21: TLabel;
-    v: TLabel;
-    Label23: TLabel;
-    Label24: TLabel;
-    Label25: TLabel;
-    Label22: TLabel;
-    Label26: TLabel;
-    Label27: TLabel;
     Wspczynnikbezpieczestwa1: TMenuItem;
     Wybrwspczynnikaredukujcego1: TMenuItem;
-    pbPaintBox: TPaintBox;
     Wybrwaciwocimateriaowych1: TMenuItem;
     HelpContents1: THelpContents;
     Contents1: TMenuItem;
+    pbDiagrams: TPaintBox;
 
 
     procedure UsunClick(Sender: TObject);
@@ -103,8 +74,13 @@ type
     procedure Wybrwspczynnikaredukujcego1Click(Sender: TObject);
     procedure pbPaintBoxPaint(Sender: TObject);
     procedure Wybrwaciwocimateriaowych1Click(Sender: TObject);
+    procedure pbDiagramsPaint(Sender: TObject);
   private
+    function Equivalent(AZ: Double): Double;
+    function Diameter(AZ: Double): Double;
+
     procedure PaintDiagrams;
+    procedure OnChange(ASender: TObject);
   public
     { Public declarations }
    sila_Y_x: TAoD;
@@ -137,7 +113,7 @@ implementation
 
 {$R *.dfm}
 
-uses Math, Diagrams, Unit2, Unit3, Unit4, Unit5, Unit6, Unit7, Unit8, Unit9, Unit10,
+uses UITypes, Math, Diagrams, Unit2, Unit3, Unit4, Unit5, Unit6, Unit7, Unit8, Unit9, Unit10,
   Unit11;
 
 
@@ -146,7 +122,7 @@ procedure TForm1.actMomentExecute(Sender: TObject);
 var
   Node: TTreeNode ;
 begin
-Node:=TreeView1.Items.AddChild(TreeView1.Selected,'Moment gn¹cy');
+Node:=TreeView1.Items.AddChild(TreeView1.Selected,'Moment gnÄ…cy');
       Node.Selected:=True;
       Node.editText;
  Form4.Show;
@@ -164,7 +140,7 @@ procedure TForm1.actSilaExecute(Sender: TObject);
 var
   Node: TTreeNode ;
 begin
-Node:=TreeView1.Items.AddChild(TreeView1.Selected,'Si³a');
+Node:=TreeView1.Items.AddChild(TreeView1.Selected,'SiÅ‚a');
       Node.Selected:=True;
       Node.editText;
  Form2.Show;
@@ -174,7 +150,7 @@ procedure TForm1.actSilaPozaWalemExecute(Sender: TObject);
 var
   Node: TTreeNode ;
 begin
-Node:=TreeView1.Items.AddChild(TreeView1.Selected,'Si³a poza wa³em');
+Node:=TreeView1.Items.AddChild(TreeView1.Selected,'SiÅ‚a poza waÅ‚em');
       Node.Selected:=True;
       Node.editText;
  Form3.Show;
@@ -183,7 +159,7 @@ procedure TForm1.actStalaExecute(Sender: TObject);
 var
   Node: TTreeNode ;
 begin
-Node:=TreeView1.Items.AddChild(TreeView1.Selected,'Podpora sta³a');
+Node:=TreeView1.Items.AddChild(TreeView1.Selected,'Podpora staÅ‚a');
       Node.Selected:=True;
       Node.editText;
  Form7.Show;
@@ -192,7 +168,7 @@ procedure TForm1.actTorqueExecute(Sender: TObject);
 var
   Node: TTreeNode ;
 begin
-Node:=TreeView1.Items.AddChild(TreeView1.Selected,'Moment skrêcaj¹cy');
+Node:=TreeView1.Items.AddChild(TreeView1.Selected,'Moment skrÄ™cajÄ…cy');
       Node.Selected:=True;
       Node.editText;
  Form5.Show;
@@ -201,115 +177,115 @@ procedure TForm1.Button1Click(Sender: TObject);
 var
   Node: TTreeNode ;
 begin
-      Node:=TreeView1.Items.AddChild(TreeView1.Selected,'Nowe obci¹zenie');
+      Node:=TreeView1.Items.AddChild(TreeView1.Selected,'Nowe obciÄ…zenie');
       Node.Selected:=True;
       Node.editText;
 end;
 
 
 procedure TForm1.Button3Click(Sender: TObject);
-var
-  f1,f2: TForce;
-  fa,fb: TP3D;
-  z,s,m,t,skala1,skala2,skalaF,skalaY,skalaX,skalaM,skalaTor,skalaRed,skalaD,max: double;
-  licznik,i:integer;
-  can: TCanvas;
-  rct: TRect;
+//var
+//  f1,f2: TForce;
+//  fa,fb: TP3D;
+//  z,s,m,t,skala1,skala2,skalaF,skalaY,skalaX,skalaM,skalaTor,skalaRed,skalaD,max: double;
+//  licznik,i:integer;
+//  can: TCanvas;
+//  rct: TRect;
 
 begin
 //Form8.Show;
 
 
-  Shaft.BeginUpdate;
-  Shaft.SupportB.Z:=6;
+//  Shaft.BeginUpdate;
+//  Shaft.SupportB.Z:=6;
+//
+//  f1:=Shaft.AddForce(P3D(0,-150,80),2);
+//  f2:=Shaft.AddForce(P3D(0,-80,0),4);
+//  Shaft.EndUpdate;
+//
+//
+//  points:=Shaft.ZPositions;
+//  d:=length(points);
+//  SetLength(sila_Y_x,2*d);
+//  SetLength(sila_Y_y,2*d) ;
+//  SetLength(sila_X_x,2*d);
+//  SetLength(sila_X_y,2*d) ;
+//  SetLength(sila_x,2*d);
+//  SetLength(sila_y,2*d) ;
+//  SetLength(moment_y,2*d) ;
+//  SetLength(torque_y,2*d);
+//  licznik:=0;
+//  fa:=Shaft.SupportA.Force;
+//  fb:=Shaft.SupportB.Force;
+//   ListBox1.Items.Add('WartoÅ›ci reakcji w podporze staÅ‚ej (X,Y,Z):');
+//   ListBox1.Items.Add(FloatToStr(fa.X)+' '+FloatToStr(fa.Y)+' '+FloatToStr(fa.Z));
+//    ListBox1.Items.Add('WartoÅ›ci reakcji w podporze przesuwnej (X,Y,Z):');
+//   ListBox1.Items.Add(FloatToStr(fb.X)+' '+FloatToStr(fb.Y)+' '+FloatToStr(fb.Z));
+//
+//  for z in points do begin
+//
+////      s:=Shaft.ShearY(z,ltLeft);
+////
+////      sila_Y_y[licznik]:=Shaft.ShearY(z,ltLeft);
+////      sila_Y_x[licznik]:=z;
+////      //ListBox1.Items.Add(FloatToStr(sila_Y_x[licznik])+' '+FloatToStr(sila_Y_y[licznik]));
+////      sila_X_y[licznik]:=Shaft.ShearX(z,ltLeft);
+////      sila_X_x[licznik]:=z;
+////
+////      sila_y[licznik]:=Shaft.Shear(z,ltLeft);
+////      sila_x[licznik]:=z;
+////
+////       moment_y[licznik]:=Shaft.Moment(z,ltLeft);
+////       torque_y[licznik]:=Shaft.Torque(z,ltLeft);
+//
+//
+//       licznik:=licznik+1;
+//     s:=Shaft.ShearY(z);
+//      sila_Y_y[licznik]:=Shaft.ShearY(z);
+//      sila_Y_x[licznik]:=z;
+//       //ListBox1.Items.Add(FloatToStr(sila_Y_x[licznik])+' '+FloatToStr(sila_Y_y[licznik]));
+//       sila_X_y[licznik]:=Shaft.ShearX(z);
+//      sila_X_x[licznik]:=z;
+//
+//      sila_y[licznik]:=Shaft.Shear(z);
+//      sila_x[licznik]:=z;
+//
+//      moment_y[licznik]:= Shaft.Moment(z);
+//       torque_y[licznik]:= Shaft.Torque(z);
+//
+//
+//
+//      licznik:=licznik+1;
+//
+//
+//
+//
+////    m:=Shaft.Moment(z,ltLeft);
+////
+////    m:=Shaft.Moment(z);
+////
+////    t:=Shaft.Torque(z,ltLeft);
+////
+////    t:=Shaft.Torque(z);
+//
+//
+//
+//
+//  end;
 
-  f1:=Shaft.AddForce(P3D(0,-150,80),2);
-  f2:=Shaft.AddForce(P3D(0,-80,0),4);
-  Shaft.EndUpdate;
-
-
-  points:=Shaft.ZPositions;
-  d:=length(points);
-  SetLength(sila_Y_x,2*d);
-  SetLength(sila_Y_y,2*d) ;
-  SetLength(sila_X_x,2*d);
-  SetLength(sila_X_y,2*d) ;
-  SetLength(sila_x,2*d);
-  SetLength(sila_y,2*d) ;
-  SetLength(moment_y,2*d) ;
-  SetLength(torque_y,2*d);
-  licznik:=0;
-  fa:=Shaft.SupportA.Force;
-  fb:=Shaft.SupportB.Force;
-   ListBox1.Items.Add('Wartoœci reakcji w podporze sta³ej (X,Y,Z):');
-   ListBox1.Items.Add(FloatToStr(fa.X)+' '+FloatToStr(fa.Y)+' '+FloatToStr(fa.Z));
-    ListBox1.Items.Add('Wartoœci reakcji w podporze przesuwnej (X,Y,Z):');
-   ListBox1.Items.Add(FloatToStr(fb.X)+' '+FloatToStr(fb.Y)+' '+FloatToStr(fb.Z));
-
-  for z in points do begin
-
-      s:=Shaft.ShearY(z,ltLeft);
-
-      sila_Y_y[licznik]:=Shaft.ShearY(z,ltLeft);
-      sila_Y_x[licznik]:=z;
-      //ListBox1.Items.Add(FloatToStr(sila_Y_x[licznik])+' '+FloatToStr(sila_Y_y[licznik]));
-      sila_X_y[licznik]:=Shaft.ShearX(z,ltLeft);
-      sila_X_x[licznik]:=z;
-
-      sila_y[licznik]:=Shaft.Shear(z,ltLeft);
-      sila_x[licznik]:=z;
-
-       moment_y[licznik]:=Shaft.Moment(z,ltLeft);
-       torque_y[licznik]:=Shaft.Torque(z,ltLeft);
-
-
-       licznik:=licznik+1;
-     s:=Shaft.ShearY(z);
-      sila_Y_y[licznik]:=Shaft.ShearY(z);
-      sila_Y_x[licznik]:=z;
-       //ListBox1.Items.Add(FloatToStr(sila_Y_x[licznik])+' '+FloatToStr(sila_Y_y[licznik]));
-       sila_X_y[licznik]:=Shaft.ShearX(z);
-      sila_X_x[licznik]:=z;
-
-      sila_y[licznik]:=Shaft.Shear(z);
-      sila_x[licznik]:=z;
-
-      moment_y[licznik]:= Shaft.Moment(z);
-       torque_y[licznik]:= Shaft.Torque(z);
-
-
-
-      licznik:=licznik+1;
-
-
-
-
-    m:=Shaft.Moment(z,ltLeft);
-
-    m:=Shaft.Moment(z);
-
-    t:=Shaft.Torque(z,ltLeft);
-
-    t:=Shaft.Torque(z);
-
-
-
-
-  end;
-
-  // test rysowania diagramu si³
+  // test rysowania diagramu siÅ‚
 //  can.Pen.Color := clGray;
 //  can.Rectangle(8, 8, 152, 122);
 
-  can := pbPaintBox.Canvas;
+//  can := pbPaintBox.Canvas;
 
-  rct := Rect(10, 10, pbPaintBox.Width - 10, 110);
-  PrepareMap(MinValue(sila_Y_X), MinValue(sila_Y_Y), MaxValue(sila_Y_X), MaxValue(sila_Y_Y), rct);
-  Diagram(can, clRed, sila_Y_X, sila_Y_Y);
+//  rct := Rect(10, 10, pbPaintBox.Width - 10, 110);
+//  PrepareMap(MinValue(sila_Y_X), MinValue(sila_Y_Y), MaxValue(sila_Y_X), MaxValue(sila_Y_Y), rct);
+//  Diagram(can, clRed, sila_Y_X, sila_Y_Y);
 
-  rct.Offset(0, 120);
-  PrepareMap(MinValue(sila_X_X), MinValue(sila_X_Y), MaxValue(sila_X_X), MaxValue(sila_X_Y), rct);
-  Diagram(can, clGreen, sila_X_X, sila_X_Y);
+//  rct.Offset(0, 120);
+//  PrepareMap(MinValue(sila_X_X), MinValue(sila_X_Y), MaxValue(sila_X_X), MaxValue(sila_X_Y), rct);
+//  Diagram(can, clGreen, sila_X_X, sila_X_Y);
 //  PrepareMap(MinValue(sila_Y_X), MinValue(sila_Y_Y), MaxValue(sila_Y_X), MaxValue(sila_Y_Y), rct);
 //  Diagram(can, clGreen, sila_Y_X, sila_Y_Y);
 
@@ -371,7 +347,7 @@ end;
 
 procedure TForm1.Button4Click(Sender: TObject);
 begin
-//TreeView1.Items.AddChild(TreeView1.Selected,'Si³a skupiona');
+//TreeView1.Items.AddChild(TreeView1.Selected,'SiÅ‚a skupiona');
 Form2.Show;
  end;
 
@@ -401,200 +377,85 @@ begin
 Form6.Show;
 end;
 
-procedure TForm1.FormCreate(Sender: TObject);
-
-var
-Lista:TList;
-var Bitmap:TBitmap;
-points: TAoD;
-Node: TTreeNode ;
-
+function TForm1.Diameter(AZ: Double): Double;
 begin
+  if not InRange(AZ, Shaft.MinZValue, Shaft.MaxZValue) then Exit(0);
+  Result := 5;
+end;
+
+function TForm1.Equivalent(AZ: Double): Double;
+begin
+  if not InRange(Az, Shaft.MinZValue, Shaft.MaxZValue) then Exit(0);
+  Result := 5;
+end;
+
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+  // przypisanie procedury obsÅ‚ugiwanej po zmianie danych waÅ‚ka
+  Shaft.OnChange := OnChange;
+
+  // przykÅ‚ad z Kurmaza (str. 109)
   Shaft.BeginUpdate;
-  Shaft.SupportB.Z := 6;
-  Shaft.AddForce(P3D(15, -15, 0), 2);
-  Shaft.AddForce(P3D(-15, -6, 0), 4);
-  Shaft.AddTorque(10, 3);
-  Shaft.AddTorque(10, 5);
+  Shaft.PlaceSupports(0.098, 0);
+  Shaft.AddForce(2421, -895, -438, 0.09451, 0, 0.049);
+  Shaft.AddForce(Polar(5100, 150), 0.178);
+  Shaft.AddTorque(228.8, 0.178);
   Shaft.EndUpdate;
 
 
+  ListBox1.Items.Add('Wyniki ObliczeÅ„: ');
+end;
 
-// Bitmap:=TBitmap.create;
-//Bitmap.width:=300;
-//Bitmap.height:=2000;
-//Image1.Picture.Graphic:=Bitmap;
-//Image1.width:=300;
-//Image1.height:=2000;
-//Image1.Picture.Bitmap.canvas.pen.color:=clBlack;
-//Image1.Picture.Bitmap.canvas.moveto(0,0);
-//  Image1.Picture.Bitmap.canvas.lineto(0,2000);
-//
-//  Image1.Picture.Bitmap.canvas.moveto(0,Trunc(100));
-//  Image1.Picture.Bitmap.canvas.lineto(300,Trunc(100));
-//
-//    Image1.Picture.Bitmap.canvas.moveto(0,Trunc(300));
-//  Image1.Picture.Bitmap.canvas.lineto(300,Trunc(300));
-//
-//
-//   Image1.Picture.Bitmap.canvas.moveto(0,Trunc(500));
-//  Image1.Picture.Bitmap.canvas.lineto(300,Trunc(500));
-//
-//  Image1.Picture.Bitmap.canvas.moveto(0,Trunc(700));
-//  Image1.Picture.Bitmap.canvas.lineto(300,Trunc(700));
-//
-//  Image1.Picture.Bitmap.canvas.moveto(0,Trunc(900));
-//  Image1.Picture.Bitmap.canvas.lineto(300,Trunc(900));
-//
-//  Image1.Picture.Bitmap.canvas.moveto(0,Trunc(1100));
-//  Image1.Picture.Bitmap.canvas.lineto(300,Trunc(1100));
-//
-//   Image1.Picture.Bitmap.canvas.moveto(0,Trunc(1300));
-//  Image1.Picture.Bitmap.canvas.lineto(300,Trunc(1300));
-//
-//   Image1.Picture.Bitmap.canvas.moveto(0,Trunc(1500));
-//  Image1.Picture.Bitmap.canvas.lineto(300,Trunc(1500));
-//
-//   Image1.Picture.Bitmap.canvas.moveto(0,Trunc(1700));
-//  Image1.Picture.Bitmap.canvas.lineto(300,Trunc(1700));
-//
-//   Image1.Picture.Bitmap.canvas.moveto(0,Trunc(1900));
-//  Image1.Picture.Bitmap.canvas.lineto(300,Trunc(1900));
-//{Image1.Picture.Bitmap.canvas.pen.color:=clBlack;
-//  Image1.Picture.Bitmap.canvas.moveto(0,Trunc(Image1.Height/2));
-//  Image1.Picture.Bitmap.canvas.lineto(Image1.Width,Trunc(Image1.Height/2));
-//  Image1.Picture.Bitmap.canvas.moveto(0,0);
-//  Image1.Picture.Bitmap.canvas.lineto(0,Image1.Height); }
-
-
-
-
-  ListBox1.Items.Add('Wyniki Obliczeñ: ');
-
-
+procedure TForm1.OnChange(ASender: TObject);
+begin
+  PaintDiagrams;
 end;
 
 procedure TForm1.PaintDiagrams;
-
-  procedure AddValue(var AValues: TAoD; AValue: Double);
-  begin
-    if (Length(AValues) > 0) and (AValue - AValues[High(AValues)] <= EPSILON) then Exit;
-
-    SetLength(AValues, Length(AValues) + 1);
-    AValues[High(AValues)] := AValue;
-  end;
-
-  procedure ResetEndingValues(var AValues: TAoD);
-  begin
-    AValues[0] := 0;
-    AValues[High(AValues)] := 0;
-  end;
-
-  procedure PaintDiagram(ACanvas: TCanvas; AColor: TColor; AXs, AYs: TAoD; var ARect: TRect);
-  begin
-    // jeœli nie ma co rysowaæ to wychodzê z procedury
-    if (MinValue(AYs) = 0) and (MinValue(AYs) = MaxValue(AYs)) then Exit;
-
-    // rysowanie wykresu
-    ACanvas.Pen.Style := psSolid;
-    ACanvas.Brush.Style := bsSolid;
-    PrepareMap(MinValue(AXs), MinValue(AYs), MaxValue(AXs), MaxValue(AYs), ARect);
-    Diagram(ACanvas, AColor, AXs, AYs);
-    ARect.Offset(0, ARect.Height + 10);
-  end;
-
-  procedure PaintDottedLines(ACanvas: TCanvas; AValues: TAoD);
-  var
-    value: Double;
-    pt: TPoint;
-  begin
-    for value in AValues do begin
-      ACanvas.Pen.Style := psDot;
-      ACanvas.Pen.Color := clGray;
-      ACanvas.Brush.Style := bsClear;
-
-      pt := Map(value, 0);
-      ACanvas.MoveTo(pt.X, 0);
-      ACanvas.LineTo(pt.X, 10000);
-    end;
-  end;
-
 const
-  COUNT = 256;
+  SECTION_COUNT = 256;
+
+  procedure AddSeries(var ASeries: TSeries; AName: string; AColor: TColor; ACalculator: TDataCalculator);
+  begin
+    SetLength(ASeries.Data, Length(ASeries.Data) + 1);
+    ASeries.Data[High(ASeries.Data)].Name := AName;
+    ASeries.Data[High(ASeries.Data)].Color := AColor;
+    ASeries.Data[High(ASeries.Data)].SectionData := PrepareData(ASeries.SectionPos, ACalculator);
+    ASeries.Data[High(ASeries.Data)].LoadData := PrepareData(ASeries.LoadPos, ACalculator);
+  end;
+
 var
-  rct: TRect;
-  pts, xvals, a, sx, sy, s, mx, my, m, t: TAoD;
-  x, dx: Double;
-  cnt, idx, pidx: Integer;
+  series: TSeries;
 begin
-  // przygotowanie tablicy wspó³rzêdnych X
-  pts:=Shaft.ZPositions;
+  // przygotowanie danych dla wykresÃ³Ï‰
+  SetLength(series.Data, 0);
+  series.ZValues := Shaft.ZPositions;
+  series.SectionPos := PrepareZValues(series.ZValues, SECTION_COUNT);
+  series.LoadPos := PrepareZValues(series.ZValues);
 
-  dx := (pts[High(pts)] - pts[0]) / (COUNT - 1);
-  x := pts[0];
-  SetLength(xvals, 0);
-  pidx := 0;
-  while x <= pts[High(pts)] do begin
-    if x >= pts[pidx] - EPSILON then begin
-      AddValue(xvals, pts[pidx] - 2 * EPSILON);
-      AddValue(xvals, pts[pidx]);
-      Inc(pidx);
-    end;
-    AddValue(xvals, x);
+  // serie danych
+  AddSeries(series, 'F [N]', clBlue, Shaft.Axial);
 
-    x := x + dx;
-  end;
+  AddSeries(series, 'Ty [N]', clGreen, Shaft.ShearY);
+  AddSeries(series, 'Tx [N]', clGreen, Shaft.ShearX);
+  AddSeries(series, 'T [N]', clGreen, Shaft.Shear);
 
-  // przygotowanie tablic dla wspó³rzêdnych Y
-  cnt := Length(xvals);
-  SetLength(xvals, cnt);
-  SetLength(a, cnt);
-  SetLength(sx, cnt);
-  SetLength(sy, cnt);
-  SetLength(s, cnt);
-  SetLength(mx, cnt);
-  SetLength(my, cnt);
-  SetLength(m, cnt);
-  SetLength(t, cnt);
+  AddSeries(series, 'Mgy [Nm]', clRed, Shaft.MomentY);
+  AddSeries(series, 'Mgx [Nm]', clRed, Shaft.MomentX);
+  AddSeries(series, 'Mg [Nm]', clRed, Shaft.Moment);
 
-  // przygotowanie wartoœci dla osi Y
-  for idx := 0 to High(xvals) do begin
-    a[idx] := Shaft.Axial(xvals[idx]);
-    sx[idx] := Shaft.ShearX(xvals[idx]);
-    sy[idx] := Shaft.ShearY(xvals[idx]);
-    s[idx] := Shaft.Shear(xvals[idx]);
-    mx[idx] := Shaft.MomentX(xvals[idx]);
-    my[idx] := Shaft.MomentY(xvals[idx]);
-    m[idx] := Shaft.Moment(xvals[idx]);
-    t[idx] := Shaft.Torque(xvals[idx]);
-  end;
+  AddSeries(series, 'Ms [Nm]', clRed, Shaft.Torque);
 
-  // korekcja dla pierwszej i ostatniej wartoœci si³ i momentów
-  ResetEndingValues(a);
-  ResetEndingValues(sx);
-  ResetEndingValues(sy);
-  ResetEndingValues(s);
-  ResetEndingValues(mx);
-  ResetEndingValues(my);
-  ResetEndingValues(m);
-  ResetEndingValues(t);
+  AddSeries(series, 'Mz [Nm]', clNavy, Equivalent);
+  AddSeries(series, 'd [mm]', clMaroon, Diameter);
 
-  // rysowanie diagramów
-  rct := Rect(30, 10, pbPaintBox.Width - 10, 110);
-  PaintDiagram(pbPaintBox.Canvas, clRed, xvals, a, rct);
+  // rysowanie
+  Diagrams.PaintDiagrams(pbDiagrams, series);
+end;
 
-  PaintDiagram(pbPaintBox.Canvas, clGreen, xvals, sx, rct);
-  PaintDiagram(pbPaintBox.Canvas, clGreen, xvals, sy, rct);
-  PaintDiagram(pbPaintBox.Canvas, clGreen, xvals, s, rct);
-
-  PaintDiagram(pbPaintBox.Canvas, clBlue, xvals, mx, rct);
-  PaintDiagram(pbPaintBox.Canvas, clBlue, xvals, my, rct);
-  PaintDiagram(pbPaintBox.Canvas, clBlue, xvals, m, rct);
-
-  PaintDiagram(pbPaintBox.Canvas, clMaroon, xvals, t, rct);
-
-  // na koniec rysujê jeszcze krañce przedzia³ów
-  PaintDottedLines(pbPaintBox.Canvas, pts);
+procedure TForm1.pbDiagramsPaint(Sender: TObject);
+begin
+  PaintDiagrams;
 end;
 
 procedure TForm1.pbPaintBoxPaint(Sender: TObject);
@@ -603,24 +464,18 @@ begin
 end;
 
 procedure TForm1.UsunClick(Sender: TObject);
-var
-indeks: integer;
-ok: Boolean;
 begin
-if TreeView1.Selected.Enabled=false then
-    MessageDlg('Nie mo¿na usun¹æ',mtInformation,[mbOk],0)
-else  begin
-        TreeView1.Selected.Delete;
-
-
-
+  if TreeView1.Selected.Enabled = false then
+    MessageDlg('Nie moÅ¼na usunÄ…Ä‡', mtInformation, [mbOk], 0)
+  else
+    TreeView1.Selected.Delete;
 end;
- end;
+
 procedure TForm1.Wspczynnikbezpieczestwa1Click(Sender: TObject);
 var
   Node: TTreeNode ;
 begin
-Node:=TreeView1.Items.AddChild(TreeView1.Selected,'Wspó³czynnik bezpieczeñstwa');
+Node:=TreeView1.Items.AddChild(TreeView1.Selected,'WspÃ³Å‚czynnik bezpieczeÅ„stwa');
       Node.Selected:=True;
       Node.editText;
 Form9.Show;
@@ -631,7 +486,7 @@ var
   Node: TTreeNode ;
 begin
 
-Node:=TreeView1.Items.AddChild(TreeView1.Selected,'Naprê¿enie maksymalne');
+Node:=TreeView1.Items.AddChild(TreeView1.Selected,'NaprÄ™Å¼enie maksymalne');
       Node.Selected:=True;
       Node.editText;
 Form11.Show;
@@ -641,7 +496,7 @@ procedure TForm1.Wybrwspczynnikaredukujcego1Click(Sender: TObject);
 var
  Node: TTreeNode ;
 begin
-Node:=TreeView1.Items.AddChild(TreeView1.Selected,'Wspólczynnik redukuj¹cy');
+Node:=TreeView1.Items.AddChild(TreeView1.Selected,'WspÃ³lczynnik redukujÄ…cy');
       Node.Selected:=True;
       Node.editText;
 Form10.Show;

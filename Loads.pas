@@ -13,6 +13,8 @@ type
 
   TP3D = record X, Y, Z: Double; end;
 
+  TAoP3D = TArray<TP3D>;
+
   TShaft = class;
 
   TLoad = class
@@ -77,7 +79,6 @@ type
 
   TShaft = class(TObjectList<TLoad>)
   type
-    TLimit = (ltLeft, ltRight);
     TLoadCalculator = reference to function (ALoad: TLoad; AZ: Double): Double;
  private
     fSupportA: TReaction;         // podpora stała (obciążenia pod dowolnym kątem)
@@ -85,7 +86,9 @@ type
     fOnChange: TNotifyEvent;      // procedure obsługi zdarzenia, wywoływana po wykonaniu obliczeń
     fUpdating: Integer;           // licznik wywołań zwiększany po wywołaniu BeginUpdate, a zmniejszany po wywołaniu EndUpdate
     fUpdateRequest: Boolean;      // flaga przechowująca informacje o tym, że dane lub obliczenia uległy zmianie
-    function Calculate(ACalculator: TLoadCalculator; AZ: Double; ALimit: TLimit): Double;
+    fMinZValue: Double;
+    fMaxZValue: Double;
+    function Calculate(ACalculator: TLoadCalculator; AZ: Double): Double;
     procedure Update;
     procedure ValidityCheck;
     function GetReaction(AIdx: Integer): TP3D;
@@ -109,16 +112,19 @@ type
     procedure DeleteLoad(ALoad: TLoad);
     // lista punktów przyłożenia obciążeń (sortowana rosnąco wg współrzędnej Z)
     function ZPositions: TAoD;
+
     // siły i momenty
-    function Axial(AZ: Double; ALimit: TLimit = ltRight): Double;
-    function ShearX(AZ: Double; ALimit: TLimit = ltRight): Double;
-    function ShearY(AZ: Double; ALimit: TLimit = ltRight): Double;
-    function Shear(AZ: Double; ALimit: TLimit = ltRight): Double;
-    function MomentX(AZ: Double; ALimit: TLimit = ltRight): Double;
-    function MomentY(AZ: Double; ALimit: TLimit = ltRight): Double;
-    function Moment(AZ: Double; ALimit: TLimit = ltRight): Double;
-    function Torque(AZ: Double; ALimit: TLimit = ltRight): Double;
+    function Axial(AZ: Double): Double;
+    function ShearX(AZ: Double): Double;
+    function ShearY(AZ: Double): Double;
+    function Shear(AZ: Double): Double;
+    function MomentX(AZ: Double): Double;
+    function MomentY(AZ: Double): Double;
+    function Moment(AZ: Double): Double;
+    function Torque(AZ: Double): Double;
     // właściwości
+    property MinZValue: Double read fMinZValue;
+    property MaxZValue: Double read fMaxZValue;
     property SupportA: TReaction read fSupportA;
     property SupportB: TReaction read fSupportB;
     property ReactionA: TP3D index 0 read GetReaction;
@@ -133,6 +139,12 @@ type
   function Polar(AR, APhi: Double): TP3D; overload;
   function Polar(AR, APhi, AZ: Double): TP3D; overload;
 //  function Find_Max(Tab: array of double;size:integer): Double;
+
+type
+  TDataCalculator = function (AZ: Double): Double of object;
+
+  function PrepareZValues(AZValues: TAoD; ACount: Integer = 0): TAoD;
+  function PrepareData(AZValues: TAoD; ACalculator: TDataCalculator): TAoD;
 
 var
   Shaft: TShaft;
@@ -185,24 +197,66 @@ begin
   Result.Z := 0;
 end;
 
-//function Find_Max(Tab: array of double;size:integer): Double;
-//var
-//i: integer;
-//M: double;
-//begin
-//M:=Tab[0];
-//for I := 0 to size-1 do
-//  begin
-//     if Tab[i]>M then M:=Tab[i];
-//
-//
-//
-//
-//
-//  end;
-// Result:=M;
-//
-//end;
+function PrepareZValues(AZValues: TAoD; ACount: Integer = 0): TAoD;
+// przygotowuje listę pozycji przekojów wzdłuż długości wału.
+// Jeśli ACount = 0 to generowane będą jedynie przekroje charakterystyczne
+
+  procedure AddValue(var AValues: TAoD; AValue: Double);
+  begin
+    if (Length(AValues) > 0) and (AValue - AValues[High(AValues)] <= EPSILON) then Exit;
+
+    SetLength(AValues, Length(AValues) + 1);
+    AValues[High(AValues)] := AValue;
+  end;
+
+var
+  pts: TAoD;
+  idx: Integer;
+  dx, x: Double;
+begin
+  Assert(ACount <> 1, 'Nieprawidłowa liczba przedziałów');
+
+  // podstawowe, charakterystyczne przekroje
+  pts:=Shaft.ZPositions;
+
+  SetLength(Result, 0);
+  if ACount > 1 then begin
+    // generowanie przekrojów z zadanym skokiem
+    dx := (pts[High(pts)] - pts[0]) / (ACount - 1);
+    x := pts[0];
+
+    idx := 0;
+    while x <= pts[High(pts)] do begin
+      if x >= pts[idx] - EPSILON then begin
+        AddValue(Result, pts[idx] - EPSILON);
+        AddValue(Result, pts[idx] + EPSILON);
+        Inc(idx);
+      end;
+      AddValue(Result, x);
+
+      x := x + dx;
+    end;
+    AddValue(Result, pts[High(pts)] - EPSILON);
+    AddValue(Result, pts[High(pts)] + EPSILON);
+  end else begin
+    // generowanie listy samych przekrojów charakterystycznych
+    for x in pts do begin
+      AddValue(Result, x - EPSILON);
+      AddValue(Result, x + EPSILON);
+    end;
+  end;
+
+end;
+
+function PrepareData(AZValues: TAoD; ACalculator: TDataCalculator): TAoD;
+// przygotowuje listę wartości obciążeń dla przekrojów wału podanych w AZValues
+var
+  idx: Integer;
+begin
+  SetLength(Result, Length(AZValues));
+  for idx := 0 to High(AZValues) do
+    Result[idx] := ACalculator(AZValues[idx]);
+end;
 
 { TLoad }
 
@@ -346,14 +400,14 @@ begin
   Update;
 end;
 
-function TShaft.Axial(AZ: Double; ALimit: TLimit): Double;
+function TShaft.Axial(AZ: Double): Double;
 // zwraca wypadkową siłę osiową dla przekroju AZ
 begin
   Result := Calculate(
     function (ALoad: TLoad; AZ: Double): Double
     begin
       Result := ALoad.Force.Z;
-    end, AZ, ALimit);
+    end, AZ);
 end;
 
 procedure TShaft.BeginUpdate;
@@ -362,17 +416,15 @@ begin
   Inc(fUpdating);
 end;
 
-function TShaft.Calculate(ACalculator: TLoadCalculator; AZ: Double; ALimit: TLimit): Double;
+function TShaft.Calculate(ACalculator: TLoadCalculator; AZ: Double): Double;
 // zwraca wypadkową siłę osiową Fz (Fa) w przekroju AZ
-const
-  DELTAS: array [TLimit] of Double = (-EPSILON, EPSILON);
 var
   load: TLoad;
 begin
   Result := 0;
 
-  // korekta pozwalająca na obliczenia wartość jako granicy lewo lub prawostronnej
-  AZ := AZ + DELTAS[ALimit];
+  // jeśli pozycja AZ jest spoza zakresu to zwracam wartość 0
+  if not InRange(AZ, fMinZValue, fMaxZValue) then Exit;
 
   // obciążenia
   for load in ToArray do
@@ -457,13 +509,13 @@ begin
   Result := fUpdating > 0;
 end;
 
-function TShaft.Moment(AZ: Double; ALimit: TLimit): Double;
+function TShaft.Moment(AZ: Double): Double;
 // zwraca wypadkowy moment gnący dla przekroju AZ
 begin
-  Result := Round(Sqrt(Sqr(MomentX(AZ, ALimit)) + Sqr(MomentY(AZ, ALimit))));
+  Result := Round(Sqrt(Sqr(MomentX(AZ)) + Sqr(MomentY(AZ))));
 end;
 
-function TShaft.MomentX(AZ: Double; ALimit: TLimit): Double;
+function TShaft.MomentX(AZ: Double): Double;
 // zwraca wypadkowy moment gnący w płaszczyźnie XZ dla przekroju AZ
 begin
   ValidityCheck;
@@ -471,10 +523,10 @@ begin
     function (ALoad: TLoad; AZ: Double): Double
     begin
       Result := ALoad.CalculateMomentX(AZ);
-    end, AZ, ALimit);
+    end, AZ);
 end;
 
-function TShaft.MomentY(AZ: Double; ALimit: TLimit): Double;
+function TShaft.MomentY(AZ: Double): Double;
 // zwraca wypadkowy moment gnący w płaszczyźnie YZ dla przekroju AZ
 begin
   ValidityCheck;
@@ -482,7 +534,7 @@ begin
     function (ALoad: TLoad; AZ: Double): Double
     begin
       Result := ALoad.CalculateMomentY(AZ);
-    end, AZ, ALimit);
+    end, AZ);
 end;
 
 procedure TShaft.PlaceSupports(AAZ, ABZ: Double);
@@ -495,13 +547,13 @@ begin
   Update;
 end;
 
-function TShaft.Shear(AZ: Double; ALimit: TLimit): Double;
+function TShaft.Shear(AZ: Double): Double;
 // zwraca wypadkową siłę tnącą dla przekroju AZ
 begin
-  Result := Round(Sqrt(Sqr(ShearX(AZ, ALimit)) + Sqr(ShearY(AZ, ALimit))));
+  Result := Round(Sqrt(Sqr(ShearX(AZ)) + Sqr(ShearY(AZ))));
 end;
 
-function TShaft.ShearX(AZ: Double; ALimit: TLimit): Double;
+function TShaft.ShearX(AZ: Double): Double;
 // zwraca wypadkową siłę tnącą w osi X dla przekroju AZ
 begin
   ValidityCheck;
@@ -509,10 +561,10 @@ begin
     function (ALoad: TLoad; AZ: Double): Double
     begin
       Result := ALoad.Force.X;
-    end, AZ, ALimit);
+    end, AZ);
 end;
 
-function TShaft.ShearY(AZ: Double; ALimit: TLimit): Double;
+function TShaft.ShearY(AZ: Double): Double;
 // zwraca wypadkową siłę tnącą w osi Y dla przekroju AZ
 begin
   ValidityCheck;
@@ -520,7 +572,7 @@ begin
     function (ALoad: TLoad; AZ: Double): Double
     begin
       Result := ALoad.Force.Y;
-    end, AZ, ALimit);
+    end, AZ);
 end;
 
 procedure TShaft.SwapSupports;
@@ -534,16 +586,16 @@ begin
   Update;
 end;
 
-function TShaft.Torque(AZ: Double; ALimit: TLimit): Double;
-// zwraca wypadkowy moment skręcający dla przekroju AZ
+function TShaft.Torque(AZ: Double): Double;
+// zwraca wypadkowy moment skręcający dla przekroju AZ (moment skręcający w płaszczyźnie
+// XY powodujący obrót wału zgodnie z ruchem wskazówek zegara przyjęto jako dodatni
 begin
   ValidityCheck;
   Result := Calculate(
     function (ALoad: TLoad; AZ: Double): Double
     begin
-      // Moment skręcający w płaszczyźnie XY powodujący obrót wału zgodnie z ruchem wskazówek zegara przyjęto jako dodatni
       Result := ALoad.CalculateTorque;
-    end, AZ, ALimit);
+    end, AZ);
 end;
 
 procedure TShaft.Update;
@@ -580,6 +632,8 @@ procedure TShaft.Update;
     fSupportB.fForce := P3D(Round(-max / dz), Round(-may / dz), Round(0));
   end;
 
+var
+  zvals: TAoD;
 begin
   // ustawiam flagę żądania aktualizacji reakcji
   fUpdateRequest := True;
@@ -587,8 +641,14 @@ begin
   // jeśli trwa aktualizacja, np. dodawanie większej liczby obciążeń to aktualizację odkładam na później
   if fUpdating > 0 then Exit;
 
-  // sortuję obciążenia, obliczam reakcje, obsługuję zdarzenie (jeśli jest taka potrzeba) i kasuję flagę żądania aktualizacji
+  // sortuję obciążenia i aktualizuję zakres zmienności Z
   Sort;
+
+  zvals := ZPositions;
+  fMinZValue := zvals[0];
+  fMaxZValue := zvals[High(zvals)];
+
+  // obliczam reakcje, obsługuję zdarzenie (jeśli jest taka potrzeba) i kasuję flagę żądania aktualizacji
   if fUpdateRequest then CalculateReactions;
   if fUpdateRequest and Assigned(fOnChange) then fOnChange(Self);
   fUpdateRequest := False;
@@ -609,7 +669,7 @@ function TShaft.ZPositions: TAoD;
   begin
     // jeśli wartość była już wcześniej dodana to sprawdzam następną wartość
     for z in Result do
-      if z = AZ then Break;
+      if z = AZ then Exit;
 
     // dodaję wartość do wyników
     SetLength(Result, Length(Result) + 1);
@@ -619,13 +679,11 @@ function TShaft.ZPositions: TAoD;
 var
   load: TLoad;
 begin
-  // tworzę tablicę wyników
+  // tworzę posortowaną tablicę wyników
   SetLength(Result, 0);
   for load in ToArray do AddZ(load.Z);
   AddZ(fSupportA.Z);
   AddZ(fSupportB.Z);
-
-  Sort;
   TArray.Sort<Double>(Result);
 end;
 
