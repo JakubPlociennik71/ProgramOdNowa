@@ -34,6 +34,9 @@ procedure TForm11.Button1Click(Sender: TObject);
 begin
 Form1.naprezenia:=StrToFloat(edit1.Text);
 Form1.TreeView1.Items.AddChild(Form1.TreeView1.Selected,'Wartoœæ: '+Edit1.Text);
+Form1.start:=Form1.start+1;
+if Form1.start=3 then
+Form1.Button3.Enabled:=true;
 Form11.Close;
 end;
 

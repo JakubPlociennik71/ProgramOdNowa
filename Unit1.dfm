@@ -11,6 +11,7 @@ object Form1: TForm1
   Font.Name = 'Tahoma'
   Font.Style = []
   Menu = MainMenu1
+  OldCreateOrder = True
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
@@ -58,6 +59,7 @@ object Form1: TForm1
     Height = 50
     Align = alBottom
     Caption = 'Start oblicze'#324
+    Enabled = False
     TabOrder = 3
     OnClick = Button3Click
   end
@@ -69,6 +71,8 @@ object Form1: TForm1
     Align = alClient
     ItemHeight = 13
     TabOrder = 4
+    ExplicitLeft = 173
+    ExplicitTop = 7
   end
   object ScrollBox1: TScrollBox
     Left = 440
@@ -78,8 +82,6 @@ object Form1: TForm1
     Align = alRight
     Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 5
-    ExplicitLeft = 446
-    ExplicitTop = -5
     object pbDiagrams: TPaintBox
       Left = 0
       Top = 0

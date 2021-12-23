@@ -97,6 +97,8 @@ type
     d: integer;
     points: TAoD;
     naprezenia: double;
+    start: integer;
+    normalne: boolean;
 
   end;
  type
@@ -377,20 +379,30 @@ begin
 Form6.Show;
 end;
 
-function TForm1.Diameter(AZ: Double): Double;
-begin
-  if not InRange(AZ, Shaft.MinZValue, Shaft.MaxZValue) then Exit(0);
-  Result := 5;
-end;
-
 function TForm1.Equivalent(AZ: Double): Double;
 begin
+  if not InRange(AZ, Shaft.MinZValue, Shaft.MaxZValue) then Exit(0);
+  if normalne  then
+  result:=sqrt(sqr(Shaft.Moment(AZ)+shaft.Axial(Az))+sqr(Shaft.Torque(Az)*reduction/2)) else
+  result:=sqrt(((Shaft.Moment(Az)+shaft.Axial(Az))*(Shaft.Moment(Az)+shaft.Axial(Az)))/(reduction*reduction)+Shaft.Torque(Az)*Shaft.Torque(Az));
+end;
+
+function TForm1.Diameter(AZ: Double): Double;
+begin
   if not InRange(Az, Shaft.MinZValue, Shaft.MaxZValue) then Exit(0);
-  Result := 5;
+  if normalne then
+  result:=power((32*Form1.Equivalent(Az))/(pi*naprezenia),1/3) else
+  result:=power((16*Form1.Equivalent(Az))/(pi*naprezenia),1/3);
+
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
+  start:=0;
+  normalne:=true;
+  naprezenia:=200;
+  reduction:=5;
+  safety_factor:=4;
   // przypisanie procedury obsługiwanej po zmianie danych wałka
   Shaft.OnChange := OnChange;
 

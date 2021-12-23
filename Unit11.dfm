@@ -16,7 +16,7 @@ object Form11: TForm11
   object Label1: TLabel
     Left = 20
     Top = 8
-    Width = 607
+    Width = 581
     Height = 19
     Caption = 
       'Wpisz warto'#347#263'  dopuszczalnych napr'#281#380'e'#324' materia'#322'u z jakiego ma by' +

@@ -37,12 +37,18 @@ begin
 if RadioButton1.Checked = true then begin
  Form1.reduction:=sqrt(3);
  Form1.TreeView1.Items.AddChild(Form1.TreeView1.Selected,'Pierwiastek z 3');
+ Form1.start:=Form1.start+1;
+if Form1.start=3 then
+Form1.Button3.Enabled:=true;
  Form10.Close;
 end ;
 if RadioButton2.Checked = true then
 begin
  Form1.reduction:=sqrt(3)/2;
  Form1.TreeView1.Items.AddChild(Form1.TreeView1.Selected,'Pierwiastek z 3 przez 2');
+ Form1.start:=Form1.start+1;
+if Form1.start=3 then
+Form1.Button3.Enabled:=true;
   Form10.Close;
 
 end;
@@ -50,6 +56,9 @@ end;
 
  Form1.reduction:=sqrt(3)*2;
  Form1.TreeView1.Items.AddChild(Form1.TreeView1.Selected,'Pierwiastek dwa pierwiastki z 3');
+ Form1.start:=Form1.start+1;
+if Form1.start=3 then
+Form1.Button3.Enabled:=true;
   Form10.Close;
 end;
 
