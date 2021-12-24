@@ -380,20 +380,34 @@ Form6.Show;
 end;
 
 function TForm1.Equivalent(AZ: Double): Double;
+var
+  a, m, t: Double;
 begin
   if not InRange(AZ, Shaft.MinZValue, Shaft.MaxZValue) then Exit(0);
-  if normalne  then
-  result:=sqrt(sqr(Shaft.Moment(AZ)+shaft.Axial(Az))+sqr(Shaft.Torque(Az)*reduction/2)) else
-  result:=sqrt(((Shaft.Moment(Az)+shaft.Axial(Az))*(Shaft.Moment(Az)+shaft.Axial(Az)))/(reduction*reduction)+Shaft.Torque(Az)*Shaft.Torque(Az));
+
+  a := Shaft.Axial(AZ);
+  m := Shaft.Moment(AZ);
+  t := Shaft.Torque(AZ);
+
+  if normalne then
+    Result := Sqrt(Sqr(m + a) + Sqr(t * reduction / 2))
+  else
+    Result := Sqrt(Sqr(m + a) / Sqr(reduction) + Sqr(t));
+
+//  if normalne  then
+//    Result := Sqrt(Sqr(Shaft.Moment(AZ) + shaft.Axial(AZ)) + Sqr(Shaft.Torque(Az) * reduction / 2))
+//  else
+//    Result := Sqrt(((Shaft.Moment(Az) + Shaft.Axial(Az)) * (Shaft.Moment(Az) + Shaft.Axial(Az))) / Sqr(reduction) + Sqr(Shaft.Torque(Az)));
 end;
 
 function TForm1.Diameter(AZ: Double): Double;
 begin
   if not InRange(Az, Shaft.MinZValue, Shaft.MaxZValue) then Exit(0);
-  if normalne then
-  result:=power((32*Form1.Equivalent(Az))/(pi*naprezenia),1/3) else
-  result:=power((16*Form1.Equivalent(Az))/(pi*naprezenia),1/3);
 
+  if normalne then
+    Result := Power((32 * Equivalent(Az)) / (Pi * naprezenia), 1/3)
+  else
+    Result := Power((16 * Equivalent(Az)) / (Pi * naprezenia), 1/3);
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
@@ -403,6 +417,7 @@ begin
   naprezenia:=200;
   reduction:=5;
   safety_factor:=4;
+
   // przypisanie procedury obsługiwanej po zmianie danych wałka
   Shaft.OnChange := OnChange;
 
@@ -413,6 +428,8 @@ begin
   Shaft.AddForce(Polar(5100, 150), 0.178);
   Shaft.AddTorque(228.8, 0.178);
   Shaft.EndUpdate;
+
+
 
 
   ListBox1.Items.Add('Wyniki Obliczeń: ');
