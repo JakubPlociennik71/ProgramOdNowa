@@ -62,6 +62,7 @@ object Form1: TForm1
     Enabled = False
     TabOrder = 3
     OnClick = Button3Click
+    ExplicitTop = 587
   end
   object ListBox1: TListBox
     Left = 177
@@ -71,8 +72,6 @@ object Form1: TForm1
     Align = alClient
     ItemHeight = 13
     TabOrder = 4
-    ExplicitLeft = 173
-    ExplicitTop = 7
   end
   object ScrollBox1: TScrollBox
     Left = 440

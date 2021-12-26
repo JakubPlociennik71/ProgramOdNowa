@@ -186,10 +186,10 @@ end;
 
 
 procedure TForm1.Button3Click(Sender: TObject);
-//var
-//  f1,f2: TForce;
-//  fa,fb: TP3D;
-//  z,s,m,t,skala1,skala2,skalaF,skalaY,skalaX,skalaM,skalaTor,skalaRed,skalaD,max: double;
+var
+  f1,f2: TForce;
+  fa,fb: TP3D;
+  z: double;
 //  licznik,i:integer;
 //  can: TCanvas;
 //  rct: TRect;
@@ -224,56 +224,37 @@ begin
 //    ListBox1.Items.Add('Wartości reakcji w podporze przesuwnej (X,Y,Z):');
 //   ListBox1.Items.Add(FloatToStr(fb.X)+' '+FloatToStr(fb.Y)+' '+FloatToStr(fb.Z));
 //
-//  for z in points do begin
-//
-////      s:=Shaft.ShearY(z,ltLeft);
-////
-////      sila_Y_y[licznik]:=Shaft.ShearY(z,ltLeft);
-////      sila_Y_x[licznik]:=z;
-////      //ListBox1.Items.Add(FloatToStr(sila_Y_x[licznik])+' '+FloatToStr(sila_Y_y[licznik]));
-////      sila_X_y[licznik]:=Shaft.ShearX(z,ltLeft);
-////      sila_X_x[licznik]:=z;
-////
-////      sila_y[licznik]:=Shaft.Shear(z,ltLeft);
-////      sila_x[licznik]:=z;
-////
-////       moment_y[licznik]:=Shaft.Moment(z,ltLeft);
-////       torque_y[licznik]:=Shaft.Torque(z,ltLeft);
-//
-//
-//       licznik:=licznik+1;
-//     s:=Shaft.ShearY(z);
-//      sila_Y_y[licznik]:=Shaft.ShearY(z);
-//      sila_Y_x[licznik]:=z;
-//       //ListBox1.Items.Add(FloatToStr(sila_Y_x[licznik])+' '+FloatToStr(sila_Y_y[licznik]));
-//       sila_X_y[licznik]:=Shaft.ShearX(z);
-//      sila_X_x[licznik]:=z;
-//
-//      sila_y[licznik]:=Shaft.Shear(z);
-//      sila_x[licznik]:=z;
-//
-//      moment_y[licznik]:= Shaft.Moment(z);
-//       torque_y[licznik]:= Shaft.Torque(z);
-//
-//
-//
-//      licznik:=licznik+1;
-//
-//
-//
-//
-////    m:=Shaft.Moment(z,ltLeft);
-////
-////    m:=Shaft.Moment(z);
-////
-////    t:=Shaft.Torque(z,ltLeft);
-////
-////    t:=Shaft.Torque(z);
-//
-//
-//
-//
-//  end;
+ fa:=Shaft.SupportA.Force;
+ fb:=Shaft.SupportB.Force;
+   ListBox1.Items.Add('Wartości reakcji w podporze stałej (X,Y,Z):');
+   ListBox1.Items.Add(FloatToStr(fa.X)+';  '+FloatToStr(fa.Y)+';  '+FloatToStr(fa.Z));
+   ListBox1.Items.Add('Wartości reakcji w podporze przesuwnej (X,Y,Z):');
+   ListBox1.Items.Add(FloatToStr(fb.X)+';  '+FloatToStr(fb.Y)+';  '+FloatToStr(fb.Z));
+
+points:=Shaft.ZPositions;
+  for z in points do begin
+       ListBox1.Items.Add('Wartości siły X w punkcie'+' '+FloatToStr(z));
+       ListBox1.Items.Add(FloatToStr(Shaft.ShearX(z))) ;
+       ListBox1.Items.Add('Wartości siły Y w punkcie'+' '+FloatToStr(z));
+       ListBox1.Items.Add(FloatToStr(Shaft.ShearY(z))) ;
+       ListBox1.Items.Add('Wartości siły  w punkcie'+' '+FloatToStr(z));
+       ListBox1.Items.Add(FloatToStr(Shaft.Shear(z))) ;
+       ListBox1.Items.Add('Wartości momentu X  w punkcie'+' '+FloatToStr(z));
+       ListBox1.Items.Add(FloatToStr(Shaft.MomentX(z))) ;
+       ListBox1.Items.Add('Wartości momentu Y  w punkcie'+' '+FloatToStr(z));
+       ListBox1.Items.Add(FloatToStr(Shaft.MomentY(z))) ;
+       ListBox1.Items.Add('Wartości momentu w punkcie'+' '+FloatToStr(z));
+       ListBox1.Items.Add(FloatToStr(Shaft.Moment(z))) ;
+       ListBox1.Items.Add('Wartości momentu skrecajacego  w punkcie'+' '+FloatToStr(z));
+       ListBox1.Items.Add(FloatToStr(Shaft.Torque(z))) ;
+       ListBox1.Items.Add('Wartości momentu zredukowanego  w punkcie'+' '+FloatToStr(z));
+       ListBox1.Items.Add(FloatToStr(Equivalent(z)));
+       ListBox1.Items.Add('Wartości srednicy  w punkcie'+' '+FloatToStr(z));
+       ListBox1.Items.Add(FloatToStr(Diameter(z)));
+
+
+
+  end;
 
   // test rysowania diagramu sił
 //  can.Pen.Color := clGray;
@@ -390,9 +371,9 @@ begin
   t := Shaft.Torque(AZ);
 
   if normalne then
-    Result := Sqrt(Sqr(m + a) + Sqr(t * reduction / 2))
+    Result := Sqrt(Sqr(m) + Sqr(t * reduction / 2))
   else
-    Result := Sqrt(Sqr(m + a) / Sqr(reduction) + Sqr(t));
+    Result := Sqrt(Sqr(m) / Sqr(reduction) + Sqr(t));
 
 //  if normalne  then
 //    Result := Sqrt(Sqr(Shaft.Moment(AZ) + shaft.Axial(AZ)) + Sqr(Shaft.Torque(Az) * reduction / 2))
