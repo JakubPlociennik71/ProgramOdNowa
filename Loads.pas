@@ -38,6 +38,8 @@ type
     function GetForce: TP3D; virtual;
     procedure SetForce(const AForce: TP3D);
     procedure SetZ(const AZ: Double); virtual;
+    procedure SetX(const AZ: Double); virtual;
+    procedure SetY(const AZ: Double); virtual;
     property Point: TP3D read fPoint write SetPoint;
     property Force: TP3D read GetForce;
     property Torque: Double read fTorque write SetTorque;
@@ -47,8 +49,8 @@ type
     property Fy: Double read fForce.Y;
     property Fz: Double read fForce.Z;
   public
-    property X: Double read fPoint.X;
-    property Y: Double read fPoint.Y;
+    property X: Double read fPoint.X write SetX;
+    property Y: Double read fPoint.Y write SetY;
     property Z: Double read fPoint.Z write SetZ;
   end;
 
@@ -335,6 +337,20 @@ begin
   fPoint.Z := AZ;
   Changed;
 end;
+
+procedure TLoad.SetX(const AZ: Double);
+begin
+  fPoint.X := AZ;
+  Changed;
+end;
+
+procedure TLoad.SetY(const AZ: Double);
+begin
+  fPoint.Y := AZ;
+  Changed;
+end;
+
+
 
 { TReaction }
 

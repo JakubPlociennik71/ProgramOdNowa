@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls;
 
 type
   TForm10 = class(TForm)
@@ -12,8 +12,9 @@ type
     RadioButton2: TRadioButton;
     RadioButton3: TRadioButton;
     Label1: TLabel;
-    Button1: TButton;
-    Button2: TButton;
+    pnlBottom: TPanel;
+    btnOK: TButton;
+    btnCancel: TButton;
     procedure Button2Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
   private

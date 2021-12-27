@@ -59,6 +59,7 @@ type
     actMomentEdit: TAction;
     actTorqueEdit: TAction;
     actSilaPozaWalemEdit: TAction;
+    Zapiszwyikidopliku1: TMenuItem;
 
     procedure UsunClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -91,6 +92,7 @@ type
     procedure actMomentEditExecute(Sender: TObject);
     procedure actTorqueEditExecute(Sender: TObject);
     procedure actSilaPozaWalemEditExecute(Sender: TObject);
+    procedure Zapiszwyikidopliku1Click(Sender: TObject);
   private
     function Equivalent(AZ: Double): Double;
     function Diameter(AZ: Double): Double;
@@ -227,7 +229,7 @@ begin
 
   // inicjalizuję dane zgodnie z zaznaczoną siłą, oraz otwieram okienko
   Form3.Init(f);
-  if Form2.ShowModal <> mrOK then Exit;
+  if Form3.ShowModal <> mrOK then Exit;
 
   // konwertuję dane tekstowe na liczbowe
   fx := StrToFloat(Form3.edtFx.Text);
@@ -238,8 +240,10 @@ begin
   z := StrToFloat(Form3.edtZ.Text);
 
   // aktualizuję wartość oraz położenie siły
-  //f.Force := (P3D(fx, fy, fz),P3d(x,y,z));
-  //f.Z := z;
+  f.Force := P3D(fx, fy, fz);
+  f.Z := z;
+  f.X := x;
+  f.Y := y;
 
 end;
 
@@ -544,7 +548,10 @@ begin
   if sel = fPodporaA then actStala.Execute else
   if sel = fPodporaB then actPrzesuwna.Execute else
 
-  if TObject(sel.Data) is TForce then actSilaEdit.Execute;
+  if TObject(sel.Data) is TForce then actSilaPozaWalemEdit.Execute;
+  if TObject(sel.Data) is TMoment then actMomentEdit.Execute;
+  if TObject(sel.Data) is TTorque then actTorqueEdit.Execute;
+
 end;
 
 procedure TForm1.UpdateTreeData;
@@ -581,39 +588,80 @@ begin
 end;
 
 procedure TForm1.Wspczynnikbezpieczestwa1Click(Sender: TObject);
-//var
-//  Node: TTreeNode ;
+ var
+  Node: TTreeNode ;
 begin
-//  if tvTree.Selected.Enabled = false then   begin
-//    Node:=tvTree.Items.AddChild(tvTree.Selected,'Współczynnik bezpieczeństwa');
-//    Node.Selected:=True;
-//    Node.editText;
-//    Form9.Show;
-//  end else
-//    ShowMessage('Nie zaznaczono węzła Obciążenia');
+Form9.Init(safety_factor);
+
+  if Form9.ShowModal <> mrOK then Exit;
+
+    if tvTree.Selected.Enabled = false then   begin
+    safety_factor:=StrToFloat(Form9.Edit1.Text);
+    Node:=tvTree.Items.AddChild(tvTree.Selected,'Współczynnik bezpieczeństwa:  '+FloatToStr(safety_factor)) ;
+    Node.Selected:=True;
+    Node.editText;
+
+  end else
+    ShowMessage('Nie zaznaczono węzła Obciążenia');
 end;
+
+
+
 
 procedure TForm1.Wybrwaciwocimateriaowych1Click(Sender: TObject);
-//var
-//  Node: TTreeNode ;
+var
+  Node: TTreeNode ;
 begin
-//  if tvTree.Selected.Enabled = false then   begin
-//    Node:=tvTree.Items.AddChild(tvTree.Selected,'Naprężenie dopuszczalne');
-//    Node.Selected:=True;
-//    Node.editText;
-//    Form11.Show;
-//  end else
-//    ShowMessage('Nie zaznaczono węzła Obciążenia');
-end;
+Form11.Init(naprezenia);
 
+  if Form11.ShowModal <> mrOK then Exit;
+
+    if tvTree.Selected.Enabled = false then   begin
+    naprezenia:=StrToFloat(Form11.Edit1.Text);
+    Node:=tvTree.Items.AddChild(tvTree.Selected,'Naprężenia dopuszczalne:  '+FloatToStr(naprezenia)) ;
+    Node.Selected:=True;
+    Node.editText;
+
+  end else
+    ShowMessage('Nie zaznaczono węzła Obciążenia');
+end;
 procedure TForm1.Wybrwspczynnikaredukujcego1Click(Sender: TObject);
-//var
-//  Node: TTreeNode ;
+var
+  Node: TTreeNode ;
 begin
-//  Node:=tvTree.Items.AddChild(tvTree.Selected,'Wspólczynnik redukujący');
-//  Node.Selected:=True;
-//  Node.editText;
-//  Form10.Show;
+
+
+  if Form10.ShowModal <> mrOK then Exit;
+
+  if Form10.RadioButton1.Checked = true then begin
+    Form1.reduction:=sqrt(3);
+    Form1.tvTree.Items.AddChild(Form1.tvTree.Selected,' Współczynnik redukcyjny: Pierwiastek z 3');
+    Form1.start:=Form1.start+1;
+    if Form1.start=3 then
+
+    Form10.Close;
+  end ;
+
+  if Form10.RadioButton2.Checked = true then begin
+    Form1.reduction:=sqrt(3)/2;
+    Form1.tvTree.Items.AddChild(Form1.tvTree.Selected,'Współczynnik redukcyjny: Pierwiastek z 3 przez 2');
+    Form1.start:=Form1.start+1;
+    if Form1.start=3 then
+
+    Form10.Close;
+  end;
+
+  if Form10.RadioButton3.Checked = true then begin
+    Form1.reduction:=sqrt(3)*2;
+    Form1.tvTree.Items.AddChild(Form1.tvTree.Selected,'Współczynnik redukcyjny: Pierwiastek dwa pierwiastki z 3');
+    Form1.start:=Form1.start+1;
+    if Form1.start=3 then
+
+    Form10.Close;
+  end;
+
+
+
 end;
 
 procedure TForm1.Zamianapodpr1Click(Sender: TObject);
@@ -621,4 +669,46 @@ begin
   Shaft.SwapSupports;
 end;
 
+procedure TForm1.Zapiszwyikidopliku1Click(Sender: TObject);
+var
+  MyText: TStringlist;
+  fa,fb: TP3D;
+  z: double;
+begin
+  fa:=Shaft.SupportA.Force;
+  fb:=Shaft.SupportB.Force;
+  MyText:= TStringlist.create;
+  try
+    MyText.Add('Wartości reakcji w podporze stałej (X,Y,Z):');
+    MyText.Add(FloatToStr(fa.X)+';  '+FloatToStr(fa.Y)+';  '+FloatToStr(fa.Z));
+    MyText.Add('Wartości reakcji w podporze przesuwnej (X,Y,Z):');
+    MyText.Add(FloatToStr(fb.X)+';  '+FloatToStr(fb.Y)+';  '+FloatToStr(fb.Z));
+
+    points:=Shaft.ZPositions;
+
+    for z in points do begin
+      MyText.Add('Wartości siły X w punkcie'+' '+FloatToStr(z)+' w kN');
+      MyText.Add(FloatToStr(Shaft.ShearX(z))) ;
+      MyText.Add('Wartości siły Y w punkcie'+' '+FloatToStr(z)+' w kN');
+      MyText.Add(FloatToStr(Shaft.ShearY(z))) ;
+      MyText.Add('Wartości siły  w punkcie'+' '+FloatToStr(z)+' w kN');
+      MyText.Add(FloatToStr(Shaft.Shear(z))) ;
+      MyText.Add('Wartości momentu X  w punkcie'+' '+FloatToStr(z)+' w kNm');
+      MyText.Add(FloatToStr(Shaft.MomentX(z))) ;
+      MyText.Add('Wartości momentu Y  w punkcie'+' '+FloatToStr(z)+' w kNm');
+      MyText.Add(FloatToStr(Shaft.MomentY(z))) ;
+      MyText.Add('Wartości momentu w punkcie'+' '+FloatToStr(z)+' w kNm');
+      MyText.Add(FloatToStr(Shaft.Moment(z))) ;
+      MyText.Add('Wartości momentu skrecajacego  w punkcie'+' '+FloatToStr(z)+' w kNm');
+      MyText.Add(FloatToStr(Shaft.Torque(z))) ;
+      MyText.Add('Wartości momentu zredukowanego  w punkcie'+' '+FloatToStr(z)+' w kNm');
+      MyText.Add(FloatToStr(Equivalent(z)));
+      MyText.Add('Wartości srednicy  w punkcie'+' '+FloatToStr(z)+' w m');
+      MyText.Add(FloatToStr(Diameter(z)));
+  end;
+    MyText.SaveToFile('C:\Users\mks19\Desktop\ProgramOdNowa\Win32\Debug\wyniki.txt');
+  finally
+    MyText.Free
+  end; {try}
+end;
 end.

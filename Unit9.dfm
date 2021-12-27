@@ -1,9 +1,9 @@
 object Form9: TForm9
   Left = 0
   Top = 0
-  Caption = 'Form9'
-  ClientHeight = 299
-  ClientWidth = 635
+  Caption = 'Wsp'#243#322'czynnik bezpiecze'#324'stwa'
+  ClientHeight = 167
+  ClientWidth = 303
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -13,50 +13,51 @@ object Form9: TForm9
   OldCreateOrder = True
   PixelsPerInch = 96
   TextHeight = 13
-  object Label1: TLabel
-    Left = 20
-    Top = 8
-    Width = 406
-    Height = 24
-    Caption = 'Wpisz warto'#347#263' wsp'#243#322'czynnika bezpiecze'#324'stwa'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -20
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-  end
   object Label3: TLabel
-    Left = 20
-    Top = 59
+    Left = 8
+    Top = 27
     Width = 144
     Height = 13
     Caption = 'Wsp'#243#322'czynnik bezpiecze'#324'stwa'
   end
   object Edit1: TEdit
-    Left = 184
-    Top = 56
+    Left = 172
+    Top = 24
     Width = 121
     Height = 21
     TabOrder = 0
     Text = '0'
   end
-  object Button1: TButton
-    Left = 337
-    Top = 38
-    Width = 120
-    Height = 65
-    Caption = 'Zapisz wsp'#243#322'czynnik'
+  object pnlBottom: TPanel
+    Left = 0
+    Top = 136
+    Width = 303
+    Height = 31
+    Align = alBottom
+    BevelOuter = bvNone
     TabOrder = 1
-    OnClick = Button1Click
-  end
-  object Button2: TButton
-    Left = 20
-    Top = 232
-    Width = 104
-    Height = 43
-    Caption = 'Zamknij'
-    TabOrder = 2
-    OnClick = Button2Click
+    ExplicitLeft = 8
+    object btnOK: TButton
+      AlignWithMargins = True
+      Left = 148
+      Top = 3
+      Width = 73
+      Height = 25
+      Align = alRight
+      Caption = 'OK'
+      ModalResult = 1
+      TabOrder = 0
+    end
+    object btnCancel: TButton
+      AlignWithMargins = True
+      Left = 227
+      Top = 3
+      Width = 73
+      Height = 25
+      Align = alRight
+      Caption = 'Anuluj'
+      ModalResult = 2
+      TabOrder = 1
+    end
   end
 end

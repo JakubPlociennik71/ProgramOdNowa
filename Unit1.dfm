@@ -39,7 +39,7 @@ object Form1: TForm1
       Height = 425
       Align = alTop
       OnPaint = pbDiagramsPaint
-      ExplicitLeft = -3
+      ExplicitLeft = 1
       ExplicitTop = -2
     end
   end
@@ -73,6 +73,8 @@ object Form1: TForm1
       RightClickSelect = True
       TabOrder = 0
       OnDblClick = tvTreeDblClick
+      ExplicitLeft = -1
+      ExplicitTop = -3
     end
     object ListBox1: TListBox
       Left = 0
@@ -113,6 +115,10 @@ object Form1: TForm1
     object Usuwszystkieobcienia1: TMenuItem
       Action = actUsunWszystko
       Caption = 'Reset obci'#261#380'e'#324
+    end
+    object Zapiszwyikidopliku1: TMenuItem
+      Caption = 'Zapisz wyiki do pliku'
+      OnClick = Zapiszwyikidopliku1Click
     end
   end
   object alActions: TActionList

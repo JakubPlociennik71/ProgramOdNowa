@@ -1,9 +1,9 @@
 object Form10: TForm10
   Left = 0
   Top = 0
-  Caption = 'Form10'
-  ClientHeight = 299
-  ClientWidth = 635
+  Caption = 'Wsp'#243#322'czynnik redukcyjny'
+  ClientHeight = 169
+  ClientWidth = 537
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -14,8 +14,8 @@ object Form10: TForm10
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
-    Left = 16
-    Top = 32
+    Left = 8
+    Top = 8
     Width = 519
     Height = 19
     Caption = 
@@ -29,8 +29,8 @@ object Form10: TForm10
     ParentFont = False
   end
   object RadioButton1: TRadioButton
-    Left = 32
-    Top = 72
+    Left = 16
+    Top = 33
     Width = 385
     Height = 17
     Caption = 
@@ -39,8 +39,8 @@ object Form10: TForm10
     TabOrder = 0
   end
   object RadioButton2: TRadioButton
-    Left = 32
-    Top = 112
+    Left = 16
+    Top = 73
     Width = 385
     Height = 17
     Caption = 
@@ -49,8 +49,8 @@ object Form10: TForm10
     TabOrder = 1
   end
   object RadioButton3: TRadioButton
-    Left = 32
-    Top = 152
+    Left = 16
+    Top = 113
     Width = 385
     Height = 17
     Caption = 
@@ -58,22 +58,40 @@ object Form10: TForm10
       ' z 3'
     TabOrder = 2
   end
-  object Button1: TButton
-    Left = 423
-    Top = 88
-    Width = 105
-    Height = 65
-    Caption = 'Zatwierd'#378' wyb'#243'r'
+  object pnlBottom: TPanel
+    Left = 0
+    Top = 138
+    Width = 537
+    Height = 31
+    Align = alBottom
+    BevelOuter = bvNone
     TabOrder = 3
-    OnClick = Button1Click
-  end
-  object Button2: TButton
-    Left = 32
-    Top = 232
-    Width = 97
-    Height = 41
-    Caption = 'Zamknij'
-    TabOrder = 4
-    OnClick = Button2Click
+    ExplicitLeft = 2
+    ExplicitTop = 127
+    ExplicitWidth = 209
+    object btnOK: TButton
+      AlignWithMargins = True
+      Left = 382
+      Top = 3
+      Width = 73
+      Height = 25
+      Align = alRight
+      Caption = 'OK'
+      ModalResult = 1
+      TabOrder = 0
+      ExplicitLeft = 54
+    end
+    object btnCancel: TButton
+      AlignWithMargins = True
+      Left = 461
+      Top = 3
+      Width = 73
+      Height = 25
+      Align = alRight
+      Caption = 'Anuluj'
+      ModalResult = 2
+      TabOrder = 1
+      ExplicitLeft = 133
+    end
   end
 end

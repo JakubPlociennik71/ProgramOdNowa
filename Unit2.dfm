@@ -83,6 +83,7 @@ object Form2: TForm2
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 4
+    ExplicitLeft = 2
     object btnOK: TButton
       AlignWithMargins = True
       Left = 54
