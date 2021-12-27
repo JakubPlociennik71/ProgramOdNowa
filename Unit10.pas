@@ -39,7 +39,7 @@ begin
     Form1.tvTree.Items.AddChild(Form1.tvTree.Selected,'Pierwiastek z 3');
     Form1.start:=Form1.start+1;
     if Form1.start=3 then
-    Form1.Button3.Enabled:=true;
+
     Form10.Close;
   end ;
 
@@ -48,7 +48,7 @@ begin
     Form1.tvTree.Items.AddChild(Form1.tvTree.Selected,'Pierwiastek z 3 przez 2');
     Form1.start:=Form1.start+1;
     if Form1.start=3 then
-    Form1.Button3.Enabled:=true;
+
     Form10.Close;
   end;
 
@@ -57,7 +57,7 @@ begin
     Form1.tvTree.Items.AddChild(Form1.tvTree.Selected,'Pierwiastek dwa pierwiastki z 3');
     Form1.start:=Form1.start+1;
     if Form1.start=3 then
-    Form1.Button3.Enabled:=true;
+
     Form10.Close;
   end;
 

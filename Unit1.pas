@@ -11,7 +11,6 @@ uses
 type
   TForm1 = class(TForm)
     tvTree: TTreeView;
-    Usun: TButton;
     mmMenu: TMainMenu;
     alActions: TActionList;
     ilImages: TImageList;
@@ -25,7 +24,6 @@ type
     Exit1: TMenuItem;
     Open1: TMenuItem;
     Open2: TMenuItem;
-    Button3: TButton;
     ListBox1: TListBox;
     pmPopup: TPopupMenu;
     FileOpen2: TFileOpen;
@@ -46,14 +44,20 @@ type
     Wybrwspczynnikaredukujcego1: TMenuItem;
     Wybrwaciwocimateriaowych1: TMenuItem;
     HelpContents1: THelpContents;
-    Contents1: TMenuItem;
     pbDiagrams: TPaintBox;
-    Button1: TButton;
-    Button2: TButton;
     splLeft: TSplitter;
     splRight: TSplitter;
     pnlLeft: TPanel;
     actSilaEdit: TAction;
+    Zamianapodpr1: TMenuItem;
+    actWyniki: TAction;
+    Wynikioblicze1: TMenuItem;
+    actUsunWszystko: TAction;
+    Usuwszystkieobcienia1: TMenuItem;
+    acyUsunObc: TAction;
+    Usuobcienie1: TMenuItem;
+    actMomentEdit: TAction;
+    actTorqueEdit: TAction;
 
     procedure UsunClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -79,6 +83,12 @@ type
     procedure Button2Click(Sender: TObject);
     procedure tvTreeDblClick(Sender: TObject);
     procedure actSilaEditExecute(Sender: TObject);
+    procedure Zamianapodpr1Click(Sender: TObject);
+    procedure actWynikiExecute(Sender: TObject);
+    procedure actUsunWszystkoExecute(Sender: TObject);
+    procedure acyUsunObcExecute(Sender: TObject);
+    procedure actMomentEditExecute(Sender: TObject);
+    procedure actTorqueEditExecute(Sender: TObject);
   private
     function Equivalent(AZ: Double): Double;
     function Diameter(AZ: Double): Double;
@@ -120,17 +130,40 @@ implementation
 
 uses UITypes, Math, Diagrams, Unit2, Unit3, Unit4, Unit5, Unit6, Unit7, Unit8, Unit9, Unit10, Unit11;
 
+procedure TForm1.actMomentEditExecute(Sender: TObject);
+var
+  m: TMoment;
+  mx, my, z: Double;
+begin
+  m := (TObject(tvTree.Selected.Data) as TMoment);
+
+  Form4.Init(m);
+  if Form4.ShowModal <> mrOK then Exit;
+
+  // konwertuję dane tekstowe na liczbowe
+  mx := StrToFloat(Form4.edtFx.Text);
+  my := StrToFloat(Form4.edtFy.Text);
+  z := StrToFloat(Form4.edtZ.Text);
+
+  // aktualizuję wartość oraz położenie siły
+  m.MomentX:=mx;
+  m.MomentY:=my;
+  m.Z := z;
+end;
 procedure TForm1.actMomentExecute(Sender: TObject);
 var
-  Node: TTreeNode ;
+  m: TMoment;
 begin
-  if tvTree.Selected.Enabled = false then   begin
-    Node:=tvTree.Items.AddChild(tvTree.Selected,'Moment gnący');
-    Node.Selected:=True;
-    Node.editText;
-    Form4.Show;
-  end else
-    ShowMessage('Nie zaznaczono węzła Obciążenia');
+  Form4.Init;
+
+  if Form4.ShowModal <> mrOK then Exit;
+
+  // tworzę moment na podstawie danych z okienka
+  m := Shaft.AddMoment(StrToFloat(Form4.edtFx.Text), StrToFloat(Form4.edtFy.Text), StrToFloat(Form4.edtZ.Text));
+
+  // jeśli udało się utworzyć siłę to dodaję odpowiedni węzeł do drzewka i aktualizuję dane
+  tvTree.Selected := tvTree.Items.AddChildObject(fObciazenia, EmptyStr, m);
+  UpdateTreeData;
 end;
 
 procedure TForm1.actPrzesuwnaExecute(Sender: TObject);
@@ -204,17 +237,87 @@ begin
   Shaft.SupportA.Z := StrToFloat(Form6.edtZ.Text);
 end;
 
-procedure TForm1.actTorqueExecute(Sender: TObject);
-//var
-//  Node: TTreeNode ;
+procedure TForm1.actTorqueEditExecute(Sender: TObject);
+var
+  t: TTorque;
+  tx,z: Double;
 begin
-//  if tvTree.Selected.Enabled = false then   begin
-//    Node:=tvTree.Items.AddChild(tvTree.Selected,'Moment skręcający');
-//    Node.Selected:=True;
-//    Node.editText;
-//    Form5.Show;
-//  end else
-//    ShowMessage('Nie zaznaczono węzła Obciążenia');
+  t := (TObject(tvTree.Selected.Data) as TTorque);
+
+  Form5.Init(t);
+  if Form5.ShowModal <> mrOK then Exit;
+
+  // konwertuję dane tekstowe na liczbowe
+  tx := StrToFloat(Form4.edtFx.Text);
+  z := StrToFloat(Form4.edtZ.Text);
+
+  // aktualizuję wartość oraz położenie siły
+  t.Torque:=tx;
+  t.Z := z;
+end;
+procedure TForm1.actTorqueExecute(Sender: TObject);
+var
+  t: TTorque;
+begin
+  Form5.Init;
+
+  if Form5.ShowModal <> mrOK then Exit;
+
+  // tworzę siłę na podstawie danych z okienka
+  t := Shaft.AddTorque(StrToFloat(Form2.edtFx.Text), StrToFloat(Form2.edtZ.Text));
+
+  // jeśli udało się utworzyć siłę to dodaję odpowiedni węzeł do drzewka i aktualizuję dane
+  tvTree.Selected := tvTree.Items.AddChildObject(fObciazenia, EmptyStr, t);
+  UpdateTreeData;
+end;
+
+procedure TForm1.actUsunWszystkoExecute(Sender: TObject);
+begin
+  Shaft.Clear;
+end;
+
+procedure TForm1.actWynikiExecute(Sender: TObject);
+var
+  fa,fb: TP3D;
+  z: double;
+begin
+  fa:=Shaft.SupportA.Force;
+  fb:=Shaft.SupportB.Force;
+
+  ListBox1.Items.Add('Wartości reakcji w podporze stałej (X,Y,Z):');
+  ListBox1.Items.Add(FloatToStr(fa.X)+';  '+FloatToStr(fa.Y)+';  '+FloatToStr(fa.Z));
+  ListBox1.Items.Add('Wartości reakcji w podporze przesuwnej (X,Y,Z):');
+  ListBox1.Items.Add(FloatToStr(fb.X)+';  '+FloatToStr(fb.Y)+';  '+FloatToStr(fb.Z));
+
+  points:=Shaft.ZPositions;
+  for z in points do begin
+     ListBox1.Items.Add('Wartości siły X w punkcie'+' '+FloatToStr(z)+' w kN');
+     ListBox1.Items.Add(FloatToStr(Shaft.ShearX(z))) ;
+     ListBox1.Items.Add('Wartości siły Y w punkcie'+' '+FloatToStr(z)+' w kN');
+     ListBox1.Items.Add(FloatToStr(Shaft.ShearY(z))) ;
+     ListBox1.Items.Add('Wartości siły  w punkcie'+' '+FloatToStr(z)+' w kN');
+     ListBox1.Items.Add(FloatToStr(Shaft.Shear(z))) ;
+     ListBox1.Items.Add('Wartości momentu X  w punkcie'+' '+FloatToStr(z)+' w kNm');
+     ListBox1.Items.Add(FloatToStr(Shaft.MomentX(z))) ;
+     ListBox1.Items.Add('Wartości momentu Y  w punkcie'+' '+FloatToStr(z)+' w kNm');
+     ListBox1.Items.Add(FloatToStr(Shaft.MomentY(z))) ;
+     ListBox1.Items.Add('Wartości momentu w punkcie'+' '+FloatToStr(z)+' w kNm');
+     ListBox1.Items.Add(FloatToStr(Shaft.Moment(z))) ;
+     ListBox1.Items.Add('Wartości momentu skrecajacego  w punkcie'+' '+FloatToStr(z)+' w kNm');
+     ListBox1.Items.Add(FloatToStr(Shaft.Torque(z))) ;
+     ListBox1.Items.Add('Wartości momentu zredukowanego  w punkcie'+' '+FloatToStr(z)+' w kNm');
+     ListBox1.Items.Add(FloatToStr(Equivalent(z)));
+     ListBox1.Items.Add('Wartości srednicy  w punkcie'+' '+FloatToStr(z)+' w m');
+     ListBox1.Items.Add(FloatToStr(Diameter(z)));
+  end;
+end;
+
+procedure TForm1.acyUsunObcExecute(Sender: TObject);
+begin
+  if tvTree.Selected.Enabled = false then
+    MessageDlg('Nie można usunąć', mtInformation, [mbOk], 0)
+  else
+    tvTree.Selected.Delete;
 end;
 
 procedure TForm1.Button1Click(Sender: TObject);
@@ -313,19 +416,22 @@ begin
   if not InRange(Az, Shaft.MinZValue, Shaft.MaxZValue) then Exit(0);
 
   if normalne then
-    Result := Power((32 * Equivalent(Az)) / (Pi * naprezenia), 1/3)
+    Result := Power((32 * Equivalent(Az)) / (Pi * naprezenia/safety_factor), 1/3)
   else
-    Result := Power((16 * Equivalent(Az)) / (Pi * naprezenia), 1/3);
+    Result := Power((16 * Equivalent(Az)) / (Pi * naprezenia/safety_factor), 1/3);
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
   // tworzenie i konfiguracja drzewka
   fPodpory := tvTree.Items.AddChild(nil, 'Podpory');
+  fPodpory.Enabled:=false;
   fObciazenia := tvTree.Items.AddChild(nil, 'Obciążenia');
-
+  fObciazenia.Enabled:=false;
   fPodporaA := tvTree.Items.AddChild(fPodpory, 'Stała');    // podpora A
+  fPodporaA.Enabled:=false;
   fPodporaB := tvTree.Items.AddChild(fPodpory, 'Ruchoma');  // podpora B
+  fPodporaB.Enabled:=false;
   UpdateTreeData;
 
 
@@ -426,6 +532,8 @@ begin
     load := TLoad(node.Data);
 
     if load is TForce then node.Text := Format('Siła F: (%.2f; %.2f; %.2f), Położenie Z: %.2f', [TForce(load).Fx, TForce(load).Fy, TForce(load).Fz, TForce(load).Z]);
+    if load is TMoment then node.Text := Format('Moment M: (%.2f; %.2f), Położenie Z: %.2f', [TMoment(load).MomentX, TMoment(load).MomentY,TMoment(load).Z]);
+    if load is TTorque then node.Text := Format('Moment skręcający M: (%.2f ), Położenie Z: %.2f', [TTorque(load).Torque, TTorque(load).Z]);
 
     node := node.getNextSibling;
   end;
@@ -435,12 +543,10 @@ procedure TForm1.UsunClick(Sender: TObject);
 //var
 //  ob: TLoad;
 begin
-//  if tvTree.Selected.Enabled = false then
-//    MessageDlg('Nie można usunąć', mtInformation, [mbOk], 0)
-//  else
-//    tvTree.Selected.Delete;
-//
-//  Shaft.DeleteLoad(ob);
+  if tvTree.Selected.Enabled = false then
+    MessageDlg('Nie można usunąć', mtInformation, [mbOk], 0)
+  else
+    tvTree.Selected.Delete;
 end;
 
 procedure TForm1.Wspczynnikbezpieczestwa1Click(Sender: TObject);
@@ -461,7 +567,7 @@ procedure TForm1.Wybrwaciwocimateriaowych1Click(Sender: TObject);
 //  Node: TTreeNode ;
 begin
 //  if tvTree.Selected.Enabled = false then   begin
-//    Node:=tvTree.Items.AddChild(tvTree.Selected,'Naprężenie maksymalne');
+//    Node:=tvTree.Items.AddChild(tvTree.Selected,'Naprężenie dopuszczalne');
 //    Node.Selected:=True;
 //    Node.editText;
 //    Form11.Show;
@@ -477,6 +583,11 @@ begin
 //  Node.Selected:=True;
 //  Node.editText;
 //  Form10.Show;
+end;
+
+procedure TForm1.Zamianapodpr1Click(Sender: TObject);
+begin
+  Shaft.SwapSupports;
 end;
 
 end.

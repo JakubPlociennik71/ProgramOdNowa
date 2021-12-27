@@ -19,7 +19,6 @@ type
     btnOK: TButton;
     btnCancel: TButton;
     pnlBottom: TPanel;
-    procedure btnOKClick(Sender: TObject);
   private
   public
     procedure Init(AForce: TForce = nil);
@@ -33,24 +32,6 @@ implementation
 {$R *.dfm}
 
 uses Unit1;
-
-procedure TForm2.btnOKClick(Sender: TObject);
-//var
-//  f1: TForce;
-begin
-//  Shaft.BeginUpdate;
-//
-//  f1:=Shaft.AddForce(P3D(StrToFloat(Edit1.Text),StrToFloat(Edit2.Text),StrToFloat(Edit3.Text)),StrToFloat(Edit4.Text));
-//
-//  Shaft.EndUpdate;
-//  Form1.tvTree.Items.AddChild(Form1.tvTree.Selected,'Wartoœæ p³aszczyzna X: '+Edit1.Text);
-//  Form1.tvTree.Items.AddChild(Form1.tvTree.Selected,'Wartoœæ p³aszczyzna Y: '+Edit2.Text);
-//  Form1.tvTree.Items.AddChild(Form1.tvTree.Selected,'Wartoœæ p³aszczyzna Z: '+Edit3.Text);
-//  Form1.tvTree.Items.AddChild(Form1.tvTree.Selected,'Odleg³oœæ od pocz¹tku wa³u: '+Edit4.Text);
-//  ShowMessage('Si³a dodana');
-//
-//  Form2.Close;
-end;
 
 procedure TForm2.Init(AForce: TForce);
 begin

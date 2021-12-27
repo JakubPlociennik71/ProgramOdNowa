@@ -4,25 +4,24 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs,Loads, Vcl.StdCtrls;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs,Loads, Vcl.StdCtrls, Vcl.ExtCtrls;
 
 type
   TForm4 = class(TForm)
     Label2: TLabel;
-    Edit4: TEdit;
-    Button1: TButton;
-    Label5: TLabel;
-    Label6: TLabel;
-    Edit5: TEdit;
-    Edit6: TEdit;
-    Label1: TLabel;
-    Button2: TButton;
-    procedure Button1Click(Sender: TObject);
-    procedure Button2Click(Sender: TObject);
+    Label3: TLabel;
+    Label4: TLabel;
+    edtFx: TEdit;
+    edtFy: TEdit;
+    edtZ: TEdit;
+    pnlBottom: TPanel;
+    btnOK: TButton;
+    btnCancel: TButton;
   private
     { Private declarations }
   public
     { Public declarations }
+    procedure Init(AMoment: TMoment = nil);
   end;
 
 var
@@ -34,24 +33,19 @@ implementation
 
 uses Unit1, Unit2, Unit3;
 
-procedure TForm4.Button1Click(Sender: TObject);
-var
-f1: TMoment;
-begin
-Shaft.BeginUpdate;
-  f1:=Shaft.AddMoment(StrToFloat(Edit4.Text),StrToFloat(Edit5.Text),StrToFloat(Edit6.Text));
-  Shaft.EndUpdate;
-      Form1.tvTree.Items.AddChild(Form1.tvTree.Selected,'Wartoœæ p³aszczyzna X: '+Edit4.Text);
-      Form1.tvTree.Items.AddChild(Form1.tvTree.Selected,'Wartoœæ p³aszczyzna Y: '+Edit5.Text);
-      Form1.tvTree.Items.AddChild(Form1.tvTree.Selected,'Odleg³oœæ od pocz¹tku wa³u: '+Edit6.Text);
-  ShowMessage('Moment  dodany');
 
-  Form4.Close;
-end;
 
-procedure TForm4.Button2Click(Sender: TObject);
+procedure TForm4.Init(AMoment: TMoment);
 begin
-Form4.Close;
+  edtFx.Text := '0';
+  edtFy.Text := '0';
+  edtZ.Text := '0';
+
+  if Assigned(AMoment) then begin
+    edtFx.Text := FloatToStr(AMoment.MomentX);
+    edtFy.Text := FloatToStr(AMoment.MomentY);
+    edtZ.Text := FloatToStr(AMoment.Z);
+  end;
 end;
 
 end.

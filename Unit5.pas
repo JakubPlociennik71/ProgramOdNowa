@@ -4,23 +4,23 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,Loads;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,Loads, Vcl.ExtCtrls;
 
 type
   TForm5 = class(TForm)
     Label2: TLabel;
-    Edit4: TEdit;
-    Button1: TButton;
-    Label5: TLabel;
-    Edit5: TEdit;
-    Label1: TLabel;
-    Button2: TButton;
-    procedure Button2Click(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
+    Label3: TLabel;
+    edtFx: TEdit;
+    edtZ: TEdit;
+    pnlBottom: TPanel;
+    btnOK: TButton;
+    btnCancel: TButton;
+
   private
     { Private declarations }
   public
     { Public declarations }
+    procedure Init(ATorque: TTorque = nil);
   end;
 
 var
@@ -32,24 +32,17 @@ implementation
 
 uses Unit1, Unit2, Unit3, Unit4;
 
-procedure TForm5.Button1Click(Sender: TObject);
-var
-f1: TTorque;
+
+
+
+procedure TForm5.Init(ATorque: TTorque);
 begin
-Shaft.BeginUpdate;
-  f1:=Shaft.AddTorque(StrToFloat(Edit4.Text),StrToFloat(Edit5.Text));
-  Shaft.EndUpdate;
-      Form1.tvTree.Items.AddChild(Form1.tvTree.Selected,'Wartoœæ : '+Edit4.Text);
-      Form1.tvTree.Items.AddChild(Form1.tvTree.Selected,'Odleg³oœæ: '+Edit5.Text);
+  edtFx.Text := '0';
+  edtZ.Text := '0';
 
-  ShowMessage('Moment skrêcaj¹cy  dodany');
-
-  Form5.Close;
+  if Assigned(ATorque) then begin
+    edtFx.Text := FloatToStr(ATorque.Torque);
+    edtZ.Text := FloatToStr(ATorque.Z);
+  end;
 end;
-
-procedure TForm5.Button2Click(Sender: TObject);
-begin
-Form5.close;
-end;
-
 end.

@@ -38,7 +38,7 @@ begin
   Form1.start:=Form1.start+1;
   Shaft.EndUpdate;
   if Form1.start=3 then
-  Form1.Button3.Enabled:=true;
+
   Form9.Close;
 end;
 

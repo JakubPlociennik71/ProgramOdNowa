@@ -11,6 +11,7 @@ object Form2: TForm2
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  OldCreateOrder = True
   Position = poMainFormCenter
   PixelsPerInch = 96
   TextHeight = 13
@@ -82,8 +83,6 @@ object Form2: TForm2
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 4
-    ExplicitTop = 133
-    ExplicitWidth = 266
     object btnOK: TButton
       AlignWithMargins = True
       Left = 54
@@ -94,8 +93,6 @@ object Form2: TForm2
       Caption = 'OK'
       ModalResult = 1
       TabOrder = 0
-      OnClick = btnOKClick
-      ExplicitLeft = 64
     end
     object btnCancel: TButton
       AlignWithMargins = True
@@ -107,7 +104,6 @@ object Form2: TForm2
       Caption = 'Anuluj'
       ModalResult = 2
       TabOrder = 1
-      ExplicitLeft = 159
     end
   end
 end

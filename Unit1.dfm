@@ -11,49 +11,28 @@ object Form1: TForm1
   Font.Name = 'Tahoma'
   Font.Style = []
   Menu = mmMenu
+  OldCreateOrder = True
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object splRight: TSplitter
     Left = 437
     Top = 0
-    Height = 481
+    Height = 681
     Align = alRight
     ExplicitLeft = 432
     ExplicitTop = 320
     ExplicitHeight = 100
   end
-  object Usun: TButton
-    Left = 0
-    Top = 581
-    Width = 843
-    Height = 50
-    Align = alBottom
-    Caption = 'Usu'#324' obci'#261#380'enie'
-    TabOrder = 0
-    OnClick = UsunClick
-  end
-  object Button3: TButton
-    Left = 0
-    Top = 481
-    Width = 843
-    Height = 50
-    Align = alBottom
-    Caption = 'Wyniki oblicze'#324
-    Enabled = False
-    TabOrder = 1
-    OnClick = Button3Click
-  end
   object ScrollBox1: TScrollBox
     Left = 440
     Top = 0
     Width = 403
-    Height = 481
+    Height = 681
     Align = alRight
     Anchors = [akLeft, akTop, akRight, akBottom]
-    TabOrder = 2
-    ExplicitTop = 1
-    ExplicitHeight = 480
+    TabOrder = 0
+    ExplicitHeight = 481
     object pbDiagrams: TPaintBox
       Left = 0
       Top = 0
@@ -61,42 +40,19 @@ object Form1: TForm1
       Height = 425
       Align = alTop
       OnPaint = pbDiagramsPaint
-      ExplicitLeft = 4
-      ExplicitTop = 4
+      ExplicitLeft = -3
+      ExplicitTop = -2
     end
-  end
-  object Button1: TButton
-    Left = 0
-    Top = 531
-    Width = 843
-    Height = 50
-    Align = alBottom
-    Caption = 'Zamiana miejscami podp'#243'r'
-    TabOrder = 3
-    OnClick = Button1Click
-  end
-  object Button2: TButton
-    Left = 0
-    Top = 631
-    Width = 843
-    Height = 50
-    Align = alBottom
-    Caption = 'Usu'#324' wszystkie obci'#261#380'enia'
-    TabOrder = 4
-    OnClick = Button2Click
   end
   object pnlLeft: TPanel
     Left = 0
     Top = 0
     Width = 437
-    Height = 481
+    Height = 681
     Align = alClient
     BevelOuter = bvNone
-    TabOrder = 5
-    ExplicitLeft = 32
-    ExplicitTop = 64
-    ExplicitWidth = 337
-    ExplicitHeight = 289
+    TabOrder = 1
+    ExplicitHeight = 481
     object splLeft: TSplitter
       Left = 0
       Top = 121
@@ -126,12 +82,11 @@ object Form1: TForm1
       Left = 0
       Top = 124
       Width = 437
-      Height = 357
+      Height = 557
       Align = alClient
       ItemHeight = 13
       TabOrder = 1
-      ExplicitTop = 1
-      ExplicitHeight = 480
+      ExplicitHeight = 357
     end
   end
   object mmMenu: TMainMenu
@@ -150,8 +105,19 @@ object Form1: TForm1
         Action = FileExit1
       end
     end
-    object Contents1: TMenuItem
-      Action = HelpContents1
+    object Zamianapodpr1: TMenuItem
+      Caption = 'Zamiana podp'#243'r'
+      OnClick = Zamianapodpr1Click
+    end
+    object Wynikioblicze1: TMenuItem
+      Action = actWyniki
+    end
+    object Usuobcienie1: TMenuItem
+      Action = acyUsunObc
+    end
+    object Usuwszystkieobcienia1: TMenuItem
+      Action = actUsunWszystko
+      Caption = 'Reset obci'#261#380'e'#324
     end
   end
   object alActions: TActionList
@@ -227,6 +193,26 @@ object Form1: TForm1
       Enabled = False
       Hint = 'Help Contents'
       ImageIndex = 10
+    end
+    object actWyniki: TAction
+      Caption = 'Wyniki oblicze'#324
+      OnExecute = actWynikiExecute
+    end
+    object actUsunWszystko: TAction
+      Caption = 'Usu'#324' wszystkie obci'#261#380'enia'
+      OnExecute = actUsunWszystkoExecute
+    end
+    object acyUsunObc: TAction
+      Caption = 'Usu'#324' obci'#261#380'enie'
+      OnExecute = acyUsunObcExecute
+    end
+    object actMomentEdit: TAction
+      Caption = 'actMomentEdit'
+      OnExecute = actMomentEditExecute
+    end
+    object actTorqueEdit: TAction
+      Caption = 'actTorqueEdit'
+      OnExecute = actTorqueEditExecute
     end
   end
   object ilImages: TImageList
