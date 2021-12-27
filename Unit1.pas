@@ -58,6 +58,7 @@ type
     Usuobcienie1: TMenuItem;
     actMomentEdit: TAction;
     actTorqueEdit: TAction;
+    actSilaPozaWalemEdit: TAction;
 
     procedure UsunClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -89,6 +90,7 @@ type
     procedure acyUsunObcExecute(Sender: TObject);
     procedure actMomentEditExecute(Sender: TObject);
     procedure actTorqueEditExecute(Sender: TObject);
+    procedure actSilaPozaWalemEditExecute(Sender: TObject);
   private
     function Equivalent(AZ: Double): Double;
     function Diameter(AZ: Double): Double;
@@ -215,17 +217,46 @@ begin
   UpdateTreeData;
 end;
 
-procedure TForm1.actSilaPozaWalemExecute(Sender: TObject);
-//var
-//  Node: TTreeNode ;
+procedure TForm1.actSilaPozaWalemEditExecute(Sender: TObject);
+var
+  f: TForce;
+  fx, fy, fz,x,y, z: Double;
 begin
-//  if tvTree.Selected.Enabled = false then   begin
-//    Node:=tvTree.Items.AddChild(tvTree.Selected,'Siła poza wałem');
-//    Node.Selected:=True;
-//    Node.editText;
-//    Form3.Show;
-//  end else
-//    ShowMessage('Nie zaznaczono węzła Obciążenia');
+  // odczytuję zaznaczoną siłę
+  f := (TObject(tvTree.Selected.Data) as TForce);
+
+  // inicjalizuję dane zgodnie z zaznaczoną siłą, oraz otwieram okienko
+  Form3.Init(f);
+  if Form2.ShowModal <> mrOK then Exit;
+
+  // konwertuję dane tekstowe na liczbowe
+  fx := StrToFloat(Form3.edtFx.Text);
+  fy := StrToFloat(Form3.edtFy.Text);
+  fz := StrToFloat(Form3.edtFz.Text);
+  x := StrToFloat(Form3.edtX.Text);
+  y := StrToFloat(Form3.edtY.Text);
+  z := StrToFloat(Form3.edtZ.Text);
+
+  // aktualizuję wartość oraz położenie siły
+  //f.Force := (P3D(fx, fy, fz),P3d(x,y,z));
+  //f.Z := z;
+
+end;
+
+procedure TForm1.actSilaPozaWalemExecute(Sender: TObject);
+var
+  f: TForce;
+begin
+  Form3.Init;
+
+  if Form3.ShowModal <> mrOK then Exit;
+
+  // tworzę siłę na podstawie danych z okienka
+  f := Shaft.AddForce(P3D(StrToFloat(Form3.edtFx.Text), StrToFloat(Form3.edtFy.Text), StrToFloat(Form3.edtFz.Text)),P3D(StrToFloat(Form3.edtx.Text), StrToFloat(Form3.edty.Text), StrToFloat(Form3.edtz.Text)));
+
+  // jeśli udało się utworzyć siłę to dodaję odpowiedni węzeł do drzewka i aktualizuję dane
+  tvTree.Selected := tvTree.Items.AddChildObject(fObciazenia, EmptyStr, f);
+  UpdateTreeData;
 end;
 
 procedure TForm1.actStalaExecute(Sender: TObject);
@@ -531,7 +562,7 @@ begin
   while Assigned(node) do begin
     load := TLoad(node.Data);
 
-    if load is TForce then node.Text := Format('Siła F: (%.2f; %.2f; %.2f), Położenie Z: %.2f', [TForce(load).Fx, TForce(load).Fy, TForce(load).Fz, TForce(load).Z]);
+    if load is TForce then node.Text := Format('Siła F: (%.2f; %.2f; %.2f), Położenie Z: %.2f, Położenie X: %.2f, Położenie Y: %.2f', [TForce(load).Fx, TForce(load).Fy, TForce(load).Fz, TForce(load).Z,TForce(load).X,TForce(load).Y]);
     if load is TMoment then node.Text := Format('Moment M: (%.2f; %.2f), Położenie Z: %.2f', [TMoment(load).MomentX, TMoment(load).MomentY,TMoment(load).Z]);
     if load is TTorque then node.Text := Format('Moment skręcający M: (%.2f ), Położenie Z: %.2f', [TTorque(load).Torque, TTorque(load).Z]);
 

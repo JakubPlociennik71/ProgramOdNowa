@@ -4,31 +4,30 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Loads;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Loads, Vcl.ExtCtrls;
 
 type
   TForm3 = class(TForm)
-    Label1: TLabel;
-    Edit1: TEdit;
-    Edit2: TEdit;
-    Edit3: TEdit;
     Label2: TLabel;
     Label3: TLabel;
     Label4: TLabel;
     Label8: TLabel;
-    Edit4: TEdit;
-    Button1: TButton;
-    Button2: TButton;
+    edtFx: TEdit;
+    edtFy: TEdit;
+    edtFz: TEdit;
+    edtX: TEdit;
+    pnlBottom: TPanel;
+    btnOK: TButton;
+    btnCancel: TButton;
+    Label1: TLabel;
+    edtY: TEdit;
     Label5: TLabel;
-    Label6: TLabel;
-    Edit5: TEdit;
-    Edit6: TEdit;
-    procedure Button1Click(Sender: TObject);
-    procedure Button2Click(Sender: TObject);
+    edtZ: TEdit;
   private
     { Private declarations }
   public
     { Public declarations }
+    procedure Init(AForce: TForce = nil);
   end;
 
 var
@@ -40,27 +39,30 @@ implementation
 
 uses Unit1, Unit2;
 
-procedure TForm3.Button1Click(Sender: TObject);
-var
-f1: TForce;
-begin
-Shaft.BeginUpdate;
-  f1:=Shaft.AddForce(P3D(StrToFloat(Edit1.Text),StrToFloat(Edit2.Text),StrToFloat(Edit3.Text)),P3D(StrToFloat(Edit4.Text),StrToFloat(Edit5.Text),StrToFloat(Edit6.Text)));
-  Shaft.EndUpdate;
-      Form1.tvTree.Items.AddChild(Form1.tvTree.Selected,'Wartoœæ p³aszczyzna X: '+Edit1.Text);
-      Form1.tvTree.Items.AddChild(Form1.tvTree.Selected,'Wartoœæ p³aszczyzna Y: '+Edit2.Text);
-      Form1.tvTree.Items.AddChild(Form1.tvTree.Selected,'Wartoœæ p³aszczyzna Z: '+Edit3.Text);
-      Form1.tvTree.Items.AddChild(Form1.tvTree.Selected,'Odleg³oœæ X: '+Edit4.Text);
-       Form1.tvTree.Items.AddChild(Form1.tvTree.Selected,'Odleg³oœæ Y: '+Edit5.Text);
-        Form1.tvTree.Items.AddChild(Form1.tvTree.Selected,'Odleg³oœæ Z: '+Edit6.Text);
-  ShowMessage('Si³a dodana');
 
-  Form3.Close;
-end;
 
-procedure TForm3.Button2Click(Sender: TObject);
+
+
+procedure TForm3.Init(AForce: TForce);
 begin
-Form3.Close;
+  edtFx.Text := '0';
+  edtFy.Text := '0';
+  edtFz.Text := '0';
+  edtX.Text := '0';
+  edtY.Text := '0';
+  edtZ.Text := '0';
+
+
+  if Assigned(AForce) then begin
+    edtFx.Text := FloatToStr(AForce.Fx);
+    edtFy.Text := FloatToStr(AForce.Fy);
+    edtFz.Text := FloatToStr(AForce.Fz);
+    edtX.Text := FloatToStr(AForce.X);
+    edtY.Text := FloatToStr(AForce.Y);
+    edtZ.Text := FloatToStr(AForce.Z);
+
+
+  end;
 end;
 
 end.

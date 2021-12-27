@@ -32,7 +32,6 @@ object Form1: TForm1
     Align = alRight
     Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 0
-    ExplicitHeight = 481
     object pbDiagrams: TPaintBox
       Left = 0
       Top = 0
@@ -52,7 +51,6 @@ object Form1: TForm1
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 1
-    ExplicitHeight = 481
     object splLeft: TSplitter
       Left = 0
       Top = 121
@@ -75,8 +73,6 @@ object Form1: TForm1
       RightClickSelect = True
       TabOrder = 0
       OnDblClick = tvTreeDblClick
-      ExplicitLeft = -1
-      ExplicitTop = -3
     end
     object ListBox1: TListBox
       Left = 0
@@ -86,7 +82,6 @@ object Form1: TForm1
       Align = alClient
       ItemHeight = 13
       TabOrder = 1
-      ExplicitHeight = 357
     end
   end
   object mmMenu: TMainMenu
@@ -213,6 +208,10 @@ object Form1: TForm1
     object actTorqueEdit: TAction
       Caption = 'actTorqueEdit'
       OnExecute = actTorqueEditExecute
+    end
+    object actSilaPozaWalemEdit: TAction
+      Caption = 'actSilaPozaWalemEdit'
+      OnExecute = actSilaPozaWalemEditExecute
     end
   end
   object ilImages: TImageList

@@ -1,135 +1,140 @@
 object Form3: TForm3
   Left = 0
   Top = 0
-  ClientHeight = 299
-  ClientWidth = 635
+  ClientHeight = 202
+  ClientWidth = 279
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  OldCreateOrder = True
   PixelsPerInch = 96
   TextHeight = 13
-  object Label1: TLabel
-    Left = 20
-    Top = 8
-    Width = 132
-    Height = 24
-    Caption = 'Wpisz warto'#347'ci'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -20
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-  end
   object Label2: TLabel
-    Left = 252
-    Top = 54
+    Left = 1
+    Top = 89
     Width = 56
     Height = 13
     Caption = 'Odleg'#322'o'#347#263' X'
   end
   object Label3: TLabel
-    Left = 20
-    Top = 59
+    Left = 0
+    Top = 8
     Width = 49
     Height = 13
     Caption = 'Warto'#347#263' X'
   end
   object Label4: TLabel
-    Left = 20
-    Top = 107
+    Left = 0
+    Top = 35
     Width = 49
     Height = 13
     Caption = 'Warto'#347#263' Y'
   end
   object Label8: TLabel
-    Left = 20
-    Top = 155
+    Left = 0
+    Top = 63
     Width = 49
     Height = 13
     Caption = 'Warto'#347#263' Z'
   end
-  object Label5: TLabel
-    Left = 252
-    Top = 107
+  object Label1: TLabel
+    Left = 1
+    Top = 116
     Width = 56
     Height = 13
     Caption = 'Odleg'#322'o'#347#263' Y'
   end
-  object Label6: TLabel
-    Left = 252
-    Top = 155
+  object Label5: TLabel
+    Left = 1
+    Top = 143
     Width = 56
     Height = 13
     Caption = 'Odleg'#322'o'#347#263' Z'
   end
-  object Edit1: TEdit
-    Left = 88
-    Top = 56
-    Width = 121
+  object edtFx: TEdit
+    Left = 79
+    Top = 5
+    Width = 143
     Height = 21
     TabOrder = 0
     Text = '0'
   end
-  object Edit2: TEdit
-    Left = 88
-    Top = 104
-    Width = 121
+  object edtFy: TEdit
+    Left = 79
+    Top = 32
+    Width = 143
     Height = 21
     TabOrder = 1
     Text = '0'
   end
-  object Edit3: TEdit
-    Left = 88
-    Top = 152
-    Width = 121
+  object edtFz: TEdit
+    Left = 79
+    Top = 59
+    Width = 143
     Height = 21
     TabOrder = 2
     Text = '0'
   end
-  object Edit4: TEdit
-    Left = 352
-    Top = 51
-    Width = 121
+  object edtX: TEdit
+    Left = 79
+    Top = 86
+    Width = 143
     Height = 21
     TabOrder = 3
     Text = '0'
   end
-  object Button1: TButton
-    Left = 514
-    Top = 82
-    Width = 89
-    Height = 65
-    Caption = 'Dodaj si'#322#281
+  object pnlBottom: TPanel
+    Left = 0
+    Top = 171
+    Width = 279
+    Height = 31
+    Align = alBottom
+    BevelOuter = bvNone
     TabOrder = 4
-    OnClick = Button1Click
+    ExplicitTop = 127
+    ExplicitWidth = 209
+    object btnOK: TButton
+      AlignWithMargins = True
+      Left = 124
+      Top = 3
+      Width = 73
+      Height = 25
+      Align = alRight
+      Caption = 'OK'
+      ModalResult = 1
+      TabOrder = 0
+      ExplicitLeft = 54
+    end
+    object btnCancel: TButton
+      AlignWithMargins = True
+      Left = 203
+      Top = 3
+      Width = 73
+      Height = 25
+      Align = alRight
+      Caption = 'Anuluj'
+      ModalResult = 2
+      TabOrder = 1
+      ExplicitLeft = 133
+    end
   end
-  object Button2: TButton
-    Left = 20
-    Top = 232
-    Width = 104
-    Height = 43
-    Caption = 'Zamknij'
-    TabOrder = 5
-    OnClick = Button2Click
-  end
-  object Edit5: TEdit
-    Left = 352
-    Top = 104
-    Width = 121
+  object edtY: TEdit
+    Left = 79
+    Top = 113
+    Width = 143
     Height = 21
-    TabOrder = 6
+    TabOrder = 5
     Text = '0'
   end
-  object Edit6: TEdit
-    Left = 352
-    Top = 152
-    Width = 121
+  object edtZ: TEdit
+    Left = 79
+    Top = 140
+    Width = 143
     Height = 21
-    TabOrder = 7
+    TabOrder = 6
     Text = '0'
   end
 end
