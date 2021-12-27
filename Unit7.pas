@@ -35,7 +35,7 @@ begin
 Shaft.BeginUpdate;
   Shaft.SupportA.Z:=StrToFloat(Edit1.text);
   Shaft.EndUpdate;
-      Form1.TreeView1.Items.AddChild(Form1.TreeView1.Selected,'Odleg³oœæ  od pocz¹tku wa³u: '+Edit1.Text);
+      Form1.tvTree.Items.AddChild(Form1.tvTree.Selected,'Odleg³oœæ  od pocz¹tku wa³u: '+Edit1.Text);
 
   ShowMessage('Podpora zosta³a przesuniêta');
 

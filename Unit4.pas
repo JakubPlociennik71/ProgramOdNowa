@@ -41,9 +41,9 @@ begin
 Shaft.BeginUpdate;
   f1:=Shaft.AddMoment(StrToFloat(Edit4.Text),StrToFloat(Edit5.Text),StrToFloat(Edit6.Text));
   Shaft.EndUpdate;
-      Form1.TreeView1.Items.AddChild(Form1.TreeView1.Selected,'Wartoœæ p³aszczyzna X: '+Edit4.Text);
-      Form1.TreeView1.Items.AddChild(Form1.TreeView1.Selected,'Wartoœæ p³aszczyzna Y: '+Edit5.Text);
-      Form1.TreeView1.Items.AddChild(Form1.TreeView1.Selected,'Odleg³oœæ od pocz¹tku wa³u: '+Edit6.Text);
+      Form1.tvTree.Items.AddChild(Form1.tvTree.Selected,'Wartoœæ p³aszczyzna X: '+Edit4.Text);
+      Form1.tvTree.Items.AddChild(Form1.tvTree.Selected,'Wartoœæ p³aszczyzna Y: '+Edit5.Text);
+      Form1.tvTree.Items.AddChild(Form1.tvTree.Selected,'Odleg³oœæ od pocz¹tku wa³u: '+Edit6.Text);
   ShowMessage('Moment  dodany');
 
   Form4.Close;

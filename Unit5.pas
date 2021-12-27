@@ -39,8 +39,8 @@ begin
 Shaft.BeginUpdate;
   f1:=Shaft.AddTorque(StrToFloat(Edit4.Text),StrToFloat(Edit5.Text));
   Shaft.EndUpdate;
-      Form1.TreeView1.Items.AddChild(Form1.TreeView1.Selected,'Wartoœæ : '+Edit4.Text);
-      Form1.TreeView1.Items.AddChild(Form1.TreeView1.Selected,'Odleg³oœæ: '+Edit5.Text);
+      Form1.tvTree.Items.AddChild(Form1.tvTree.Selected,'Wartoœæ : '+Edit4.Text);
+      Form1.tvTree.Items.AddChild(Form1.tvTree.Selected,'Odleg³oœæ: '+Edit5.Text);
 
   ShowMessage('Moment skrêcaj¹cy  dodany');
 

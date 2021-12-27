@@ -8,24 +8,21 @@ uses
 
 type
   TForm2 = class(TForm)
-    Label1: TLabel;
-    Edit1: TEdit;
-    Edit2: TEdit;
-    Edit3: TEdit;
+    edtFx: TEdit;
+    edtFy: TEdit;
+    edtFz: TEdit;
     Label2: TLabel;
     Label3: TLabel;
     Label4: TLabel;
     Label8: TLabel;
-    Edit4: TEdit;
-    Button1: TButton;
-    Button2: TButton;
-    Panel1: TPanel;
-    procedure Button1Click(Sender: TObject);
-    procedure Button2Click(Sender: TObject);
+    edtZ: TEdit;
+    btnOK: TButton;
+    btnCancel: TButton;
+    pnlBottom: TPanel;
+    procedure btnOKClick(Sender: TObject);
   private
-    { Private declarations }
   public
-    { Public declarations }
+    procedure Init(AForce: TForce = nil);
   end;
 
 var
@@ -37,25 +34,37 @@ implementation
 
 uses Unit1;
 
-procedure TForm2.Button1Click(Sender: TObject);
-var
-f1: TForce;
+procedure TForm2.btnOKClick(Sender: TObject);
+//var
+//  f1: TForce;
 begin
-Shaft.BeginUpdate;
-  f1:=Shaft.AddForce(P3D(StrToFloat(Edit1.Text),StrToFloat(Edit2.Text),StrToFloat(Edit3.Text)),StrToFloat(Edit4.Text));
-  Shaft.EndUpdate;
-      Form1.TreeView1.Items.AddChild(Form1.TreeView1.Selected,'Wartoœæ p³aszczyzna X: '+Edit1.Text);
-      Form1.TreeView1.Items.AddChild(Form1.TreeView1.Selected,'Wartoœæ p³aszczyzna Y: '+Edit2.Text);
-      Form1.TreeView1.Items.AddChild(Form1.TreeView1.Selected,'Wartoœæ p³aszczyzna Z: '+Edit3.Text);
-      Form1.TreeView1.Items.AddChild(Form1.TreeView1.Selected,'Odleg³oœæ od pocz¹tku wa³u: '+Edit4.Text);
-  ShowMessage('Si³a dodana');
-
-  Form2.Close;
+//  Shaft.BeginUpdate;
+//
+//  f1:=Shaft.AddForce(P3D(StrToFloat(Edit1.Text),StrToFloat(Edit2.Text),StrToFloat(Edit3.Text)),StrToFloat(Edit4.Text));
+//
+//  Shaft.EndUpdate;
+//  Form1.tvTree.Items.AddChild(Form1.tvTree.Selected,'Wartoœæ p³aszczyzna X: '+Edit1.Text);
+//  Form1.tvTree.Items.AddChild(Form1.tvTree.Selected,'Wartoœæ p³aszczyzna Y: '+Edit2.Text);
+//  Form1.tvTree.Items.AddChild(Form1.tvTree.Selected,'Wartoœæ p³aszczyzna Z: '+Edit3.Text);
+//  Form1.tvTree.Items.AddChild(Form1.tvTree.Selected,'Odleg³oœæ od pocz¹tku wa³u: '+Edit4.Text);
+//  ShowMessage('Si³a dodana');
+//
+//  Form2.Close;
 end;
 
-procedure TForm2.Button2Click(Sender: TObject);
+procedure TForm2.Init(AForce: TForce);
 begin
-Form2.Close
+  edtFx.Text := '0';
+  edtFy.Text := '0';
+  edtFz.Text := '0';
+  edtZ.Text := '0';
+
+  if Assigned(AForce) then begin
+    edtFx.Text := FloatToStr(AForce.Fx);
+    edtFy.Text := FloatToStr(AForce.Fy);
+    edtFz.Text := FloatToStr(AForce.Fz);
+    edtZ.Text := FloatToStr(AForce.Z);
+  end;
 end;
 
 end.

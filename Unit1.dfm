@@ -1,7 +1,7 @@
 object Form1: TForm1
   Left = 0
   Top = 0
-  Caption = 'Form1'
+  Caption = 'Obliczenia wa'#322#243'w'
   ClientHeight = 681
   ClientWidth = 843
   Color = clBtnFace
@@ -10,29 +10,18 @@ object Form1: TForm1
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  Menu = MainMenu1
-  OldCreateOrder = True
+  Menu = mmMenu
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
-  object Image2: TImage
-    Left = 0
-    Top = -1362
-    Width = 300
-    Height = 2000
-  end
-  object TreeView1: TTreeView
-    Left = 0
-    Top = 1
-    Width = 177
-    Height = 480
-    Align = alLeft
-    Indent = 19
-    PopupMenu = PopupMenu1
-    TabOrder = 0
-    Items.NodeData = {
-      0301000000320000000000000000000000FFFFFFFFFFFFFFFF00000000000000
-      0000000000000A4F0062006300690005017C0165006E0069006100}
+  object splRight: TSplitter
+    Left = 437
+    Top = 0
+    Height = 481
+    Align = alRight
+    ExplicitLeft = 432
+    ExplicitTop = 320
+    ExplicitHeight = 100
   end
   object Usun: TButton
     Left = 0
@@ -41,16 +30,8 @@ object Form1: TForm1
     Height = 50
     Align = alBottom
     Caption = 'Usu'#324' obci'#261#380'enie'
-    TabOrder = 1
+    TabOrder = 0
     OnClick = UsunClick
-  end
-  object ToolBar1: TToolBar
-    Left = 0
-    Top = 0
-    Width = 843
-    Height = 1
-    Caption = 'ToolBar1'
-    TabOrder = 2
   end
   object Button3: TButton
     Left = 0
@@ -60,26 +41,19 @@ object Form1: TForm1
     Align = alBottom
     Caption = 'Wyniki oblicze'#324
     Enabled = False
-    TabOrder = 3
+    TabOrder = 1
     OnClick = Button3Click
-  end
-  object ListBox1: TListBox
-    Left = 177
-    Top = 1
-    Width = 263
-    Height = 480
-    Align = alClient
-    ItemHeight = 13
-    TabOrder = 4
   end
   object ScrollBox1: TScrollBox
     Left = 440
-    Top = 1
+    Top = 0
     Width = 403
-    Height = 480
+    Height = 481
     Align = alRight
     Anchors = [akLeft, akTop, akRight, akBottom]
-    TabOrder = 5
+    TabOrder = 2
+    ExplicitTop = 1
+    ExplicitHeight = 480
     object pbDiagrams: TPaintBox
       Left = 0
       Top = 0
@@ -98,7 +72,7 @@ object Form1: TForm1
     Height = 50
     Align = alBottom
     Caption = 'Zamiana miejscami podp'#243'r'
-    TabOrder = 6
+    TabOrder = 3
     OnClick = Button1Click
   end
   object Button2: TButton
@@ -108,12 +82,61 @@ object Form1: TForm1
     Height = 50
     Align = alBottom
     Caption = 'Usu'#324' wszystkie obci'#261#380'enia'
-    TabOrder = 7
+    TabOrder = 4
     OnClick = Button2Click
   end
-  object MainMenu1: TMainMenu
-    Left = 704
-    Top = 592
+  object pnlLeft: TPanel
+    Left = 0
+    Top = 0
+    Width = 437
+    Height = 481
+    Align = alClient
+    BevelOuter = bvNone
+    TabOrder = 5
+    ExplicitLeft = 32
+    ExplicitTop = 64
+    ExplicitWidth = 337
+    ExplicitHeight = 289
+    object splLeft: TSplitter
+      Left = 0
+      Top = 121
+      Width = 437
+      Height = 3
+      Cursor = crVSplit
+      Align = alTop
+      ExplicitWidth = 168
+    end
+    object tvTree: TTreeView
+      Left = 0
+      Top = 0
+      Width = 437
+      Height = 121
+      Align = alTop
+      HotTrack = True
+      Indent = 19
+      PopupMenu = pmPopup
+      ReadOnly = True
+      RightClickSelect = True
+      TabOrder = 0
+      OnDblClick = tvTreeDblClick
+      ExplicitLeft = -1
+      ExplicitTop = -3
+    end
+    object ListBox1: TListBox
+      Left = 0
+      Top = 124
+      Width = 437
+      Height = 357
+      Align = alClient
+      ItemHeight = 13
+      TabOrder = 1
+      ExplicitTop = 1
+      ExplicitHeight = 480
+    end
+  end
+  object mmMenu: TMainMenu
+    Left = 592
+    Top = 16
     object ControlAction11: TMenuItem
       Action = ControlAction1
       Caption = 'File'
@@ -131,10 +154,10 @@ object Form1: TForm1
       Action = HelpContents1
     end
   end
-  object ActionList1: TActionList
-    Images = ImageList1
-    Left = 648
-    Top = 576
+  object alActions: TActionList
+    Images = ilImages
+    Left = 528
+    Top = 16
     object Action1: TAction
       Caption = 'File'
     end
@@ -174,6 +197,10 @@ object Form1: TForm1
       Caption = 'Si'#322'a'
       OnExecute = actSilaExecute
     end
+    object actSilaEdit: TAction
+      Caption = 'actSilaEdit'
+      OnExecute = actSilaEditExecute
+    end
     object actSilaPozaWalem: TAction
       Caption = 'Si'#322'a Poza Wa'#322'em'
       OnExecute = actSilaPozaWalemExecute
@@ -202,9 +229,9 @@ object Form1: TForm1
       ImageIndex = 10
     end
   end
-  object ImageList1: TImageList
-    Left = 592
-    Top = 592
+  object ilImages: TImageList
+    Left = 464
+    Top = 16
     Bitmap = {
       494C01010B001800040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
@@ -609,9 +636,9 @@ object Form1: TForm1
       FF8FF81FBF7DFF8FFFFFFFFF7F7EFFFF00000000000000000000000000000000
       000000000000}
   end
-  object PopupMenu1: TPopupMenu
-    Left = 760
-    Top = 592
+  object pmPopup: TPopupMenu
+    Left = 656
+    Top = 16
     object Sia1: TMenuItem
       Action = actSila
     end

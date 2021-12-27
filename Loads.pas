@@ -43,9 +43,9 @@ type
     property Torque: Double read fTorque write SetTorque;
     property MomentX: Double read fMomentX write SetMomentX;
     property MomentY: Double read fMomentY write SetMomentY;
-    property FX: Double read fForce.X;
-    property FY: Double read fForce.Y;
-    property FZ: Double read fForce.Z;
+    property Fx: Double read fForce.X;
+    property Fy: Double read fForce.Y;
+    property Fz: Double read fForce.Z;
   public
     property X: Double read fPoint.X;
     property Y: Double read fPoint.Y;
@@ -55,9 +55,9 @@ type
   TForce = class(TLoad)
     property Point;
     property Force write SetForce;
-    property FX;
-    property FY;
-    property FZ;
+    property Fx;
+    property Fy;
+    property Fz;
   end;
 
   TMoment = class(TLoad)
@@ -75,6 +75,9 @@ type
     procedure SetZ(const AZ: Double); override;
   public
     property Force;
+    property Fx;
+    property Fy;
+    property Fz;
   end;
 
   TShaft = class(TObjectList<TLoad>)
@@ -277,7 +280,7 @@ end;
 
 procedure TLoad.Changed;
 begin
-  if Self is TReaction then Exit;
+//  if Self is TReaction then Exit;
 
   fShaft.Update;
 end;
@@ -467,6 +470,7 @@ begin
   // domyślne położenie podpór
   fSupportA := TReaction.Create(Self, P3D(0), Zero3D, 0, 0, 0);
   fSupportB := TReaction.Create(Self, P3D(1), Zero3D, 0, 0, 0);
+  Update;
 end;
 
 procedure TShaft.DeleteLoad(ALoad: TLoad);

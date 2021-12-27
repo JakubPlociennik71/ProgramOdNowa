@@ -47,12 +47,12 @@ begin
 Shaft.BeginUpdate;
   f1:=Shaft.AddForce(P3D(StrToFloat(Edit1.Text),StrToFloat(Edit2.Text),StrToFloat(Edit3.Text)),P3D(StrToFloat(Edit4.Text),StrToFloat(Edit5.Text),StrToFloat(Edit6.Text)));
   Shaft.EndUpdate;
-      Form1.TreeView1.Items.AddChild(Form1.TreeView1.Selected,'Wartoœæ p³aszczyzna X: '+Edit1.Text);
-      Form1.TreeView1.Items.AddChild(Form1.TreeView1.Selected,'Wartoœæ p³aszczyzna Y: '+Edit2.Text);
-      Form1.TreeView1.Items.AddChild(Form1.TreeView1.Selected,'Wartoœæ p³aszczyzna Z: '+Edit3.Text);
-      Form1.TreeView1.Items.AddChild(Form1.TreeView1.Selected,'Odleg³oœæ X: '+Edit4.Text);
-       Form1.TreeView1.Items.AddChild(Form1.TreeView1.Selected,'Odleg³oœæ Y: '+Edit5.Text);
-        Form1.TreeView1.Items.AddChild(Form1.TreeView1.Selected,'Odleg³oœæ Z: '+Edit6.Text);
+      Form1.tvTree.Items.AddChild(Form1.tvTree.Selected,'Wartoœæ p³aszczyzna X: '+Edit1.Text);
+      Form1.tvTree.Items.AddChild(Form1.tvTree.Selected,'Wartoœæ p³aszczyzna Y: '+Edit2.Text);
+      Form1.tvTree.Items.AddChild(Form1.tvTree.Selected,'Wartoœæ p³aszczyzna Z: '+Edit3.Text);
+      Form1.tvTree.Items.AddChild(Form1.tvTree.Selected,'Odleg³oœæ X: '+Edit4.Text);
+       Form1.tvTree.Items.AddChild(Form1.tvTree.Selected,'Odleg³oœæ Y: '+Edit5.Text);
+        Form1.tvTree.Items.AddChild(Form1.tvTree.Selected,'Odleg³oœæ Z: '+Edit6.Text);
   ShowMessage('Si³a dodana');
 
   Form3.Close;

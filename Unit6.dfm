@@ -1,62 +1,67 @@
 object Form6: TForm6
   Left = 0
   Top = 0
-  Caption = 'Form6'
-  ClientHeight = 299
-  ClientWidth = 635
+  BorderStyle = bsDialog
+  Caption = 'Po'#322'o'#380'enie podpory'
+  ClientHeight = 79
+  ClientWidth = 270
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  OldCreateOrder = False
+  Position = poMainFormCenter
   PixelsPerInch = 96
   TextHeight = 13
-  object Label1: TLabel
-    Left = 20
-    Top = 8
-    Width = 127
-    Height = 24
-    Caption = 'Wpisz warto'#347#263
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -20
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-  end
   object Label3: TLabel
-    Left = 20
-    Top = 59
-    Width = 108
+    Left = 0
+    Top = 11
+    Width = 134
     Height = 13
-    Caption = 'Odleg'#322'o'#347#263' od pocz'#261'tku'
+    Caption = 'Odleg'#322'o'#347#263' od pocz'#261'tku wa'#322'u'
   end
-  object Edit1: TEdit
+  object edtZ: TEdit
     Left = 144
-    Top = 56
+    Top = 8
     Width = 121
     Height = 21
     TabOrder = 0
     Text = '0'
   end
-  object Button1: TButton
-    Left = 298
-    Top = 34
-    Width = 89
-    Height = 65
-    Caption = 'Przesu'#324' podpor'#281
+  object pnlBottom: TPanel
+    Left = 0
+    Top = 48
+    Width = 270
+    Height = 31
+    Align = alBottom
+    BevelOuter = bvNone
     TabOrder = 1
-    OnClick = Button1Click
-  end
-  object Button2: TButton
-    Left = 20
-    Top = 232
-    Width = 104
-    Height = 43
-    Caption = 'Zamknij'
-    TabOrder = 2
-    OnClick = Button2Click
+    ExplicitTop = 133
+    ExplicitWidth = 266
+    object btnOK: TButton
+      AlignWithMargins = True
+      Left = 115
+      Top = 3
+      Width = 73
+      Height = 25
+      Align = alRight
+      Caption = 'OK'
+      ModalResult = 1
+      TabOrder = 0
+      ExplicitLeft = 54
+    end
+    object btnCancel: TButton
+      AlignWithMargins = True
+      Left = 194
+      Top = 3
+      Width = 73
+      Height = 25
+      Align = alRight
+      Caption = 'Anuluj'
+      ModalResult = 2
+      TabOrder = 1
+      ExplicitLeft = 133
+    end
   end
 end
