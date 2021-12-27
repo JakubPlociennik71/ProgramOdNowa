@@ -73,8 +73,6 @@ object Form1: TForm1
       RightClickSelect = True
       TabOrder = 0
       OnDblClick = tvTreeDblClick
-      ExplicitLeft = -1
-      ExplicitTop = -3
     end
     object ListBox1: TListBox
       Left = 0
