@@ -25,7 +25,7 @@ object Form1: TForm1
     Left = 0
     Top = 1
     Width = 177
-    Height = 580
+    Height = 480
     Align = alLeft
     Indent = 19
     PopupMenu = PopupMenu1
@@ -36,7 +36,7 @@ object Form1: TForm1
   end
   object Usun: TButton
     Left = 0
-    Top = 631
+    Top = 581
     Width = 843
     Height = 50
     Align = alBottom
@@ -54,21 +54,20 @@ object Form1: TForm1
   end
   object Button3: TButton
     Left = 0
-    Top = 581
+    Top = 481
     Width = 843
     Height = 50
     Align = alBottom
-    Caption = 'Start oblicze'#324
+    Caption = 'Wyniki oblicze'#324
     Enabled = False
     TabOrder = 3
     OnClick = Button3Click
-    ExplicitTop = 587
   end
   object ListBox1: TListBox
     Left = 177
     Top = 1
     Width = 263
-    Height = 580
+    Height = 480
     Align = alClient
     ItemHeight = 13
     TabOrder = 4
@@ -77,7 +76,7 @@ object Form1: TForm1
     Left = 440
     Top = 1
     Width = 403
-    Height = 580
+    Height = 480
     Align = alRight
     Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 5
@@ -91,6 +90,26 @@ object Form1: TForm1
       ExplicitLeft = 4
       ExplicitTop = 4
     end
+  end
+  object Button1: TButton
+    Left = 0
+    Top = 531
+    Width = 843
+    Height = 50
+    Align = alBottom
+    Caption = 'Zamiana miejscami podp'#243'r'
+    TabOrder = 6
+    OnClick = Button1Click
+  end
+  object Button2: TButton
+    Left = 0
+    Top = 631
+    Width = 843
+    Height = 50
+    Align = alBottom
+    Caption = 'Usu'#324' wszystkie obci'#261#380'enia'
+    TabOrder = 7
+    OnClick = Button2Click
   end
   object MainMenu1: TMainMenu
     Left = 704

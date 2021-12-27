@@ -52,10 +52,11 @@ type
     HelpContents1: THelpContents;
     Contents1: TMenuItem;
     pbDiagrams: TPaintBox;
+    Button1: TButton;
+    Button2: TButton;
 
 
     procedure UsunClick(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure Button3Click(Sender: TObject);
     procedure Button4Click(Sender: TObject);
@@ -75,6 +76,8 @@ type
     procedure pbPaintBoxPaint(Sender: TObject);
     procedure Wybrwaciwocimateriaowych1Click(Sender: TObject);
     procedure pbDiagramsPaint(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
   private
     function Equivalent(AZ: Double): Double;
     function Diameter(AZ: Double): Double;
@@ -99,6 +102,7 @@ type
     naprezenia: double;
     start: integer;
     normalne: boolean;
+    licznik_obciazen: integer;
 
   end;
  type
@@ -124,106 +128,95 @@ procedure TForm1.actMomentExecute(Sender: TObject);
 var
   Node: TTreeNode ;
 begin
+if TreeView1.Selected.Enabled = false then   begin
 Node:=TreeView1.Items.AddChild(TreeView1.Selected,'Moment gnący');
       Node.Selected:=True;
       Node.editText;
  Form4.Show;
+end else ShowMessage('Nie zaznaczono węzła Obciążenia');
 end;
 procedure TForm1.actPrzesuwnaExecute(Sender: TObject);
 var
   Node: TTreeNode ;
 begin
+if TreeView1.Selected.Enabled = false then   begin
 Node:=TreeView1.Items.AddChild(TreeView1.Selected,'Podpora przesuwna');
       Node.Selected:=True;
       Node.editText;
  Form6.Show;
+end else ShowMessage('Nie zaznaczono węzła Obciążenia');
 end;
 procedure TForm1.actSilaExecute(Sender: TObject);
 var
   Node: TTreeNode ;
 begin
-Node:=TreeView1.Items.AddChild(TreeView1.Selected,'Siła');
+if TreeView1.Selected.Enabled = false then   begin
+
+ Node:=TreeView1.Items.AddChild(TreeView1.Selected,'Siła');
       Node.Selected:=True;
       Node.editText;
- Form2.Show;
+     Form2.Show;
+end else ShowMessage('Nie zaznaczono węzła Obciążenia');
+
+
 end;
 
 procedure TForm1.actSilaPozaWalemExecute(Sender: TObject);
 var
   Node: TTreeNode ;
 begin
+if TreeView1.Selected.Enabled = false then   begin
 Node:=TreeView1.Items.AddChild(TreeView1.Selected,'Siła poza wałem');
       Node.Selected:=True;
       Node.editText;
  Form3.Show;
+
+end else  ShowMessage('Nie zaznaczono węzła Obciążenia');
 end;
 procedure TForm1.actStalaExecute(Sender: TObject);
 var
   Node: TTreeNode ;
 begin
+if TreeView1.Selected.Enabled = false then   begin
 Node:=TreeView1.Items.AddChild(TreeView1.Selected,'Podpora stała');
       Node.Selected:=True;
       Node.editText;
  Form7.Show;
+end  else ShowMessage('Nie zaznaczono węzła Obciążenia');
 end;
+
 procedure TForm1.actTorqueExecute(Sender: TObject);
 var
   Node: TTreeNode ;
 begin
+if TreeView1.Selected.Enabled = false then   begin
 Node:=TreeView1.Items.AddChild(TreeView1.Selected,'Moment skręcający');
       Node.Selected:=True;
       Node.editText;
  Form5.Show;
-end;
-procedure TForm1.Button1Click(Sender: TObject);
-var
-  Node: TTreeNode ;
-begin
-      Node:=TreeView1.Items.AddChild(TreeView1.Selected,'Nowe obciązenie');
-      Node.Selected:=True;
-      Node.editText;
+end else  ShowMessage('Nie zaznaczono węzła Obciążenia');
 end;
 
+
+procedure TForm1.Button1Click(Sender: TObject);
+begin
+Shaft.SwapSupports;
+end;
+
+procedure TForm1.Button2Click(Sender: TObject);
+begin
+
+Shaft.Clear;
+
+end;
 
 procedure TForm1.Button3Click(Sender: TObject);
 var
   f1,f2: TForce;
   fa,fb: TP3D;
   z: double;
-//  licznik,i:integer;
-//  can: TCanvas;
-//  rct: TRect;
-
 begin
-//Form8.Show;
 
-
-//  Shaft.BeginUpdate;
-//  Shaft.SupportB.Z:=6;
-//
-//  f1:=Shaft.AddForce(P3D(0,-150,80),2);
-//  f2:=Shaft.AddForce(P3D(0,-80,0),4);
-//  Shaft.EndUpdate;
-//
-//
-//  points:=Shaft.ZPositions;
-//  d:=length(points);
-//  SetLength(sila_Y_x,2*d);
-//  SetLength(sila_Y_y,2*d) ;
-//  SetLength(sila_X_x,2*d);
-//  SetLength(sila_X_y,2*d) ;
-//  SetLength(sila_x,2*d);
-//  SetLength(sila_y,2*d) ;
-//  SetLength(moment_y,2*d) ;
-//  SetLength(torque_y,2*d);
-//  licznik:=0;
-//  fa:=Shaft.SupportA.Force;
-//  fb:=Shaft.SupportB.Force;
-//   ListBox1.Items.Add('Wartości reakcji w podporze stałej (X,Y,Z):');
-//   ListBox1.Items.Add(FloatToStr(fa.X)+' '+FloatToStr(fa.Y)+' '+FloatToStr(fa.Z));
-//    ListBox1.Items.Add('Wartości reakcji w podporze przesuwnej (X,Y,Z):');
-//   ListBox1.Items.Add(FloatToStr(fb.X)+' '+FloatToStr(fb.Y)+' '+FloatToStr(fb.Z));
-//
  fa:=Shaft.SupportA.Force;
  fb:=Shaft.SupportB.Force;
    ListBox1.Items.Add('Wartości reakcji w podporze stałej (X,Y,Z):');
@@ -233,93 +226,36 @@ begin
 
 points:=Shaft.ZPositions;
   for z in points do begin
-       ListBox1.Items.Add('Wartości siły X w punkcie'+' '+FloatToStr(z));
+       ListBox1.Items.Add('Wartości siły X w punkcie'+' '+FloatToStr(z)+' w kN');
        ListBox1.Items.Add(FloatToStr(Shaft.ShearX(z))) ;
-       ListBox1.Items.Add('Wartości siły Y w punkcie'+' '+FloatToStr(z));
+       ListBox1.Items.Add('Wartości siły Y w punkcie'+' '+FloatToStr(z)+' w kN');
        ListBox1.Items.Add(FloatToStr(Shaft.ShearY(z))) ;
-       ListBox1.Items.Add('Wartości siły  w punkcie'+' '+FloatToStr(z));
+       ListBox1.Items.Add('Wartości siły  w punkcie'+' '+FloatToStr(z)+' w kN');
        ListBox1.Items.Add(FloatToStr(Shaft.Shear(z))) ;
-       ListBox1.Items.Add('Wartości momentu X  w punkcie'+' '+FloatToStr(z));
+       ListBox1.Items.Add('Wartości momentu X  w punkcie'+' '+FloatToStr(z)+' w kNm');
        ListBox1.Items.Add(FloatToStr(Shaft.MomentX(z))) ;
-       ListBox1.Items.Add('Wartości momentu Y  w punkcie'+' '+FloatToStr(z));
+       ListBox1.Items.Add('Wartości momentu Y  w punkcie'+' '+FloatToStr(z)+' w kNm');
        ListBox1.Items.Add(FloatToStr(Shaft.MomentY(z))) ;
-       ListBox1.Items.Add('Wartości momentu w punkcie'+' '+FloatToStr(z));
+       ListBox1.Items.Add('Wartości momentu w punkcie'+' '+FloatToStr(z)+' w kNm');
        ListBox1.Items.Add(FloatToStr(Shaft.Moment(z))) ;
-       ListBox1.Items.Add('Wartości momentu skrecajacego  w punkcie'+' '+FloatToStr(z));
+       ListBox1.Items.Add('Wartości momentu skrecajacego  w punkcie'+' '+FloatToStr(z)+' w kNm');
        ListBox1.Items.Add(FloatToStr(Shaft.Torque(z))) ;
-       ListBox1.Items.Add('Wartości momentu zredukowanego  w punkcie'+' '+FloatToStr(z));
+       ListBox1.Items.Add('Wartości momentu zredukowanego  w punkcie'+' '+FloatToStr(z)+' w kNm');
        ListBox1.Items.Add(FloatToStr(Equivalent(z)));
-       ListBox1.Items.Add('Wartości srednicy  w punkcie'+' '+FloatToStr(z));
+       ListBox1.Items.Add('Wartości srednicy  w punkcie'+' '+FloatToStr(z)+' w m');
        ListBox1.Items.Add(FloatToStr(Diameter(z)));
 
 
 
   end;
 
-  // test rysowania diagramu sił
-//  can.Pen.Color := clGray;
-//  can.Rectangle(8, 8, 152, 122);
-
-//  can := pbPaintBox.Canvas;
-
-//  rct := Rect(10, 10, pbPaintBox.Width - 10, 110);
-//  PrepareMap(MinValue(sila_Y_X), MinValue(sila_Y_Y), MaxValue(sila_Y_X), MaxValue(sila_Y_Y), rct);
-//  Diagram(can, clRed, sila_Y_X, sila_Y_Y);
-
-//  rct.Offset(0, 120);
-//  PrepareMap(MinValue(sila_X_X), MinValue(sila_X_Y), MaxValue(sila_X_X), MaxValue(sila_X_Y), rct);
-//  Diagram(can, clGreen, sila_X_X, sila_X_Y);
-//  PrepareMap(MinValue(sila_Y_X), MinValue(sila_Y_Y), MaxValue(sila_Y_X), MaxValue(sila_Y_Y), rct);
-//  Diagram(can, clGreen, sila_Y_X, sila_Y_Y);
-
-
-
-//  skala1:=Abs((300/Shaft.ZPositions[Form1.d-1])-1);
-
-  // if Find_Max(Form1.sila_Y_Y,2*d)=0 then skalaY:=0.1
-  //else  skalaY:=Abs((200/Find_Max(Form1.sila_Y_y,d))-10);
-  //
-  //
-  //
-  //
-  //if Find_Max(Form1.sila_X_Y,2*d)=0 then skalaX:=0.1
-  //else skalaX:=Abs((200/Find_Max(Form1.sila_X_y,2*d))-10);
-  //
-  //
-  //if Find_Max(Form1.sila_Y,2*d)=0 then skalaF:=0.1
-  //else skalaF:=Abs((200/Find_Max(Form1.sila_Y,2*d))-10);
-  //
-  //if Find_Max( moment_y,2*d)=0 then skalaM:=0.1
-  //else skalaM:=Abs((200/Find_Max(moment_y,2*d))-10);
-  //
-  //if Find_Max( torque_y,2*d)=0 then skalaTor:=0.1
-  //else skalaTor:=Abs((200/Find_Max(torque_y,2*d))-10);
 
 
 
 
 
 
-//  Image1.Picture.Bitmap.canvas.pen.color:=clRed;
-//  for I := 0 to (Form1.d*2)-2  do  begin
-//
-//      Image1.Picture.Bitmap.canvas.moveto(Trunc(skala1*Form1.sila_Y_x[i]),(Trunc(skalaY*Form1.sila_Y_y[i])+Trunc(200/2)));
-//      Image1.Picture.Bitmap.canvas.lineto(Trunc(skala1*Form1.sila_Y_x[i+1]),(Trunc(skalaY*Form1.sila_Y_y[i+1])+Trunc(200/2)));
-//
-//      Image1.Picture.Bitmap.canvas.moveto(Trunc(skala1*Form1.sila_X_x[i]),(Trunc(skalaX*Form1.sila_X_y[i])+Trunc(300)));
-//      Image1.Picture.Bitmap.canvas.lineto(Trunc(skala1*Form1.sila_X_x[i+1]),(Trunc(skalaX*Form1.sila_X_y[i+1])+Trunc(300)));
-//
-//      Image1.Picture.Bitmap.canvas.moveto(Trunc(skala1*Form1.sila_x[i]),(Trunc(skalaF*Form1.sila_y[i])+Trunc(500)));
-//      Image1.Picture.Bitmap.canvas.lineto(Trunc(skala1*Form1.sila_x[i+1]),(Trunc(skalaF*Form1.sila_y[i+1])+Trunc(500)));
-//
-//      Image1.Picture.Bitmap.canvas.moveto(Trunc(skala1*Form1.sila_x[i]),(Trunc(skalaM*moment_y[i])+Trunc(700)));
-//      Image1.Picture.Bitmap.canvas.lineto(Trunc(skala1*Form1.sila_x[i+1]),(Trunc(skalaM*moment_y[i+1])+Trunc(700)));
-//
-//      Image1.Picture.Bitmap.canvas.moveto(Trunc(skala1*Form1.sila_x[i]),(Trunc(skalaTor*torque_y[i])+Trunc(900)));
-//      Image1.Picture.Bitmap.canvas.lineto(Trunc(skala1*Form1.sila_x[i+1]),(Trunc(skalaTor*torque_y[i+1])+Trunc(900)));
-//
-//
-//  end;
+
 
 
 
@@ -330,7 +266,6 @@ end;
 
 procedure TForm1.Button4Click(Sender: TObject);
 begin
-//TreeView1.Items.AddChild(TreeView1.Selected,'Siła skupiona');
 Form2.Show;
  end;
 
@@ -375,10 +310,7 @@ begin
   else
     Result := Sqrt(Sqr(m) / Sqr(reduction) + Sqr(t));
 
-//  if normalne  then
-//    Result := Sqrt(Sqr(Shaft.Moment(AZ) + shaft.Axial(AZ)) + Sqr(Shaft.Torque(Az) * reduction / 2))
-//  else
-//    Result := Sqrt(((Shaft.Moment(Az) + Shaft.Axial(Az)) * (Shaft.Moment(Az) + Shaft.Axial(Az))) / Sqr(reduction) + Sqr(Shaft.Torque(Az)));
+
 end;
 
 function TForm1.Diameter(AZ: Double): Double;
@@ -395,24 +327,12 @@ procedure TForm1.FormCreate(Sender: TObject);
 begin
   start:=0;
   normalne:=true;
-  naprezenia:=200;
-  reduction:=5;
+  naprezenia:=250;
+  reduction:=sqrt(3)/2;
   safety_factor:=4;
 
   // przypisanie procedury obsługiwanej po zmianie danych wałka
   Shaft.OnChange := OnChange;
-
-  // przykład z Kurmaza (str. 109)
-  Shaft.BeginUpdate;
-  Shaft.PlaceSupports(0.098, 0);
-  Shaft.AddForce(2421, -895, -438, 0.09451, 0, 0.049);
-  Shaft.AddForce(Polar(5100, 150), 0.178);
-  Shaft.AddTorque(228.8, 0.178);
-  Shaft.EndUpdate;
-
-
-
-
   ListBox1.Items.Add('Wyniki Obliczeń: ');
 end;
 
@@ -474,32 +394,39 @@ begin
 end;
 
 procedure TForm1.UsunClick(Sender: TObject);
+var
+ob: TLoad;
 begin
   if TreeView1.Selected.Enabled = false then
     MessageDlg('Nie można usunąć', mtInformation, [mbOk], 0)
   else
     TreeView1.Selected.Delete;
+
+  Shaft.DeleteLoad(ob);
 end;
 
 procedure TForm1.Wspczynnikbezpieczestwa1Click(Sender: TObject);
 var
   Node: TTreeNode ;
 begin
+if TreeView1.Selected.Enabled = false then   begin
 Node:=TreeView1.Items.AddChild(TreeView1.Selected,'Współczynnik bezpieczeństwa');
       Node.Selected:=True;
       Node.editText;
 Form9.Show;
+end else ShowMessage('Nie zaznaczono węzła Obciążenia');
 end;
 
 procedure TForm1.Wybrwaciwocimateriaowych1Click(Sender: TObject);
 var
   Node: TTreeNode ;
 begin
-
+if TreeView1.Selected.Enabled = false then   begin
 Node:=TreeView1.Items.AddChild(TreeView1.Selected,'Naprężenie maksymalne');
       Node.Selected:=True;
       Node.editText;
 Form11.Show;
+end else ShowMessage('Nie zaznaczono węzła Obciążenia');
 end;
 
 procedure TForm1.Wybrwspczynnikaredukujcego1Click(Sender: TObject);

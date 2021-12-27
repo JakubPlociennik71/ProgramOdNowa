@@ -86,22 +86,40 @@ object Form2: TForm2
     TabOrder = 3
     Text = '0'
   end
-  object Button1: TButton
-    Left = 248
-    Top = 103
-    Width = 89
-    Height = 65
-    Caption = 'Dodaj si'#322#281
+  object Panel1: TPanel
+    Left = 0
+    Top = 258
+    Width = 635
+    Height = 41
+    Align = alBottom
+    BevelOuter = bvNone
     TabOrder = 4
-    OnClick = Button1Click
-  end
-  object Button2: TButton
-    Left = 20
-    Top = 232
-    Width = 104
-    Height = 43
-    Caption = 'Zamknij'
-    TabOrder = 5
-    OnClick = Button2Click
+    ExplicitLeft = 248
+    ExplicitTop = 224
+    ExplicitWidth = 185
+    object Button1: TButton
+      Left = 546
+      Top = 0
+      Width = 89
+      Height = 41
+      Align = alRight
+      Caption = 'Dodaj si'#322#281
+      TabOrder = 0
+      OnClick = Button1Click
+      ExplicitLeft = 328
+      ExplicitTop = -24
+      ExplicitHeight = 65
+    end
+    object Button2: TButton
+      Left = 442
+      Top = 0
+      Width = 104
+      Height = 41
+      Align = alRight
+      Caption = 'Zamknij'
+      TabOrder = 1
+      OnClick = Button2Click
+      ExplicitLeft = 436
+    end
   end
 end

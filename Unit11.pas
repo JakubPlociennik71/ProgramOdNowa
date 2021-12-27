@@ -32,9 +32,11 @@ uses Diagrams, Loads, Unit1, Unit10, Unit2, Unit3, Unit4, Unit5, Unit6, Unit7,
 
 procedure TForm11.Button1Click(Sender: TObject);
 begin
+Shaft.BeginUpdate;
 Form1.naprezenia:=StrToFloat(edit1.Text);
 Form1.TreeView1.Items.AddChild(Form1.TreeView1.Selected,'Wartoœæ: '+Edit1.Text);
 Form1.start:=Form1.start+1;
+Shaft.EndUpdate;
 if Form1.start=3 then
 Form1.Button3.Enabled:=true;
 Form11.Close;

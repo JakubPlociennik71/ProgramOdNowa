@@ -28,13 +28,15 @@ implementation
 
 {$R *.dfm}
 
-uses Unit1, Unit2, Unit3, Unit4, Unit5, Unit6, Unit7, Unit8;
+uses Unit1, Unit2, Unit3, Unit4, Unit5, Unit6, Unit7, Unit8,Loads;
 
 procedure TForm9.Button1Click(Sender: TObject);
 begin
+shaft.BeginUpdate;
 Form1.safety_factor:=StrToFloat(edit1.Text);
 Form1.TreeView1.Items.AddChild(Form1.TreeView1.Selected,'Wartoœæ: '+Edit1.Text);
 Form1.start:=Form1.start+1;
+shaft.EndUpdate;
 if Form1.start=3 then
 Form1.Button3.Enabled:=true;
 Form9.Close;
