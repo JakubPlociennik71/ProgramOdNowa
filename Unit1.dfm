@@ -82,24 +82,13 @@ object Form1: TForm1
       Align = alClient
       ItemHeight = 13
       TabOrder = 1
+      ExplicitLeft = -1
+      ExplicitTop = 127
     end
   end
   object mmMenu: TMainMenu
     Left = 592
     Top = 16
-    object ControlAction11: TMenuItem
-      Action = ControlAction1
-      Caption = 'File'
-      object Open2: TMenuItem
-        Action = FileOpen1
-      end
-      object Open1: TMenuItem
-        Action = FileSaveAs1
-      end
-      object Exit1: TMenuItem
-        Action = FileExit1
-      end
-    end
     object Zamianapodpr1: TMenuItem
       Caption = 'Zamiana podp'#243'r'
       OnClick = Zamianapodpr1Click
@@ -115,7 +104,7 @@ object Form1: TForm1
       Caption = 'Reset obci'#261#380'e'#324
     end
     object Zapiszwyikidopliku1: TMenuItem
-      Caption = 'Zapisz wyiki do pliku'
+      Caption = 'Zapisz wyniki do pliku'
       OnClick = Zapiszwyikidopliku1Click
     end
   end
@@ -216,6 +205,9 @@ object Form1: TForm1
     object actSilaPozaWalemEdit: TAction
       Caption = 'actSilaPozaWalemEdit'
       OnExecute = actSilaPozaWalemEditExecute
+    end
+    object actWspEdit: TAction
+      Caption = 'actWspEdit'
     end
   end
   object ilImages: TImageList

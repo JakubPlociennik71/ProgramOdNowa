@@ -20,10 +20,6 @@ type
     FileOpen1: TFileOpen;
     Action2: TAction;
     ControlAction1: TControlAction;
-    ControlAction11: TMenuItem;
-    Exit1: TMenuItem;
-    Open1: TMenuItem;
-    Open2: TMenuItem;
     ListBox1: TListBox;
     pmPopup: TPopupMenu;
     FileOpen2: TFileOpen;
@@ -60,6 +56,7 @@ type
     actTorqueEdit: TAction;
     actSilaPozaWalemEdit: TAction;
     Zapiszwyikidopliku1: TMenuItem;
+    actWspEdit: TAction;
 
     procedure UsunClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -119,7 +116,7 @@ type
     start: integer;
     normalne: boolean;
     licznik_obciazen: integer;
-
+    path: string;
     // obsługa drzewka
     fPodpory, fPodporaA, fPodporaB: TTreeNode;
     fObciazenia: TTreeNode;
@@ -132,7 +129,8 @@ implementation
 
 {$R *.dfm}
 
-uses UITypes, Math, Diagrams, Unit2, Unit3, Unit4, Unit5, Unit6, Unit7, Unit8, Unit9, Unit10, Unit11;
+uses UITypes, Math, Diagrams, Unit2, Unit3, Unit4, Unit5, Unit6, Unit7, Unit8, Unit9, Unit10, Unit11,
+  Unit12;
 
 procedure TForm1.actMomentEditExecute(Sender: TObject);
 var
@@ -283,8 +281,8 @@ begin
   if Form5.ShowModal <> mrOK then Exit;
 
   // konwertuję dane tekstowe na liczbowe
-  tx := StrToFloat(Form4.edtFx.Text);
-  z := StrToFloat(Form4.edtZ.Text);
+  tx := StrToFloat(Form5.edtFx.Text);
+  z := StrToFloat(Form5.edtZ.Text);
 
   // aktualizuję wartość oraz położenie siły
   t.Torque:=tx;
@@ -299,7 +297,7 @@ begin
   if Form5.ShowModal <> mrOK then Exit;
 
   // tworzę siłę na podstawie danych z okienka
-  t := Shaft.AddTorque(StrToFloat(Form2.edtFx.Text), StrToFloat(Form2.edtZ.Text));
+  t := Shaft.AddTorque(StrToFloat(Form5.edtFx.Text), StrToFloat(Form5.edtZ.Text));
 
   // jeśli udało się utworzyć siłę to dodaję odpowiedni węzeł do drzewka i aktualizuję dane
   tvTree.Selected := tvTree.Items.AddChildObject(fObciazenia, EmptyStr, t);
@@ -314,7 +312,7 @@ end;
 procedure TForm1.actWynikiExecute(Sender: TObject);
 var
   fa,fb: TP3D;
-  z: double;
+  z,m,krok: double;
 begin
   fa:=Shaft.SupportA.Force;
   fb:=Shaft.SupportB.Force;
@@ -325,27 +323,54 @@ begin
   ListBox1.Items.Add(FloatToStr(fb.X)+';  '+FloatToStr(fb.Y)+';  '+FloatToStr(fb.Z));
 
   points:=Shaft.ZPositions;
+  m:=maxValue(points);
+  krok:=m/30;
+
+
   for z in points do begin
-     ListBox1.Items.Add('Wartości siły X w punkcie'+' '+FloatToStr(z)+' w kN');
+     ListBox1.Items.Add('Wartości siły X w punkcie o współrzędnej Z= '+' '+FloatToStr(z)+' w kN');
      ListBox1.Items.Add(FloatToStr(Shaft.ShearX(z))) ;
-     ListBox1.Items.Add('Wartości siły Y w punkcie'+' '+FloatToStr(z)+' w kN');
+     ListBox1.Items.Add('Wartości siły Y w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w kN');
      ListBox1.Items.Add(FloatToStr(Shaft.ShearY(z))) ;
-     ListBox1.Items.Add('Wartości siły  w punkcie'+' '+FloatToStr(z)+' w kN');
+     ListBox1.Items.Add('Wartości siły  w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w kN');
      ListBox1.Items.Add(FloatToStr(Shaft.Shear(z))) ;
-     ListBox1.Items.Add('Wartości momentu X  w punkcie'+' '+FloatToStr(z)+' w Nm');
-     ListBox1.Items.Add(FloatToStr(Shaft.MomentX(z)*1000)) ;
-     ListBox1.Items.Add('Wartości momentu Y  w punkcie'+' '+FloatToStr(z)+' w Nm');
-     ListBox1.Items.Add(FloatToStr(Shaft.MomentY(z)*1000)) ;
-     ListBox1.Items.Add('Wartości momentu w punkcie'+' '+FloatToStr(z)+' w Nm');
-     ListBox1.Items.Add(FloatToStr(Shaft.Moment(z)*1000)) ;
-     ListBox1.Items.Add('Wartości momentu skrecajacego  w punkcie'+' '+FloatToStr(z)+' w Nm');
-     ListBox1.Items.Add(FloatToStr(Shaft.Torque(z)*1000)) ;
-     ListBox1.Items.Add('Wartości momentu zredukowanego  w punkcie'+' '+FloatToStr(z)+' w Nm');
-     ListBox1.Items.Add(FloatToStr(Equivalent(z)*1000));
-     ListBox1.Items.Add('Wartości srednicy  w punkcie'+' '+FloatToStr(z)+' w mm');
-     ListBox1.Items.Add(FloatToStr(Diameter(z)*100));
+     ListBox1.Items.Add('Wartości momentu X  w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w kNm');
+     ListBox1.Items.Add(FloatToStr(Shaft.MomentX(z))) ;
+     ListBox1.Items.Add('Wartości momentu Y  w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w kNm');
+     ListBox1.Items.Add(FloatToStr(Shaft.MomentY(z))) ;
+     ListBox1.Items.Add('Wartości momentu w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w kNm');
+     ListBox1.Items.Add(FloatToStr(Shaft.Moment(z))) ;
+     ListBox1.Items.Add('Wartości momentu skrecajacego  w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w kNm');
+     ListBox1.Items.Add(FloatToStr(Shaft.Torque(z))) ;
+     ListBox1.Items.Add('Wartości momentu zredukowanego  w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w kNm');
+     ListBox1.Items.Add(FloatToStr(Equivalent(z)));
+     ListBox1.Items.Add('Wartości srednicy  w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w m');
+     ListBox1.Items.Add(FloatToStr(Diameter(z)));
   end;
+
+  z:=0;
+  While (z <= m) do
+begin
+     ListBox1.Items.Add('Wartości momentu zredukowanego  w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w kNm');
+     ListBox1.Items.Add(FloatToStr(Equivalent(z)));
+
+
+      z:=z+krok;
 end;
+
+
+  z:=0;
+  While (z <= m) do
+begin
+
+     ListBox1.Items.Add('Wartości srednicy  w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w m');
+     ListBox1.Items.Add(FloatToStr(Diameter(z)));
+
+      z:=z+krok;
+end;
+end;
+
+
 
 procedure TForm1.acyUsunObcExecute(Sender: TObject);
 begin
@@ -368,7 +393,7 @@ end;
 procedure TForm1.Button3Click(Sender: TObject);
 var
   fa,fb: TP3D;
-  z: double;
+  z,m,krok: double;
 begin
   fa:=Shaft.SupportA.Force;
   fb:=Shaft.SupportB.Force;
@@ -379,27 +404,43 @@ begin
   ListBox1.Items.Add(FloatToStr(fb.X)+';  '+FloatToStr(fb.Y)+';  '+FloatToStr(fb.Z));
 
   points:=Shaft.ZPositions;
+  m:=maxValue(points);
+  krok:=m/30;
+
+
   for z in points do begin
-     ListBox1.Items.Add('Wartości siły X w punkcie'+' '+FloatToStr(z)+' w kN');
+     ListBox1.Items.Add('Wartości siły X w punkcie o współrzędnej Z= '+' '+FloatToStr(z)+' w kN');
      ListBox1.Items.Add(FloatToStr(Shaft.ShearX(z))) ;
-     ListBox1.Items.Add('Wartości siły Y w punkcie'+' '+FloatToStr(z)+' w kN');
+     ListBox1.Items.Add('Wartości siły Y w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w kN');
      ListBox1.Items.Add(FloatToStr(Shaft.ShearY(z))) ;
-     ListBox1.Items.Add('Wartości siły  w punkcie'+' '+FloatToStr(z)+' w kN');
+     ListBox1.Items.Add('Wartości siły  w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w kN');
      ListBox1.Items.Add(FloatToStr(Shaft.Shear(z))) ;
-     ListBox1.Items.Add('Wartości momentu X  w punkcie'+' '+FloatToStr(z)+' w kNm');
+     ListBox1.Items.Add('Wartości momentu X  w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w kNm');
      ListBox1.Items.Add(FloatToStr(Shaft.MomentX(z))) ;
-     ListBox1.Items.Add('Wartości momentu Y  w punkcie'+' '+FloatToStr(z)+' w kNm');
+     ListBox1.Items.Add('Wartości momentu Y  w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w kNm');
      ListBox1.Items.Add(FloatToStr(Shaft.MomentY(z))) ;
-     ListBox1.Items.Add('Wartości momentu w punkcie'+' '+FloatToStr(z)+' w kNm');
+     ListBox1.Items.Add('Wartości momentu w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w kNm');
      ListBox1.Items.Add(FloatToStr(Shaft.Moment(z))) ;
-     ListBox1.Items.Add('Wartości momentu skrecajacego  w punkcie'+' '+FloatToStr(z)+' w kNm');
+     ListBox1.Items.Add('Wartości momentu skrecajacego  w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w kNm');
      ListBox1.Items.Add(FloatToStr(Shaft.Torque(z))) ;
-     ListBox1.Items.Add('Wartości momentu zredukowanego  w punkcie'+' '+FloatToStr(z)+' w kNm');
+     ListBox1.Items.Add('Wartości momentu zredukowanego  w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w kNm');
      ListBox1.Items.Add(FloatToStr(Equivalent(z)));
-     ListBox1.Items.Add('Wartości srednicy  w punkcie'+' '+FloatToStr(z)+' w m');
+     ListBox1.Items.Add('Wartości srednicy  w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w m');
      ListBox1.Items.Add(FloatToStr(Diameter(z)));
   end;
+
+  z:=0;
+  While (z <= m) do
+begin
+     ListBox1.Items.Add('Wartości momentu zredukowanego  w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w kNm');
+     ListBox1.Items.Add(FloatToStr(Equivalent(z)));
+     ListBox1.Items.Add('Wartości srednicy  w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w m');
+     ListBox1.Items.Add(FloatToStr(Diameter(z)));
+
+      z:=z+krok;
 end;
+end;
+
 
 procedure TForm1.Button4Click(Sender: TObject);
 begin
@@ -673,8 +714,10 @@ procedure TForm1.Zapiszwyikidopliku1Click(Sender: TObject);
 var
   MyText: TStringlist;
   fa,fb: TP3D;
-  z: double;
+  z,m,krok: double;
 begin
+  if Form12.ShowModal <> mrOK then Exit;
+  path:=Form12.Edit1.Text;
   fa:=Shaft.SupportA.Force;
   fb:=Shaft.SupportB.Force;
   MyText:= TStringlist.create;
@@ -685,28 +728,53 @@ begin
     MyText.Add(FloatToStr(fb.X)+';  '+FloatToStr(fb.Y)+';  '+FloatToStr(fb.Z));
 
     points:=Shaft.ZPositions;
+    m:=maxValue(points);
+    krok:=m/30;
 
     for z in points do begin
-      MyText.Add('Wartości siły X w punkcie'+' '+FloatToStr(z)+' w kN');
+      MyText.Add('Wartości siły X w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w kN');
       MyText.Add(FloatToStr(Shaft.ShearX(z))) ;
-      MyText.Add('Wartości siły Y w punkcie'+' '+FloatToStr(z)+' w kN');
+      MyText.Add('Wartości siły Y w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w kN');
       MyText.Add(FloatToStr(Shaft.ShearY(z))) ;
-      MyText.Add('Wartości siły  w punkcie'+' '+FloatToStr(z)+' w kN');
+      MyText.Add('Wartości siły  w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w kN');
       MyText.Add(FloatToStr(Shaft.Shear(z))) ;
-      MyText.Add('Wartości momentu X  w punkcie'+' '+FloatToStr(z)+' w kNm');
+      MyText.Add('Wartości momentu X  w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w kNm');
       MyText.Add(FloatToStr(Shaft.MomentX(z))) ;
-      MyText.Add('Wartości momentu Y  w punkcie'+' '+FloatToStr(z)+' w kNm');
+      MyText.Add('Wartości momentu Y  w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w kNm');
       MyText.Add(FloatToStr(Shaft.MomentY(z))) ;
-      MyText.Add('Wartości momentu w punkcie'+' '+FloatToStr(z)+' w kNm');
+      MyText.Add('Wartości momentu w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w kNm');
       MyText.Add(FloatToStr(Shaft.Moment(z))) ;
-      MyText.Add('Wartości momentu skrecajacego  w punkcie'+' '+FloatToStr(z)+' w kNm');
+      MyText.Add('Wartości momentu skrecajacego  w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w kNm');
       MyText.Add(FloatToStr(Shaft.Torque(z))) ;
-      MyText.Add('Wartości momentu zredukowanego  w punkcie'+' '+FloatToStr(z)+' w kNm');
+      MyText.Add('Wartości momentu zredukowanego  w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w kNm');
       MyText.Add(FloatToStr(Equivalent(z)));
-      MyText.Add('Wartości srednicy  w punkcie'+' '+FloatToStr(z)+' w m');
+      MyText.Add('Wartości srednicy  w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w m');
       MyText.Add(FloatToStr(Diameter(z)));
   end;
-    MyText.SaveToFile('C:\Users\mks19\Desktop\ProgramOdNowa\Win32\Debug\wyniki.txt');
+
+
+    z:=0;
+  While (z <= m) do
+begin
+     MyText.Add('Wartości momentu zredukowanego  w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w kNm');
+     MyText.Add(FloatToStr(Equivalent(z)));
+
+
+      z:=z+krok;
+end;
+
+
+  z:=0;
+  While (z <= m) do
+begin
+
+     MyText.Add('Wartości srednicy  w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w m');
+     MyText.Add(FloatToStr(Diameter(z)));
+
+      z:=z+krok;
+end;
+
+    MyText.SaveToFile(path);
   finally
     MyText.Free
   end; {try}

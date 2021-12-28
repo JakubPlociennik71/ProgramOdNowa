@@ -1,9 +1,10 @@
 object Form5: TForm5
   Left = 0
   Top = 0
+  BorderStyle = bsDialog
   Caption = 'Moment skr'#281'caj'#261'cy'
-  ClientHeight = 160
-  ClientWidth = 303
+  ClientHeight = 170
+  ClientWidth = 313
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -11,6 +12,7 @@ object Form5: TForm5
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = True
+  Position = poMainFormCenter
   PixelsPerInch = 96
   TextHeight = 13
   object Label2: TLabel
@@ -45,17 +47,17 @@ object Form5: TForm5
   end
   object pnlBottom: TPanel
     Left = 0
-    Top = 129
-    Width = 303
+    Top = 139
+    Width = 313
     Height = 31
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 2
-    ExplicitTop = 128
-    ExplicitWidth = 283
+    ExplicitTop = 129
+    ExplicitWidth = 303
     object btnOK: TButton
       AlignWithMargins = True
-      Left = 148
+      Left = 158
       Top = 3
       Width = 73
       Height = 25
@@ -63,11 +65,11 @@ object Form5: TForm5
       Caption = 'OK'
       ModalResult = 1
       TabOrder = 0
-      ExplicitLeft = 128
+      ExplicitLeft = 148
     end
     object btnCancel: TButton
       AlignWithMargins = True
-      Left = 227
+      Left = 237
       Top = 3
       Width = 73
       Height = 25
@@ -75,7 +77,7 @@ object Form5: TForm5
       Caption = 'Anuluj'
       ModalResult = 2
       TabOrder = 1
-      ExplicitLeft = 207
+      ExplicitLeft = 227
     end
   end
 end

@@ -15,7 +15,8 @@ uses
   Unit10 in 'Unit10.pas' {Form10},
   Unit11 in 'Unit11.pas' {Form11},
   Loads in 'Loads.pas',
-  Diagrams in 'Diagrams.pas';
+  Diagrams in 'Diagrams.pas',
+  Unit12 in 'Unit12.pas' {Form12};
 
 {$R *.res}
 
@@ -33,5 +34,6 @@ begin
   Application.CreateForm(TForm9, Form9);
   Application.CreateForm(TForm10, Form10);
   Application.CreateForm(TForm11, Form11);
+  Application.CreateForm(TForm12, Form12);
   Application.Run;
 end.

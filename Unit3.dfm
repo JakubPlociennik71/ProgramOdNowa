@@ -1,8 +1,10 @@
 object Form3: TForm3
   Left = 0
   Top = 0
-  ClientHeight = 202
-  ClientWidth = 279
+  BorderStyle = bsDialog
+  Caption = 'Si'#322#261' poza wa'#322'em'
+  ClientHeight = 212
+  ClientWidth = 289
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -10,6 +12,7 @@ object Form3: TForm3
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = True
+  Position = poMainFormCenter
   PixelsPerInch = 96
   TextHeight = 13
   object Label2: TLabel
@@ -88,17 +91,17 @@ object Form3: TForm3
   end
   object pnlBottom: TPanel
     Left = 0
-    Top = 171
-    Width = 279
+    Top = 181
+    Width = 289
     Height = 31
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 4
-    ExplicitTop = 127
-    ExplicitWidth = 209
+    ExplicitTop = 171
+    ExplicitWidth = 279
     object btnOK: TButton
       AlignWithMargins = True
-      Left = 124
+      Left = 134
       Top = 3
       Width = 73
       Height = 25
@@ -106,11 +109,11 @@ object Form3: TForm3
       Caption = 'OK'
       ModalResult = 1
       TabOrder = 0
-      ExplicitLeft = 54
+      ExplicitLeft = 124
     end
     object btnCancel: TButton
       AlignWithMargins = True
-      Left = 203
+      Left = 213
       Top = 3
       Width = 73
       Height = 25
@@ -118,7 +121,7 @@ object Form3: TForm3
       Caption = 'Anuluj'
       ModalResult = 2
       TabOrder = 1
-      ExplicitLeft = 133
+      ExplicitLeft = 203
     end
   end
   object edtY: TEdit

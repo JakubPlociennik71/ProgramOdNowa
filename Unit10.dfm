@@ -1,9 +1,10 @@
 object Form10: TForm10
   Left = 0
   Top = 0
+  BorderStyle = bsDialog
   Caption = 'Wsp'#243#322'czynnik redukcyjny'
-  ClientHeight = 169
-  ClientWidth = 537
+  ClientHeight = 179
+  ClientWidth = 547
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -11,6 +12,7 @@ object Form10: TForm10
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = True
+  Position = poMainFormCenter
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
@@ -60,18 +62,17 @@ object Form10: TForm10
   end
   object pnlBottom: TPanel
     Left = 0
-    Top = 138
-    Width = 537
+    Top = 148
+    Width = 547
     Height = 31
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 3
-    ExplicitLeft = 2
-    ExplicitTop = 127
-    ExplicitWidth = 209
+    ExplicitTop = 138
+    ExplicitWidth = 537
     object btnOK: TButton
       AlignWithMargins = True
-      Left = 382
+      Left = 392
       Top = 3
       Width = 73
       Height = 25
@@ -79,11 +80,11 @@ object Form10: TForm10
       Caption = 'OK'
       ModalResult = 1
       TabOrder = 0
-      ExplicitLeft = 54
+      ExplicitLeft = 382
     end
     object btnCancel: TButton
       AlignWithMargins = True
-      Left = 461
+      Left = 471
       Top = 3
       Width = 73
       Height = 25
@@ -91,7 +92,7 @@ object Form10: TForm10
       Caption = 'Anuluj'
       ModalResult = 2
       TabOrder = 1
-      ExplicitLeft = 133
+      ExplicitLeft = 461
     end
   end
 end
