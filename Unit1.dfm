@@ -3,7 +3,7 @@ object Form1: TForm1
   Top = 0
   Caption = 'Obliczenia wa'#322#243'w'
   ClientHeight = 681
-  ClientWidth = 843
+  ClientWidth = 842
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -27,20 +27,22 @@ object Form1: TForm1
   object ScrollBox1: TScrollBox
     Left = 440
     Top = 0
-    Width = 403
+    Width = 402
     Height = 681
     Align = alRight
     Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 0
+    ExplicitWidth = 403
     object pbDiagrams: TPaintBox
       Left = 0
       Top = 0
-      Width = 399
+      Width = 398
       Height = 425
       Align = alTop
       OnPaint = pbDiagramsPaint
       ExplicitLeft = -3
       ExplicitTop = -2
+      ExplicitWidth = 399
     end
   end
   object pnlLeft: TPanel
@@ -73,8 +75,6 @@ object Form1: TForm1
       RightClickSelect = True
       TabOrder = 0
       OnDblClick = tvTreeDblClick
-      ExplicitLeft = -1
-      ExplicitTop = -3
     end
     object ListBox1: TListBox
       Left = 0
