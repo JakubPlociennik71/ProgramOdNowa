@@ -2,9 +2,9 @@ object Form10: TForm10
   Left = 0
   Top = 0
   BorderStyle = bsDialog
-  Caption = 'Wsp'#243#322'czynnik redukcyjny'
+  Caption = 'Wyb'#243'r wsp'#243#322'czynnika redukcyjnego'
   ClientHeight = 179
-  ClientWidth = 547
+  ClientWidth = 395
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -15,29 +15,14 @@ object Form10: TForm10
   Position = poMainFormCenter
   PixelsPerInch = 96
   TextHeight = 13
-  object Label1: TLabel
-    Left = 8
-    Top = 8
-    Width = 519
-    Height = 19
-    Caption = 
-      'Wybierz rodzaj redukcji stosowanej w obliczeniach momentu zast'#281'p' +
-      'czego'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -16
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-  end
   object RadioButton1: TRadioButton
     Left = 16
     Top = 33
     Width = 385
     Height = 17
     Caption = 
-      'Obciazenie tego samego typu. Wsp'#243#322'czynnik r'#243'wna si'#281' pierwiastek ' +
-      'z 3'
+      'Zmienny kierunek obrotu wa'#322'u. Wsp'#243#322'czynnik r'#243'wna si'#281' pierwiastek' +
+      ' z '#8730'3/2'
     TabOrder = 0
   end
   object RadioButton2: TRadioButton
@@ -46,33 +31,22 @@ object Form10: TForm10
     Width = 385
     Height = 17
     Caption = 
-      'Obciazenie r'#243#380'nych typ'#243'w. Wsp'#243#322'czynnik r'#243'wna si'#281' pierwiastek z 3' +
-      ' przez 2'
+      'Sta'#322'y kierunek obrotu wa'#322'u. Wsp'#243#322'czynnik r'#243'wna si'#281' pierwiastek z' +
+      ' '#8730'3/4'
     TabOrder = 1
-  end
-  object RadioButton3: TRadioButton
-    Left = 16
-    Top = 113
-    Width = 385
-    Height = 17
-    Caption = 
-      'Obciazenie r'#243#380'nych typ'#243'w. Wsp'#243#322'czynnik r'#243'wna si'#281' dwa pierwiastki' +
-      ' z 3'
-    TabOrder = 2
   end
   object pnlBottom: TPanel
     Left = 0
     Top = 148
-    Width = 547
+    Width = 395
     Height = 31
     Align = alBottom
     BevelOuter = bvNone
-    TabOrder = 3
-    ExplicitTop = 138
-    ExplicitWidth = 537
+    TabOrder = 2
+    ExplicitWidth = 547
     object btnOK: TButton
       AlignWithMargins = True
-      Left = 392
+      Left = 240
       Top = 3
       Width = 73
       Height = 25
@@ -80,11 +54,11 @@ object Form10: TForm10
       Caption = 'OK'
       ModalResult = 1
       TabOrder = 0
-      ExplicitLeft = 382
+      ExplicitLeft = 392
     end
     object btnCancel: TButton
       AlignWithMargins = True
-      Left = 471
+      Left = 319
       Top = 3
       Width = 73
       Height = 25
@@ -92,7 +66,7 @@ object Form10: TForm10
       Caption = 'Anuluj'
       ModalResult = 2
       TabOrder = 1
-      ExplicitLeft = 461
+      ExplicitLeft = 471
     end
   end
 end

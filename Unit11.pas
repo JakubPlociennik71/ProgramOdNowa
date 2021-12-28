@@ -8,14 +8,14 @@ uses
 
 type
   TForm11 = class(TForm)
-    Label1: TLabel;
     Label3: TLabel;
-    Edit1: TEdit;
+    edtKg: TEdit;
     pnlBottom: TPanel;
     btnOK: TButton;
     btnCancel: TButton;
-    procedure Button1Click(Sender: TObject);
-    procedure Init(s: double);
+    edtKs: TEdit;
+    Label2: TLabel;
+    procedure Init(kg,ks: double);
   private
     { Private declarations }
   public
@@ -32,24 +32,9 @@ implementation
 uses Diagrams, Loads, Unit1, Unit10, Unit2, Unit3, Unit4, Unit5, Unit6, Unit7,
   Unit8, Unit9;
 
-procedure TForm11.Button1Click(Sender: TObject);
+procedure TForm11.Init(kg,ks: double);
 begin
-  Shaft.BeginUpdate;
-  Form1.naprezenia:=StrToFloat(edit1.Text);
-  Form1.tvTree.Items.AddChild(Form1.tvTree.Selected,'Wartoœæ: '+Edit1.Text);
-  Form1.start:=Form1.start+1;
-  Shaft.EndUpdate;
-  
-  Form11.Close;
-end;
-
-procedure TForm11.Init(s: double);
-begin
-  edit1.Text := '0';
-
-
-    edit1.Text := FloatToStr(s);
-
-
+  edtKg.Text := FloatToStr(kg);
+  edtKs.Text := FloatToStr(ks);
 end;
 end.

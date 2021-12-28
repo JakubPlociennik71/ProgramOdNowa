@@ -13,6 +13,7 @@ object Form1: TForm1
   Menu = mmMenu
   OldCreateOrder = True
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
   object splRight: TSplitter
@@ -32,7 +33,6 @@ object Form1: TForm1
     Align = alRight
     Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 0
-    ExplicitWidth = 403
     object pbDiagrams: TPaintBox
       Left = 0
       Top = 0
@@ -55,18 +55,19 @@ object Form1: TForm1
     TabOrder = 1
     object splLeft: TSplitter
       Left = 0
-      Top = 121
+      Top = 233
       Width = 437
       Height = 3
       Cursor = crVSplit
       Align = alTop
-      ExplicitWidth = 168
+      ExplicitLeft = -1
+      ExplicitTop = 115
     end
     object tvTree: TTreeView
       Left = 0
       Top = 0
       Width = 437
-      Height = 121
+      Height = 233
       Align = alTop
       HotTrack = True
       Indent = 19
@@ -75,15 +76,19 @@ object Form1: TForm1
       RightClickSelect = True
       TabOrder = 0
       OnDblClick = tvTreeDblClick
+      ExplicitLeft = -1
     end
-    object ListBox1: TListBox
+    object mmRaport: TMemo
       Left = 0
-      Top = 124
+      Top = 236
       Width = 437
-      Height = 557
+      Height = 445
       Align = alClient
-      ItemHeight = 13
+      Lines.Strings = (
+        'mmRaport')
       TabOrder = 1
+      ExplicitLeft = -1
+      ExplicitTop = 239
     end
   end
   object mmMenu: TMainMenu
@@ -97,7 +102,7 @@ object Form1: TForm1
       Action = actWyniki
     end
     object Usuobcienie1: TMenuItem
-      Action = acyUsunObc
+      Action = actUsunObc
     end
     object Usuwszystkieobcienia1: TMenuItem
       Action = actUsunWszystko
@@ -110,11 +115,9 @@ object Form1: TForm1
   end
   object alActions: TActionList
     Images = ilImages
+    OnUpdate = alActionsUpdate
     Left = 528
     Top = 16
-    object Action1: TAction
-      Caption = 'File'
-    end
     object FileSaveAs1: TFileSaveAs
       Category = 'File'
       Caption = 'Save &As...'
@@ -133,12 +136,6 @@ object Form1: TForm1
       Hint = 'Open|Opens an existing file'
       ImageIndex = 8
       ShortCut = 16463
-    end
-    object Action2: TAction
-      Caption = 'Action2'
-    end
-    object ControlAction1: TControlAction
-      Caption = 'ControlAction1'
     end
     object FileOpen2: TFileOpen
       Category = 'File'
@@ -190,9 +187,9 @@ object Form1: TForm1
       Caption = 'Usu'#324' wszystkie obci'#261#380'enia'
       OnExecute = actUsunWszystkoExecute
     end
-    object acyUsunObc: TAction
+    object actUsunObc: TAction
       Caption = 'Usu'#324' obci'#261#380'enie'
-      OnExecute = acyUsunObcExecute
+      OnExecute = actUsunObcExecute
     end
     object actMomentEdit: TAction
       Caption = 'actMomentEdit'
@@ -208,6 +205,18 @@ object Form1: TForm1
     end
     object actWspEdit: TAction
       Caption = 'actWspEdit'
+    end
+    object actWspBezp: TAction
+      Caption = 'actWspBezp'
+      OnExecute = actWspBezpExecute
+    end
+    object actNaprezeniaG: TAction
+      Caption = 'actNaprezenia'
+      OnExecute = actNaprezeniaGExecute
+    end
+    object actWspRed: TAction
+      Caption = 'actWspRed'
+      OnExecute = actWspRedExecute
     end
   end
   object ilImages: TImageList
@@ -637,10 +646,7 @@ object Form1: TForm1
     end
     object Zmianapooeniapodprystaej1: TMenuItem
       Action = actStala
-    end
-    object Wspczynnikbezpieczestwa1: TMenuItem
-      Caption = 'Wsp'#243#322'czynnik bezpiecze'#324'stwa'
-      OnClick = Wspczynnikbezpieczestwa1Click
+      Caption = 'Zmiana po'#322'o'#380'enia podpory sta'#322'ej'
     end
     object Wybrwspczynnikaredukujcego1: TMenuItem
       Caption = 'Wyb'#243'r wsp'#243#322'czynnika redukuj'#261'cego'
@@ -648,7 +654,6 @@ object Form1: TForm1
     end
     object Wybrwaciwocimateriaowych1: TMenuItem
       Caption = 'Wyb'#243'r w'#322'a'#347'ciwo'#347'ci materia'#322'owych'
-      OnClick = Wybrwaciwocimateriaowych1Click
     end
   end
 end
