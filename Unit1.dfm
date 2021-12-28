@@ -76,7 +76,6 @@ object Form1: TForm1
       RightClickSelect = True
       TabOrder = 0
       OnDblClick = tvTreeDblClick
-      ExplicitLeft = -1
     end
     object mmRaport: TMemo
       Left = 0
@@ -87,8 +86,6 @@ object Form1: TForm1
       Lines.Strings = (
         'mmRaport')
       TabOrder = 1
-      ExplicitLeft = -1
-      ExplicitTop = 239
     end
   end
   object mmMenu: TMainMenu

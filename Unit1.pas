@@ -713,35 +713,70 @@ begin
   fRaport.Add('4.Obliczenia w przekrojach charakterystycznych');
   //fRaport.Add('');
   fRaport.Add('4.1 Siły tnące');
+  fRaport.Add('4.1.1 Siły tnące w płaszczyźnie XZ');
   points:=Shaft.ZPositions;
 
   for z in points do begin
 
-    fRaport.Add(Format(' -Siła tnąca w płaszczyźnie XZ w punkcie: %.3f [m]; Wartość [kN]: %.3f',[z,Shaft.ShearX(z)]));
+    fRaport.Add(Format(' -Z: %.3f [m]; F [kN]: %.3f',[z,Shaft.ShearX(z)]));
 
 
 
   end;
 
   fRaport.Add('');
-
+  fRaport.Add('4.1.1 Siły tnące w płaszczyźnie XY');
    for z in points do begin
 
-    fRaport.Add(Format(' -Siła tnąca w płaszczyźnie YZ w punkcie: %.3f [m]; Wartość [kN]: %.3f',[z,Shaft.ShearY(z)]));
+    fRaport.Add(Format(' -Z: %.3f [m]; F [kN]: %.3f',[z,Shaft.ShearY(z)]));
 
 
 
   end;
 
   fRaport.Add('');
-
+  fRaport.Add('4.1.1 Siły tnące');
    for z in points do begin
 
-    fRaport.Add(Format(' -Siła tnąca  w punkcie: %.3f [m]; Wartość [kN]: %.3f',[z,Shaft.Shear(z)]));
+    fRaport.Add(Format(' -Z: %.3f [m]; F [kN]: %.3f',[z,Shaft.Shear(z)]));
 
 
 
   end;
+
+  fRaport.Add('4.2 Momenty gnące');
+  fRaport.Add('4.2.1 Momenty gnące w płaszczyźnie XZ');
+
+  for z in points do begin
+
+    fRaport.Add(Format(' -Z: %.3f [m]; M [Nm]: %.3f',[z,Shaft.MomentX(z)*1000]));
+
+
+
+  end;
+
+  fRaport.Add('');
+  fRaport.Add('4.2.2 Momenty gnące w płaszczyźnie XY');
+
+  for z in points do begin
+
+    fRaport.Add(Format(' -Z: %.3f [m]; M [Nm]: %.3f',[z,Shaft.MomentY(z)*1000]));
+
+
+
+  end;
+
+  fRaport.Add('');
+  fRaport.Add('4.2.3 Momenty gnące');
+
+  for z in points do begin
+
+    fRaport.Add(Format(' -Z: %.3f [m]; M [Nm]: %.3f',[z,Shaft.Moment(z)*1000]));
+
+
+
+  end;
+
 
 
 
