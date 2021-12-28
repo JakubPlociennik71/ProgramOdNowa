@@ -53,6 +53,7 @@ type
     actNaprezeniaG: TAction;
     actWspRed: TAction;
     mmRaport: TMemo;
+    actRodzajNapr: TAction;
 
     procedure UsunClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -89,6 +90,7 @@ type
     procedure actWspRedExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure actSaveRaportAccept(Sender: TObject);
+    procedure actRodzajNaprExecute(Sender: TObject);
   private
     function Equivalent(AZ: Double): Double;
     function Diameter(AZ: Double): Double;
@@ -120,9 +122,10 @@ type
     // obsługa drzewka
     fPodpory, fPodporaA, fPodporaB: TTreeNode;
     fObciazenia: TTreeNode;
-    fMaterial,fNaprezeniaG,fNaprezeniaS,fWspRed: TTreeNode;
+    fMaterial,fNaprezeniaG,fNaprezeniaS,fPrzewObc,fWspRed: TTreeNode;
     //fWspolBezp: TTreeNode;
     fRaport: TStringList;
+     przewazajace: string;
   end;
 
 var
@@ -133,7 +136,7 @@ implementation
 {$R *.dfm}
 
 uses UITypes, Math, Diagrams, Unit2, Unit3, Unit4, Unit5, Unit6, Unit7, Unit8, Unit9, Unit10, Unit11,
-  Unit12,StrUtils;
+  Unit12,StrUtils, Unit13;
 
 procedure TForm1.actMomentEditExecute(Sender: TObject);
 var
@@ -193,6 +196,26 @@ begin
   if Form6.ShowModal <> mrOK then Exit;
 
   Shaft.SupportB.Z := StrToFloat(Form6.edtZ.Text);
+end;
+
+procedure TForm1.actRodzajNaprExecute(Sender: TObject);
+begin
+Form13.init(normalne,przewazajace);
+
+  if Form13.ShowModal <> mrOK then Exit;
+
+   if Form13.RadioButton1.Checked then begin
+    normalne:=true;
+    przewazajace:='Gnące';
+
+
+  end else begin
+    normalne:=false;
+    przewazajace:='Skręcające';
+
+  end;
+
+  UpdateTreeData;
 end;
 
 procedure TForm1.actSaveRaportAccept(Sender: TObject);
@@ -475,6 +498,7 @@ begin
 
   start:=0;
   normalne:=true;
+  przewazajace:='Gnące';
   naprezeniaG:=62.5;
   naprezeniaS:=62.5;
   reduction:=sqrt(3)/2;
@@ -490,6 +514,8 @@ begin
   fNaprezeniaG:=tvTree.Items.AddChild(fMaterial, 'Naprężenia dopuszczalne na zginanie kg [MPa]');
   fNaprezeniaS:=tvTree.Items.AddChild(fMaterial, 'Naprężenia dopuszczalne na skręcanie ks [MPa]');
   fWspRed :=tvTree.Items.AddChild(fMaterial, 'Współczynnik redukcyjny');
+  fPrzewObc :=tvTree.Items.AddChild(fMaterial, 'Przeważające naprężenia');
+
 
   fPodporaA := tvTree.Items.AddChild(fPodpory, 'Stała');    // podpora A
   fPodporaB := tvTree.Items.AddChild(fPodpory, 'Ruchoma');  // podpora B
@@ -740,6 +766,7 @@ begin
   if sel = fNaprezeniaG then actNaprezeniaG.Execute else
   if sel = fNaprezeniaS then actNaprezeniaG.Execute else
   if sel = fWspRed then actWspRed.Execute else
+  if sel = fPrzewObc then actRodzajNapr.Execute else
 
   if sel = fPodporaA then actStala.Execute else
   if sel = fPodporaB then actPrzesuwna.Execute else
@@ -762,6 +789,7 @@ begin
   fNaprezeniaG.Text:= Format('Dopuszczalne naprężenia na zginanie kg [MPa]: %.1f', [naprezeniaG]);
   fNaprezeniaS.Text:= Format('Dopuszczalne naprężenia na skręcanie ks [MPa]: %.1f', [naprezeniaS]);
   fWspRed.Text:= Format('Współczynnik redukcyjny: %s', [IfThen(abs(reduction - sqrt(3)/2)<0.01, '√3/2', '√3/4')]);
+  fPrzewObc.Text:= Format('Przeważające naprężenia: %s', [przewazajace]);
   // aktualizacja informacji o podporach
   fPodporaA.Text := Format('Stała Ra: (%.2f; %.2f; %.2f), Położenie Z: %.2f', [Shaft.SupportA.Fx, Shaft.SupportA.Fy, Shaft.SupportA.Fz, Shaft.SupportA.Z]);
   fPodporaB.Text := Format('Przesuwna Rb: (%.2f; %.2f), Położenie Z: %.2f', [Shaft.SupportB.Fx, Shaft.SupportB.Fy, Shaft.SupportB.Z]);

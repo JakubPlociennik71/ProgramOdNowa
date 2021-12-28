@@ -215,6 +215,10 @@ object Form1: TForm1
     end
     object TAction
     end
+    object actRodzajNapr: TAction
+      Caption = 'actRodzajNapr'
+      OnExecute = actRodzajNaprExecute
+    end
   end
   object ilImages: TImageList
     Left = 464
