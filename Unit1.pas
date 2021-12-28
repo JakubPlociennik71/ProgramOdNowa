@@ -14,7 +14,7 @@ type
     mmMenu: TMainMenu;
     alActions: TActionList;
     ilImages: TImageList;
-    FileSaveAs1: TFileSaveAs;
+    actSaveRaport: TFileSaveAs;
     FileExit1: TFileExit;
     FileOpen1: TFileOpen;
     pmPopup: TPopupMenu;
@@ -40,7 +40,6 @@ type
     actSilaEdit: TAction;
     Zamianapodpr1: TMenuItem;
     actWyniki: TAction;
-    Wynikioblicze1: TMenuItem;
     actUsunWszystko: TAction;
     Usuwszystkieobcienia1: TMenuItem;
     actUsunObc: TAction;
@@ -84,12 +83,12 @@ type
     procedure actMomentEditExecute(Sender: TObject);
     procedure actTorqueEditExecute(Sender: TObject);
     procedure actSilaPozaWalemEditExecute(Sender: TObject);
-    procedure Zapiszwyikidopliku1Click(Sender: TObject);
     procedure alActionsUpdate(Action: TBasicAction; var Handled: Boolean);
     procedure actWspBezpExecute(Sender: TObject);
     procedure actNaprezeniaGExecute(Sender: TObject);
     procedure actWspRedExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure actSaveRaportAccept(Sender: TObject);
   private
     function Equivalent(AZ: Double): Double;
     function Diameter(AZ: Double): Double;
@@ -113,7 +112,7 @@ type
     reduction: double;
     d: integer;
     points: TAoD;
-    naprezenia,naprezeniaG,naprezeniaS: double;
+    naprezeniaG,naprezeniaS: double;
     start: integer;
     normalne: boolean;
     licznik_obciazen: integer;
@@ -194,6 +193,12 @@ begin
   if Form6.ShowModal <> mrOK then Exit;
 
   Shaft.SupportB.Z := StrToFloat(Form6.edtZ.Text);
+end;
+
+procedure TForm1.actSaveRaportAccept(Sender: TObject);
+begin
+  raport;
+  fRaport.SaveToFile(actSaveRaport.Dialog.FileName);
 end;
 
 procedure TForm1.actSilaEditExecute(Sender: TObject);
@@ -362,68 +367,6 @@ begin
   Raport;
   mmRaport.Lines.Assign(fRaport);
 
-
- { fa:=Shaft.SupportA.Force;
-  fb:=Shaft.SupportB.Force;
-
-  ListBox1.Items.Add('Wartości reakcji w podporze stałej (X,Y,Z):');
-  ListBox1.Items.Add(FloatToStr(fa.X)+';  '+FloatToStr(fa.Y)+';  '+FloatToStr(fa.Z));
-  ListBox1.Items.Add('Wartości reakcji w podporze przesuwnej (X,Y,Z):');
-  ListBox1.Items.Add(FloatToStr(fb.X)+';  '+FloatToStr(fb.Y)+';  '+FloatToStr(fb.Z));
-
-  points:=Shaft.ZPositions;
-  m:=maxValue(points);
-  krok:=m/30;
-
-
-  for z in points do begin
-     ListBox1.Items.Add('Wartości siły X w punkcie o współrzędnej Z= '+FloatToStr(z)+' w kN');
-     ListBox1.Items.Add(FloatToStr(Shaft.ShearX(z))) ;
-     ListBox1.Items.Add('Wartości siły Y w punkcie o współrzędnej Z='+FloatToStr(z)+' w kN');
-     ListBox1.Items.Add(FloatToStr(Shaft.ShearY(z))) ;
-     ListBox1.Items.Add('Wartości siły  w punkcie o współrzędnej Z='+FloatToStr(z)+' w kN');
-     ListBox1.Items.Add(FloatToStr(Shaft.Shear(z))) ;
-     end;
-
-
-    for z in points do begin
-     ListBox1.Items.Add('Wartości momentu X  w punkcie o współrzędnej Z='+FloatToStr(z)+' w Nm');
-     ListBox1.Items.Add(FloatToStr(Shaft.MomentX(z)*1000)) ;
-     ListBox1.Items.Add('Wartości momentu Y  w punkcie o współrzędnej Z='+FloatToStr(z)+' w Nm');
-     ListBox1.Items.Add(FloatToStr(Shaft.MomentY(z)*1000)) ;
-     ListBox1.Items.Add('Wartości momentu w punkcie o współrzędnej Z='+FloatToStr(z)+' w Nm');
-     ListBox1.Items.Add(FloatToStr(Shaft.Moment(z)*1000)) ;
-
-  end;
-
-
-    for z in points do begin
-     ListBox1.Items.Add('Wartości momentu skrecajacego  w punkcie o współrzędnej Z='+FloatToStr(z)+' w Nm');
-       ListBox1.Items.Add(FloatToStr(Shaft.Torque(z)*1000)) ;;
-
-  end;
-
-
-  z:=0;
-  While (z <= m) do
-begin
-     ListBox1.Items.Add('Wartości momentu zredukowanego  w punkcie o współrzędnej Z='+FloatToStr(z)+' w Nm');
-     ListBox1.Items.Add(FloatToStr(Equivalent(z)*1000));
-
-
-      z:=z+krok;
-end;
-
-
-  z:=0;
-  While (z <= m) do
-begin
-
-     ListBox1.Items.Add('Wartości srednicy  w punkcie o współrzędnej Z='+FloatToStr(z)+' w mm');
-     ListBox1.Items.Add(FloatToStr(Diameter(z)*100));
-
-      z:=z+krok;
-end;}
 end;
 
 
@@ -466,47 +409,6 @@ begin
   fa:=Shaft.SupportA.Force;
   fb:=Shaft.SupportB.Force;
 
-//  ListBox1.Items.Add('Wartości reakcji w podporze stałej (X,Y,Z):');
-//  ListBox1.Items.Add(FloatToStr(fa.X)+';  '+FloatToStr(fa.Y)+';  '+FloatToStr(fa.Z));
-//  ListBox1.Items.Add('Wartości reakcji w podporze przesuwnej (X,Y,Z):');
-//  ListBox1.Items.Add(FloatToStr(fb.X)+';  '+FloatToStr(fb.Y)+';  '+FloatToStr(fb.Z));
-//
-//  points:=Shaft.ZPositions;
-//  m:=maxValue(points);
-//  krok:=m/30;
-//
-//
-//  for z in points do begin
-//     ListBox1.Items.Add('Wartości siły X w punkcie o współrzędnej Z= '+' '+FloatToStr(z)+' w kN');
-//     ListBox1.Items.Add(FloatToStr(Shaft.ShearX(z))) ;
-//     ListBox1.Items.Add('Wartości siły Y w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w kN');
-//     ListBox1.Items.Add(FloatToStr(Shaft.ShearY(z))) ;
-//     ListBox1.Items.Add('Wartości siły  w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w kN');
-//     ListBox1.Items.Add(FloatToStr(Shaft.Shear(z))) ;
-//     ListBox1.Items.Add('Wartości momentu X  w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w kNm');
-//     ListBox1.Items.Add(FloatToStr(Shaft.MomentX(z))) ;
-//     ListBox1.Items.Add('Wartości momentu Y  w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w kNm');
-//     ListBox1.Items.Add(FloatToStr(Shaft.MomentY(z))) ;
-//     ListBox1.Items.Add('Wartości momentu w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w kNm');
-//     ListBox1.Items.Add(FloatToStr(Shaft.Moment(z))) ;
-//     ListBox1.Items.Add('Wartości momentu skrecajacego  w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w kNm');
-//     ListBox1.Items.Add(FloatToStr(Shaft.Torque(z))) ;
-//     ListBox1.Items.Add('Wartości momentu zredukowanego  w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w kNm');
-//     ListBox1.Items.Add(FloatToStr(Equivalent(z)));
-//     ListBox1.Items.Add('Wartości srednicy  w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w m');
-//     ListBox1.Items.Add(FloatToStr(Diameter(z)));
-//  end;
-//
-//  z:=0;
-//  While (z <= m) do
-//begin
-//     ListBox1.Items.Add('Wartości momentu zredukowanego  w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w kNm');
-//     ListBox1.Items.Add(FloatToStr(Equivalent(z)));
-//     ListBox1.Items.Add('Wartości srednicy  w punkcie o współrzędnej Z='+' '+FloatToStr(z)+' w m');
-//     ListBox1.Items.Add(FloatToStr(Diameter(z)));
-//
-//      z:=z+krok;
-//end;
 end;
 
 
@@ -560,9 +462,9 @@ begin
   if not InRange(Az, Shaft.MinZValue, Shaft.MaxZValue) then Exit(0);
 
   if normalne then
-    Result := Power((32 * Equivalent(Az)) / (Pi * naprezenia), 1/3)
+    Result := Power((32 * Equivalent(Az)) / (Pi * naprezeniaG), 1/3)
   else
-    Result := Power((16 * Equivalent(Az)) / (Pi * naprezenia), 1/3);
+    Result := Power((16 * Equivalent(Az)) / (Pi * naprezeniaS), 1/3);
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
@@ -573,7 +475,8 @@ begin
 
   start:=0;
   normalne:=true;
-  naprezenia:=250;
+  naprezeniaG:=62.5;
+  naprezeniaS:=62.5;
   reduction:=sqrt(3)/2;
   safety_factor:=4;
 
@@ -680,7 +583,6 @@ begin
   //Dane materiałowe
   fRaport.Add('1.Dane materiałowe');
   //fRaport.Add('');
-  fRaport.Add(Format(' -Współczynnik bezpieczeństwa X: %.1f',[safety_factor]));
   fRaport.Add(Format(' -Dopuszczalne naprężenia na zginanie kg [MPa]: %.0f',[naprezeniaG]));
   fRaport.Add(Format(' -Dopuszczalne naprężenia na skręcanie ks [MPa]: %.0f',[naprezeniaS]));
   fRaport.Add('');
@@ -688,13 +590,13 @@ begin
   fRaport.Add('2.Obciążenia');
   //fRaport.Add('');
   for load in  Shaft do begin
-    if load is TForce then fRaport.Add(Format(' -Siła [kN]: (%.3f; %.3f; %.3f); Położenie [m]: (%.3f; %.3f; %.3f)',
+    if load is TForce then fRaport.Add(Format('  Siła [kN]: (%.3f; %.3f; %.3f); Położenie [m]: (%.3f; %.3f; %.3f)',
       [TForce(Load).Fx,TForce(Load).Fy,TForce(Load).Fz,TForce(Load).X,TForce(Load).Y,TForce(Load).Z]));
 
-    if load is TMoment then fRaport.Add(Format(' -Moment gnący [Nm]: (%.3f; %.3f); Położenie Z [m]: %.3f',
+    if load is TMoment then fRaport.Add(Format('  Moment gnący [Nm]: (%.3f; %.3f); Położenie Z [m]: %.3f',
       [TMoment(Load).MomentX,TMoment(Load).MomentY,TMoment(Load).Z]));
 
-    if load is TTorque then fRaport.Add(Format(' -Moment skręcający [Nm]: %.3f) Położenie Z [m]: %.3f',
+    if load is TTorque then fRaport.Add(Format('  Moment skręcający [Nm]: %.3f); Położenie Z [m]: %.3f',
       [TTorque(Load).Torque,TTorque(Load).Z]));
   end;
 //Reakcje
@@ -703,10 +605,10 @@ begin
   //fRaport.Add('');
   fa:=Shaft.SupportA;
   fb:=Shaft.SupportB;
-  fRaport.Add(Format(' -Podpora stała Ra [kN]: (%.2f; %.2f; %.2f); Położenie Z [m]: %.3f',
+  fRaport.Add(Format('  Podpora stała Ra [kN]: (%.2f; %.2f; %.2f); Położenie Z [m]: %.3f',
     [fa.Fx,fa.Fy,fa.Fz,fa.Z]));
 
-  fRaport.Add(Format(' -Podpora ruchoma Rb [kN]: (%.2f; %.2f); Położenie Z [m]: %.3f',
+  fRaport.Add(Format('  Podpora ruchoma Rb [kN]: (%.2f; %.2f); Położenie Z [m]: %.3f',
     [fa.Fx,fa.Fy,fa.Z]));
   fRaport.Add('');
 
@@ -719,8 +621,8 @@ begin
 
   for z in points do begin
 
-    fRaport.Add(Format(' -Z: %.3f ; F: %.3f',[z,Shaft.ShearX(z)]));
-    fRaport.Add(Format(' -Z: %.3f ; F : %.3f',[z,Shaft.ShearX(z-epsilon)]));
+    fRaport.Add(Format('  Z: %.3f; F: %.3f',[z,Shaft.ShearX(z)]));
+    fRaport.Add(Format('  Z: %.3f; F: %.3f',[z,Shaft.ShearX(z-epsilon)]));
 
 
   end;
@@ -729,9 +631,8 @@ begin
   fRaport.Add('4.1.1 Siły tnące w płaszczyźnie XY');
    for z in points do begin
 
-    fRaport.Add(Format(' -Z: %.3f ; F: %.3f',[z,Shaft.ShearY(z)]));
-    fRaport.Add('Granica lewostronna');
-    fRaport.Add(Format(' -Z: %.3f ; F : %.3f',[z,Shaft.ShearY(z-epsilon)]));
+    fRaport.Add(Format('  Z: %.3f; F: %.3f',[z,Shaft.ShearY(z)]));
+    fRaport.Add(Format('  Z: %.3f; F: %.3f',[z,Shaft.ShearY(z-epsilon)]));
 
 
   end;
@@ -740,8 +641,8 @@ begin
   fRaport.Add('4.1.1 Siły tnące');
    for z in points do begin
 
-    fRaport.Add(Format(' -Z: %.3f ; F : %.3f',[z,Shaft.Shear(z)]));
-    fRaport.Add(Format(' -Z: %.3f ; F : %.3f',[z,Shaft.Shear(z-epsilon)]));
+    fRaport.Add(Format('  Z: %.3f; F: %.3f',[z,Shaft.Shear(z)]));
+    fRaport.Add(Format('  Z: %.3f; F: %.3f',[z,Shaft.Shear(z-epsilon)]));
 
 
   end;
@@ -751,8 +652,8 @@ begin
 
   for z in points do begin
 
-    fRaport.Add(Format(' -Z: %.3f ; M : %.3f',[z,Shaft.MomentX(z)*1000]));
-    fRaport.Add(Format(' -Z: %.3f ; M : %.3f',[z,Shaft.MomentX(z-epsilon)*1000]));
+    fRaport.Add(Format('  Z: %.3f; M: %.3f',[z,Shaft.MomentX(z)*1000]));
+    fRaport.Add(Format('  Z: %.3f; M: %.3f',[z,Shaft.MomentX(z-epsilon)*1000]));
 
 
   end;
@@ -762,8 +663,8 @@ begin
 
   for z in points do begin
 
-    fRaport.Add(Format(' -Z: %.3f ; M : %.3f',[z,Shaft.MomentY(z)*1000]));
-    fRaport.Add(Format(' -Z: %.3f ; M : %.3f',[z,Shaft.MomentY(z-epsilon)*1000]));
+    fRaport.Add(Format('  Z: %.3f; M: %.3f',[z,Shaft.MomentY(z)*1000]));
+    fRaport.Add(Format('  Z: %.3f; M: %.3f',[z,Shaft.MomentY(z-epsilon)*1000]));
 
 
   end;
@@ -773,8 +674,8 @@ begin
 
   for z in points do begin
 
-    fRaport.Add(Format(' -Z: %.3f ; M : %.3f',[z,Shaft.Moment(z)*1000]));
-    fRaport.Add(Format(' -Z: %.3f ; M : %.3f',[z,Shaft.Moment(z-epsilon)*1000]));
+    fRaport.Add(Format('  Z: %.3f; M: %.3f',[z,Shaft.Moment(z)*1000]));
+    fRaport.Add(Format('  Z: %.3f; M: %.3f',[z,Shaft.Moment(z-epsilon)*1000]));
 
 
   end;
@@ -784,8 +685,8 @@ begin
 
   for z in points do begin
 
-    fRaport.Add(Format(' -Z: %.3f ; Ms : %.3f',[z,Shaft.Torque(z)*1000]));
-    fRaport.Add(Format(' -Z: %.3f ; Ms : %.3f',[z,Shaft.Torque(z-epsilon)*1000]));
+    fRaport.Add(Format('  Z: %.3f; Ms: %.3f',[z,Shaft.Torque(z)*1000]));
+    fRaport.Add(Format('  Z: %.3f; Ms: %.3f',[z,Shaft.Torque(z-epsilon)*1000]));
 
 
   end;
@@ -795,8 +696,8 @@ begin
 
   for z in points do begin
 
-    fRaport.Add(Format(' -Z: %.3f ; Mz : %.3f',[z,Equivalent(z)*1000]));
-    fRaport.Add(Format(' -Z: %.3f ; Mz : %.3f',[z,Equivalent(z-epsilon)*1000]));
+    fRaport.Add(Format('  Z: %.3f; Mz: %.3f',[z,Equivalent(z)*1000]));
+    fRaport.Add(Format('  Z: %.3f; Mz: %.3f',[z,Equivalent(z-epsilon)*1000]));
 
 
   end;
@@ -806,8 +707,8 @@ begin
 
   for z in points do begin
 
-    fRaport.Add(Format(' -Z: %.3f ; Mz : %.3f',[z,Diameter(z)*100]));
-    fRaport.Add(Format(' -Z: %.3f ; Mz : %.3f',[z,Diameter(z-epsilon)*100]));
+    fRaport.Add(Format(' -Z: %.3f ; Mz: %.3f',[z,Diameter(z)*100]));
+    fRaport.Add(Format(' -Z: %.3f ; Mz: %.3f',[z,Diameter(z-epsilon)*100]));
 
 
   end;
@@ -821,8 +722,8 @@ begin
   While (z <= m) do
   begin
 
-    fRaport.Add(Format(' -Z: %.3f ; Mz : %.3f',[z,Diameter(z)*100]));
-    fRaport.Add(Format(' -Z: %.3f ; Mz : %.3f',[z,Diameter(z-epsilon)*100]));
+    fRaport.Add(Format('  Z: %.3f; Mz: %.3f',[z,Diameter(z)*100]));
+    fRaport.Add(Format('  Z: %.3f; Mz: %.3f',[z,Diameter(z-epsilon)*100]));
 
     z:=z+krok;
   end;
@@ -836,7 +737,6 @@ var
 begin
   sel := (Sender as TTreeView).Selected;
 
- // if sel = fWspolBezp then actWspBezp.Execute else
   if sel = fNaprezeniaG then actNaprezeniaG.Execute else
   if sel = fNaprezeniaS then actNaprezeniaG.Execute else
   if sel = fWspRed then actWspRed.Execute else
@@ -859,9 +759,8 @@ var
   load: TLoad;
 begin
   // aktualizacja informacji o danych materiałowych
-  //fWspolBezp.Text:= Format('Współczynnik bezpieczeństwa: %.1f', [safety_factor]) ;
-  fNaprezeniaG.Text:= Format('Dopuszczalne naprężenia na zginanie kg [MPa]: %.0f', [naprezeniaG]);
-  fNaprezeniaS.Text:= Format('Dopuszczalne naprężenia na skręcanie ks [MPa]: %.0f', [naprezeniaS]);
+  fNaprezeniaG.Text:= Format('Dopuszczalne naprężenia na zginanie kg [MPa]: %.1f', [naprezeniaG]);
+  fNaprezeniaS.Text:= Format('Dopuszczalne naprężenia na skręcanie ks [MPa]: %.1f', [naprezeniaS]);
   fWspRed.Text:= Format('Współczynnik redukcyjny: %s', [IfThen(abs(reduction - sqrt(3)/2)<0.01, '√3/2', '√3/4')]);
   // aktualizacja informacji o podporach
   fPodporaA.Text := Format('Stała Ra: (%.2f; %.2f; %.2f), Położenie Z: %.2f', [Shaft.SupportA.Fx, Shaft.SupportA.Fy, Shaft.SupportA.Fz, Shaft.SupportA.Z]);
@@ -878,6 +777,11 @@ begin
 
     node := node.getNextSibling;
   end;
+
+  //Generowanie raportu po każdej zmianie
+  //raport;
+  actWyniki.Execute;
+
 end;
 
 procedure TForm1.UsunClick(Sender: TObject);
@@ -915,89 +819,4 @@ begin
   Shaft.SwapSupports;
 end;
 
-procedure TForm1.Zapiszwyikidopliku1Click(Sender: TObject);
-//var
-  //MyText: TStringlist;
-  //fa,fb: TP3D;
-  //z,m,krok: double;
-begin
-
-
-
-
-
-  raport;
-  //fRaport.SaveToFile();
-
-
-//  if Form12.ShowModal <> mrOK then Exit;
-//  path:=Form12.Edit1.Text;
-//  fa:=Shaft.SupportA.Force;
-//  fb:=Shaft.SupportB.Force;
-//  MyText:= TStringlist.create;
-//  try
-//    MyText.Add('Wartości reakcji w podporze stałej (X,Y,Z):');
-//    MyText.Add(FloatToStr(fa.X)+';  '+FloatToStr(fa.Y)+';  '+FloatToStr(fa.Z));
-//    MyText.Add('Wartości reakcji w podporze przesuwnej (X,Y,Z):');
-//    MyText.Add(FloatToStr(fb.X)+';  '+FloatToStr(fb.Y)+';  '+FloatToStr(fb.Z));
-//
-//    points:=Shaft.ZPositions;
-//    m:=maxValue(points);
-//    krok:=m/30;
-//
-//    for z in points do begin
-//      MyText.Add('Wartości siły X w punkcie o współrzędnej Z='+FloatToStr(z)+' w kN');
-//      MyText.Add(FloatToStr(Shaft.ShearX(z))) ;
-//      MyText.Add('Wartości siły Y w punkcie o współrzędnej Z='+FloatToStr(z)+' w kN');
-//      MyText.Add(FloatToStr(Shaft.ShearY(z))) ;
-//      MyText.Add('Wartości siły  w punkcie o współrzędnej Z='+FloatToStr(z)+' w kN');
-//      MyText.Add(FloatToStr(Shaft.Shear(z))) ;
-//
-//  end;
-//
-//     for z in points do begin
-//
-//      MyText.Add('Wartości momentu X  w punkcie o współrzędnej Z='+FloatToStr(z)+' w Nm');
-//      MyText.Add(FloatToStr(Shaft.MomentX(z)*1000)) ;
-//      MyText.Add('Wartości momentu Y  w punkcie o współrzędnej Z='+FloatToStr(z)+' w Nm');
-//      MyText.Add(FloatToStr(Shaft.MomentY(z)*1000)) ;
-//      MyText.Add('Wartości momentu w punkcie o współrzędnej Z='+FloatToStr(z)+' w Nm');
-//      MyText.Add(FloatToStr(Shaft.Moment(z)*1000)) ;
-//
-//
-//  end;
-//
-//   for z in points do begin
-//      MyText.Add('Wartości momentu skrecajacego  w punkcie o współrzędnej Z='+FloatToStr(z)+' w Nm');
-//      MyText.Add(FloatToStr(Shaft.Torque(z)*1000)) ;
-//
-//  end;
-//
-//
-//    z:=0;
-//  While (z <= m) do
-//begin
-//     MyText.Add('Wartości momentu zredukowanego  w punkcie o współrzędnej Z='+FloatToStr(z)+' w Nm');
-//     MyText.Add(FloatToStr(Equivalent(z)));
-//
-//
-//      z:=z+krok;
-//end;
-//
-//
-//  z:=0;
-//  While (z <= m) do
-//begin
-//
-//     MyText.Add('Wartości srednicy  w punkcie o współrzędnej Z='+FloatToStr(z)+' w mm');
-//     MyText.Add(FloatToStr(Diameter(z)*100));
-//
-//      z:=z+krok;
-//end;
-//
-//    MyText.SaveToFile(path);
-//  finally
-//    MyText.Free
-//  end; {try}
-end;
 end.
