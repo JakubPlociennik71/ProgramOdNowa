@@ -4,7 +4,7 @@ object Form11: TForm11
   BorderStyle = bsToolWindow
   Caption = 'Napr'#281#380'enia dopuszczalne'
   ClientHeight = 107
-  ClientWidth = 459
+  ClientWidth = 530
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -18,11 +18,11 @@ object Form11: TForm11
   object Label1: TLabel
     Left = 4
     Top = 8
-    Width = 395
+    Width = 517
     Height = 13
     Caption = 
-      'Wpisz warto'#347#263'  dopuszczalnych napr'#281#380'e'#324' materia'#322'u z jakiego ma by' +
-      ' wykonany wa'#322
+      'Wpisz warto'#347#263'  dopuszczalnych napr'#281#380'e'#324' na zginanie lub skr'#281'canie' +
+      ' materia'#322'u z jakiego ma by wykonany wa'#322
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -11
@@ -48,16 +48,15 @@ object Form11: TForm11
   object pnlBottom: TPanel
     Left = 0
     Top = 76
-    Width = 459
+    Width = 530
     Height = 31
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 1
-    ExplicitTop = 66
-    ExplicitWidth = 449
+    ExplicitWidth = 459
     object btnOK: TButton
       AlignWithMargins = True
-      Left = 304
+      Left = 375
       Top = 3
       Width = 73
       Height = 25
@@ -65,11 +64,11 @@ object Form11: TForm11
       Caption = 'OK'
       ModalResult = 1
       TabOrder = 0
-      ExplicitLeft = 294
+      ExplicitLeft = 304
     end
     object btnCancel: TButton
       AlignWithMargins = True
-      Left = 383
+      Left = 454
       Top = 3
       Width = 73
       Height = 25
@@ -77,7 +76,7 @@ object Form11: TForm11
       Caption = 'Anuluj'
       ModalResult = 2
       TabOrder = 1
-      ExplicitLeft = 373
+      ExplicitLeft = 383
     end
   end
 end

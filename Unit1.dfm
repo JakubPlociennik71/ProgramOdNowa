@@ -39,7 +39,7 @@ object Form1: TForm1
       Height = 425
       Align = alTop
       OnPaint = pbDiagramsPaint
-      ExplicitLeft = 1
+      ExplicitLeft = -3
       ExplicitTop = -2
     end
   end
@@ -73,6 +73,8 @@ object Form1: TForm1
       RightClickSelect = True
       TabOrder = 0
       OnDblClick = tvTreeDblClick
+      ExplicitLeft = -1
+      ExplicitTop = -3
     end
     object ListBox1: TListBox
       Left = 0
@@ -82,8 +84,6 @@ object Form1: TForm1
       Align = alClient
       ItemHeight = 13
       TabOrder = 1
-      ExplicitLeft = -1
-      ExplicitTop = 127
     end
   end
   object mmMenu: TMainMenu

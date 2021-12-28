@@ -373,11 +373,20 @@ end;
 
 
 procedure TForm1.acyUsunObcExecute(Sender: TObject);
+var
+  node: TTreeNode;
+  load: TLoad;
+  f:TForce;
+  m:TMoment;
+  T:TTorque;
 begin
   if tvTree.Selected.Enabled = false then
     MessageDlg('Nie można usunąć', mtInformation, [mbOk], 0)
   else
     tvTree.Selected.Delete;
+  // aktualizacja informacji o obciążeniach
+  node := fObciazenia.getFirstChild;
+
 end;
 
 procedure TForm1.Button1Click(Sender: TObject);
@@ -498,6 +507,7 @@ begin
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
+var Node:TTreeNode;
 begin
   // tworzenie i konfiguracja drzewka
   fPodpory := tvTree.Items.AddChild(nil, 'Podpory');
@@ -516,6 +526,10 @@ begin
   naprezenia:=250;
   reduction:=sqrt(3)/2;
   safety_factor:=4;
+  Node:=tvTree.Items.AddChild(tvTree.Selected,'Współczynnik bezpieczeństwa:  '+FloatToStr(safety_factor));
+  Form1.tvTree.Items.AddChild(Form1.tvTree.Selected,'Współczynnik redukcyjny: Pierwiastek z 3 przez 2');
+  Node:=tvTree.Items.AddChild(tvTree.Selected,'Naprężenia dopuszczalne:  '+FloatToStr(naprezenia)) ;
+
 
   // przypisanie procedury obsługiwanej po zmianie danych wałka
   Shaft.OnChange := OnChange;
@@ -637,11 +651,16 @@ Form9.Init(safety_factor);
   if Form9.ShowModal <> mrOK then Exit;
 
     if tvTree.Selected.Enabled = false then   begin
-    safety_factor:=StrToFloat(Form9.Edit1.Text);
+    if StrToFloat(Form9.Edit1.Text)<=0 then ShowMessage('Wpisano wartość mniejszą od 0') else begin
+     safety_factor:=StrToFloat(Form9.Edit1.Text);
     Node:=tvTree.Items.AddChild(tvTree.Selected,'Współczynnik bezpieczeństwa:  '+FloatToStr(safety_factor)) ;
     Node.Selected:=True;
     Node.editText;
 
+
+    end;
+
+    
   end else
     ShowMessage('Nie zaznaczono węzła Obciążenia');
 end;
@@ -658,11 +677,12 @@ Form11.Init(naprezenia);
   if Form11.ShowModal <> mrOK then Exit;
 
     if tvTree.Selected.Enabled = false then   begin
+    if StrToFloat(Form11.Edit1.Text)<=0 then ShowMessage('Wpisano wartość mniejszą od 0') else begin
     naprezenia:=StrToFloat(Form11.Edit1.Text);
     Node:=tvTree.Items.AddChild(tvTree.Selected,'Naprężenia dopuszczalne:  '+FloatToStr(naprezenia)) ;
     Node.Selected:=True;
     Node.editText;
-
+   end;
   end else
     ShowMessage('Nie zaznaczono węzła Obciążenia');
 end;
