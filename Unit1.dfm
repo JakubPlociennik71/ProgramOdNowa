@@ -645,12 +645,5 @@ object Form1: TForm1
       Action = actStala
       Caption = 'Zmiana po'#322'o'#380'enia podpory sta'#322'ej'
     end
-    object Wybrwspczynnikaredukujcego1: TMenuItem
-      Caption = 'Wyb'#243'r wsp'#243#322'czynnika redukuj'#261'cego'
-      OnClick = Wybrwspczynnikaredukujcego1Click
-    end
-    object Wybrwaciwocimateriaowych1: TMenuItem
-      Caption = 'Wyb'#243'r w'#322'a'#347'ciwo'#347'ci materia'#322'owych'
-    end
   end
 end

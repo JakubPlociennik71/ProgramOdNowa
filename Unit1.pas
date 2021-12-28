@@ -32,8 +32,6 @@ type
     Zmianapooeniapodporyprzesuwnej1: TMenuItem;
     Zmianapooeniapodprystaej1: TMenuItem;
     ScrollBox1: TScrollBox;
-    Wybrwspczynnikaredukujcego1: TMenuItem;
-    Wybrwaciwocimateriaowych1: TMenuItem;
     HelpContents1: THelpContents;
     pbDiagrams: TPaintBox;
     splLeft: TSplitter;
@@ -684,7 +682,7 @@ begin
   fRaport.Add(Format(' -Współczynnik bezpieczeństwa X: %.1f',[safety_factor]));
   fRaport.Add(Format(' -Dopuszczalne naprężenia na zginanie kg [MPa]: %.0f',[naprezeniaG]));
   fRaport.Add(Format(' -Dopuszczalne naprężenia na skręcanie ks [MPa]: %.0f',[naprezeniaS]));
-
+  fRaport.Add('');
   //Obciązenia
   fRaport.Add('2.Obciążenia');
   //fRaport.Add('');
@@ -699,6 +697,7 @@ begin
       [TTorque(Load).Torque,TTorque(Load).Z]));
   end;
 //Reakcje
+  fRaport.Add('');
   fRaport.Add('3.Reakcje');
   //fRaport.Add('');
   fa:=Shaft.SupportA;
@@ -708,6 +707,7 @@ begin
 
   fRaport.Add(Format(' -Podpora ruchoma Rb [kN]: (%.2f; %.2f); Położenie Z [m]: %.3f',
     [fa.Fx,fa.Fy,fa.Z]));
+  fRaport.Add('');
 
 //Obliczenia w przekrojach charakterystycznych
   fRaport.Add('4.Obliczenia w przekrojach charakterystycznych');
@@ -719,7 +719,8 @@ begin
   for z in points do begin
 
     fRaport.Add(Format(' -Z: %.3f [m]; F [kN]: %.3f',[z,Shaft.ShearX(z)]));
-
+    fRaport.Add('Granica lewostronna');
+    fRaport.Add(Format(' -Z: %.3f [m]; F [kN]: %.3f',[z,Shaft.ShearX(z-epsilon)]));
 
 
   end;
@@ -729,7 +730,8 @@ begin
    for z in points do begin
 
     fRaport.Add(Format(' -Z: %.3f [m]; F [kN]: %.3f',[z,Shaft.ShearY(z)]));
-
+    fRaport.Add('Granica lewostronna');
+    fRaport.Add(Format(' -Z: %.3f [m]; F [kN]: %.3f',[z,Shaft.ShearY(z-epsilon)]));
 
 
   end;
@@ -739,7 +741,8 @@ begin
    for z in points do begin
 
     fRaport.Add(Format(' -Z: %.3f [m]; F [kN]: %.3f',[z,Shaft.Shear(z)]));
-
+    fRaport.Add('Granica lewostronna');
+    fRaport.Add(Format(' -Z: %.3f [m]; F [kN]: %.3f',[z,Shaft.Shear(z-epsilon)]));
 
 
   end;
@@ -750,7 +753,8 @@ begin
   for z in points do begin
 
     fRaport.Add(Format(' -Z: %.3f [m]; M [Nm]: %.3f',[z,Shaft.MomentX(z)*1000]));
-
+    fRaport.Add('Granica lewostronna');
+    fRaport.Add(Format(' -Z: %.3f [m]; M [Nm]: %.3f',[z,Shaft.MomentX(z-epsilon)*1000]));
 
 
   end;
@@ -761,7 +765,8 @@ begin
   for z in points do begin
 
     fRaport.Add(Format(' -Z: %.3f [m]; M [Nm]: %.3f',[z,Shaft.MomentY(z)*1000]));
-
+    fRaport.Add('Granica lewostronna');
+    fRaport.Add(Format(' -Z: %.3f [m]; M [Nm]: %.3f',[z,Shaft.MomentY(z-epsilon)*1000]));
 
 
   end;
@@ -772,10 +777,25 @@ begin
   for z in points do begin
 
     fRaport.Add(Format(' -Z: %.3f [m]; M [Nm]: %.3f',[z,Shaft.Moment(z)*1000]));
-
+    fRaport.Add('Granica lewostronna');
+    fRaport.Add(Format(' -Z: %.3f [m]; M [Nm]: %.3f',[z,Shaft.Moment(z-epsilon)*1000]));
 
 
   end;
+
+  fRaport.Add('');
+  fRaport.Add('4.3 Momenty skręcające');
+
+  for z in points do begin
+
+    fRaport.Add(Format(' -Z: %.3f [m]; Ms [Nm]: %.3f',[z,Shaft.Torque(z)*1000]));
+    fRaport.Add('Granica lewostronna');
+    fRaport.Add(Format(' -Z: %.3f [m]; M [Nm]: %.3f',[z,Shaft.Torque(z-epsilon)*1000]));
+
+
+  end;
+
+
 
 
 
