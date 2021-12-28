@@ -121,7 +121,8 @@ type
     // obsługa drzewka
     fPodpory, fPodporaA, fPodporaB: TTreeNode;
     fObciazenia: TTreeNode;
-    fMaterial,fWspolBezp,fNaprezeniaG,fNaprezeniaS,fWspRed: TTreeNode;
+    fMaterial,fNaprezeniaG,fNaprezeniaS,fWspRed: TTreeNode;
+    //fWspolBezp: TTreeNode;
     fRaport: TStringList;
   end;
 
@@ -559,9 +560,9 @@ begin
   if not InRange(Az, Shaft.MinZValue, Shaft.MaxZValue) then Exit(0);
 
   if normalne then
-    Result := Power((32 * Equivalent(Az)) / (Pi * naprezenia/safety_factor), 1/3)
+    Result := Power((32 * Equivalent(Az)) / (Pi * naprezenia), 1/3)
   else
-    Result := Power((16 * Equivalent(Az)) / (Pi * naprezenia/safety_factor), 1/3);
+    Result := Power((16 * Equivalent(Az)) / (Pi * naprezenia), 1/3);
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
@@ -582,7 +583,7 @@ begin
   fPodpory := tvTree.Items.AddChild(nil, 'Podpory');
   fObciazenia := tvTree.Items.AddChild(nil, 'Obciążenia');
 
-  fWspolBezp:=tvTree.Items.AddChild(fMaterial, 'Współczynnik bezpieczeństwa');
+  //fWspolBezp:=tvTree.Items.AddChild(fMaterial, 'Współczynnik bezpieczeństwa');
   fNaprezeniaG:=tvTree.Items.AddChild(fMaterial, 'Naprężenia dopuszczalne na zginanie kg [MPa]');
   fNaprezeniaS:=tvTree.Items.AddChild(fMaterial, 'Naprężenia dopuszczalne na skręcanie ks [MPa]');
   fWspRed :=tvTree.Items.AddChild(fMaterial, 'Współczynnik redukcyjny');
@@ -712,15 +713,14 @@ begin
 //Obliczenia w przekrojach charakterystycznych
   fRaport.Add('4.Obliczenia w przekrojach charakterystycznych');
   //fRaport.Add('');
-  fRaport.Add('4.1 Siły tnące');
+  fRaport.Add('4.1 Siły tnące (siła F w [kN], odległość Z w [m])');
   fRaport.Add('4.1.1 Siły tnące w płaszczyźnie XZ');
   points:=Shaft.ZPositions;
 
   for z in points do begin
 
-    fRaport.Add(Format(' -Z: %.3f [m]; F [kN]: %.3f',[z,Shaft.ShearX(z)]));
-    fRaport.Add('Granica lewostronna');
-    fRaport.Add(Format(' -Z: %.3f [m]; F [kN]: %.3f',[z,Shaft.ShearX(z-epsilon)]));
+    fRaport.Add(Format(' -Z: %.3f ; F: %.3f',[z,Shaft.ShearX(z)]));
+    fRaport.Add(Format(' -Z: %.3f ; F : %.3f',[z,Shaft.ShearX(z-epsilon)]));
 
 
   end;
@@ -729,9 +729,9 @@ begin
   fRaport.Add('4.1.1 Siły tnące w płaszczyźnie XY');
    for z in points do begin
 
-    fRaport.Add(Format(' -Z: %.3f [m]; F [kN]: %.3f',[z,Shaft.ShearY(z)]));
+    fRaport.Add(Format(' -Z: %.3f ; F: %.3f',[z,Shaft.ShearY(z)]));
     fRaport.Add('Granica lewostronna');
-    fRaport.Add(Format(' -Z: %.3f [m]; F [kN]: %.3f',[z,Shaft.ShearY(z-epsilon)]));
+    fRaport.Add(Format(' -Z: %.3f ; F : %.3f',[z,Shaft.ShearY(z-epsilon)]));
 
 
   end;
@@ -740,21 +740,19 @@ begin
   fRaport.Add('4.1.1 Siły tnące');
    for z in points do begin
 
-    fRaport.Add(Format(' -Z: %.3f [m]; F [kN]: %.3f',[z,Shaft.Shear(z)]));
-    fRaport.Add('Granica lewostronna');
-    fRaport.Add(Format(' -Z: %.3f [m]; F [kN]: %.3f',[z,Shaft.Shear(z-epsilon)]));
+    fRaport.Add(Format(' -Z: %.3f ; F : %.3f',[z,Shaft.Shear(z)]));
+    fRaport.Add(Format(' -Z: %.3f ; F : %.3f',[z,Shaft.Shear(z-epsilon)]));
 
 
   end;
 
-  fRaport.Add('4.2 Momenty gnące');
+  fRaport.Add('4.2 Momenty gnące (momenty M w [Nm], odległość Z w [m])');
   fRaport.Add('4.2.1 Momenty gnące w płaszczyźnie XZ');
 
   for z in points do begin
 
-    fRaport.Add(Format(' -Z: %.3f [m]; M [Nm]: %.3f',[z,Shaft.MomentX(z)*1000]));
-    fRaport.Add('Granica lewostronna');
-    fRaport.Add(Format(' -Z: %.3f [m]; M [Nm]: %.3f',[z,Shaft.MomentX(z-epsilon)*1000]));
+    fRaport.Add(Format(' -Z: %.3f ; M : %.3f',[z,Shaft.MomentX(z)*1000]));
+    fRaport.Add(Format(' -Z: %.3f ; M : %.3f',[z,Shaft.MomentX(z-epsilon)*1000]));
 
 
   end;
@@ -764,9 +762,8 @@ begin
 
   for z in points do begin
 
-    fRaport.Add(Format(' -Z: %.3f [m]; M [Nm]: %.3f',[z,Shaft.MomentY(z)*1000]));
-    fRaport.Add('Granica lewostronna');
-    fRaport.Add(Format(' -Z: %.3f [m]; M [Nm]: %.3f',[z,Shaft.MomentY(z-epsilon)*1000]));
+    fRaport.Add(Format(' -Z: %.3f ; M : %.3f',[z,Shaft.MomentY(z)*1000]));
+    fRaport.Add(Format(' -Z: %.3f ; M : %.3f',[z,Shaft.MomentY(z-epsilon)*1000]));
 
 
   end;
@@ -776,90 +773,59 @@ begin
 
   for z in points do begin
 
-    fRaport.Add(Format(' -Z: %.3f [m]; M [Nm]: %.3f',[z,Shaft.Moment(z)*1000]));
-    fRaport.Add('Granica lewostronna');
-    fRaport.Add(Format(' -Z: %.3f [m]; M [Nm]: %.3f',[z,Shaft.Moment(z-epsilon)*1000]));
+    fRaport.Add(Format(' -Z: %.3f ; M : %.3f',[z,Shaft.Moment(z)*1000]));
+    fRaport.Add(Format(' -Z: %.3f ; M : %.3f',[z,Shaft.Moment(z-epsilon)*1000]));
 
 
   end;
 
   fRaport.Add('');
-  fRaport.Add('4.3 Momenty skręcające');
+  fRaport.Add('4.3 Momenty skręcające(momenty M w [Nm], odległość Z w [m])');
 
   for z in points do begin
 
-    fRaport.Add(Format(' -Z: %.3f [m]; Ms [Nm]: %.3f',[z,Shaft.Torque(z)*1000]));
-    fRaport.Add('Granica lewostronna');
-    fRaport.Add(Format(' -Z: %.3f [m]; M [Nm]: %.3f',[z,Shaft.Torque(z-epsilon)*1000]));
+    fRaport.Add(Format(' -Z: %.3f ; Ms : %.3f',[z,Shaft.Torque(z)*1000]));
+    fRaport.Add(Format(' -Z: %.3f ; Ms : %.3f',[z,Shaft.Torque(z-epsilon)*1000]));
 
 
   end;
 
+  fRaport.Add('');
+  fRaport.Add('4.4. Moment zredukowany (moment Mz w [Nm], odległość Z w [m])');
+
+  for z in points do begin
+
+    fRaport.Add(Format(' -Z: %.3f ; Mz : %.3f',[z,Equivalent(z)*1000]));
+    fRaport.Add(Format(' -Z: %.3f ; Mz : %.3f',[z,Equivalent(z-epsilon)*1000]));
 
 
+  end;
+
+  fRaport.Add('');
+  fRaport.Add('4.5 Średnica teoretyczna (średnica w [mm], odległość Z w [m])');
+
+  for z in points do begin
+
+    fRaport.Add(Format(' -Z: %.3f ; Mz : %.3f',[z,Diameter(z)*100]));
+    fRaport.Add(Format(' -Z: %.3f ; Mz : %.3f',[z,Diameter(z-epsilon)*100]));
 
 
+  end;
 
-   {
-
-  fRaport.Add('Wartości reakcji w podporze stałej (X,Y,Z):');
-  fRaport.Add(FloatToStr(fa.X)+';  '+FloatToStr(fa.Y)+';  '+FloatToStr(fa.Z));
-  fRaport.Add('Wartości reakcji w podporze przesuwnej (X,Y,Z):');
-  fRaport.Add(FloatToStr(fb.X)+';  '+FloatToStr(fb.Y)+';  '+FloatToStr(fb.Z));
-
-  points:=Shaft.ZPositions;
+  fRaport.Add('');
+  fRaport.Add('5 Średnica teoretyczna w 30 równo oddalonych od siebie przekrojach');
+  fRaport.Add('(średnica w [mm], odległość Z w [m])');
   m:=maxValue(points);
   krok:=m/30;
-
-  for z in points do begin
-    fRaport.Add('Wartości siły X w punkcie o współrzędnej Z='+FloatToStr(z)+' w kN');
-    fRaport.Add(FloatToStr(Shaft.ShearX(z))) ;
-    fRaport.Add('Wartości siły Y w punkcie o współrzędnej Z='+FloatToStr(z)+' w kN');
-    fRaport.Add(FloatToStr(Shaft.ShearY(z))) ;
-    fRaport.Add('Wartości siły  w punkcie o współrzędnej Z='+FloatToStr(z)+' w kN');
-    fRaport.Add(FloatToStr(Shaft.Shear(z))) ;
-
-  end;
-
-   for z in points do begin
-
-    fRaport.Add('Wartości momentu X  w punkcie o współrzędnej Z='+FloatToStr(z)+' w Nm');
-    fRaport.Add(FloatToStr(Shaft.MomentX(z)*1000)) ;
-    fRaport.Add('Wartości momentu Y  w punkcie o współrzędnej Z='+FloatToStr(z)+' w Nm');
-    fRaport.Add(FloatToStr(Shaft.MomentY(z)*1000)) ;
-    fRaport.Add('Wartości momentu w punkcie o współrzędnej Z='+FloatToStr(z)+' w Nm');
-    fRaport.Add(FloatToStr(Shaft.Moment(z)*1000)) ;
-
-
-  end;
-
-  for z in points do begin
-    fRaport.Add('Wartości momentu skrecajacego  w punkcie o współrzędnej Z='+FloatToStr(z)+' w Nm');
-    fRaport.Add(FloatToStr(Shaft.Torque(z)*1000)) ;
-
-  end;
-
-
-    z:=0;
-  While (z <= m) do
-  begin
-    fRaport.Add('Wartości momentu zredukowanego  w punkcie o współrzędnej Z='+FloatToStr(z)+' w Nm');
-    fRaport.Add(FloatToStr(Equivalent(z)));
-    z:=z+krok;
-  end;
-
   z:=0;
   While (z <= m) do
   begin
 
-    fRaport.Add('Wartości srednicy  w punkcie o współrzędnej Z='+FloatToStr(z)+' w mm');
-    fRaport.Add(FloatToStr(Diameter(z)*100));
+    fRaport.Add(Format(' -Z: %.3f ; Mz : %.3f',[z,Diameter(z)*100]));
+    fRaport.Add(Format(' -Z: %.3f ; Mz : %.3f',[z,Diameter(z-epsilon)*100]));
 
     z:=z+krok;
   end;
-
-   }
-
 
 end;
 
@@ -870,7 +836,7 @@ var
 begin
   sel := (Sender as TTreeView).Selected;
 
-  if sel = fWspolBezp then actWspBezp.Execute else
+ // if sel = fWspolBezp then actWspBezp.Execute else
   if sel = fNaprezeniaG then actNaprezeniaG.Execute else
   if sel = fNaprezeniaS then actNaprezeniaG.Execute else
   if sel = fWspRed then actWspRed.Execute else
@@ -893,7 +859,7 @@ var
   load: TLoad;
 begin
   // aktualizacja informacji o danych materiałowych
-  fWspolBezp.Text:= Format('Współczynnik bezpieczeństwa: %.1f', [safety_factor]) ;
+  //fWspolBezp.Text:= Format('Współczynnik bezpieczeństwa: %.1f', [safety_factor]) ;
   fNaprezeniaG.Text:= Format('Dopuszczalne naprężenia na zginanie kg [MPa]: %.0f', [naprezeniaG]);
   fNaprezeniaS.Text:= Format('Dopuszczalne naprężenia na skręcanie ks [MPa]: %.0f', [naprezeniaS]);
   fWspRed.Text:= Format('Współczynnik redukcyjny: %s', [IfThen(abs(reduction - sqrt(3)/2)<0.01, '√3/2', '√3/4')]);
