@@ -3,7 +3,7 @@ object Form3: TForm3
   Top = 0
   ActiveControl = edtFx
   BorderStyle = bsDialog
-  Caption = 'Si'#322#261' poza wa'#322'em'
+  Caption = 'Si'#322'a poza wa'#322'em'
   ClientHeight = 199
   ClientWidth = 239
   Color = clBtnFace
@@ -12,6 +12,7 @@ object Form3: TForm3
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  OldCreateOrder = True
   Position = poMainFormCenter
   PixelsPerInch = 96
   TextHeight = 13
@@ -97,8 +98,6 @@ object Form3: TForm3
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 6
-    ExplicitTop = 181
-    ExplicitWidth = 289
     object btnOK: TButton
       AlignWithMargins = True
       Left = 84
@@ -109,7 +108,6 @@ object Form3: TForm3
       Caption = 'OK'
       ModalResult = 1
       TabOrder = 0
-      ExplicitLeft = 134
     end
     object btnCancel: TButton
       AlignWithMargins = True
@@ -121,7 +119,6 @@ object Form3: TForm3
       Caption = 'Anuluj'
       ModalResult = 2
       TabOrder = 1
-      ExplicitLeft = 213
     end
   end
   object edtY: TEdit

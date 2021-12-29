@@ -17,7 +17,6 @@ type
     actSaveRaport: TFileSaveAs;
     pmPopup: TPopupMenu;
     actSila: TAction;
-    Sia1: TMenuItem;
     actSilaPozaWalem: TAction;
     actMoment: TAction;
     actTorque: TAction;

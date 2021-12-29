@@ -11,6 +11,7 @@ object Form1: TForm1
   Font.Name = 'Tahoma'
   Font.Style = []
   Menu = mmMenu
+  OldCreateOrder = True
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   PixelsPerInch = 96
@@ -724,9 +725,6 @@ object Form1: TForm1
   object pmPopup: TPopupMenu
     Left = 656
     Top = 16
-    object Sia1: TMenuItem
-      Action = actSila
-    end
     object SiaPozaWaem1: TMenuItem
       Action = actSilaPozaWalem
     end
