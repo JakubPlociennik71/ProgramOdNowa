@@ -72,6 +72,7 @@ object Form1: TForm1
       ReadOnly = True
       RightClickSelect = True
       TabOrder = 0
+      OnCustomDrawItem = tvTreeCustomDrawItem
       OnDblClick = tvTreeDblClick
     end
     object mmRaport: TMemo

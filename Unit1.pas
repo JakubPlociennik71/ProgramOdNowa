@@ -71,6 +71,8 @@ type
     procedure actSaveRaportAccept(Sender: TObject);
     procedure actRodzajNaprExecute(Sender: TObject);
     procedure actUsunWszystkoExecute(Sender: TObject);
+    procedure tvTreeCustomDrawItem(Sender: TCustomTreeView; Node: TTreeNode;
+      State: TCustomDrawState; var DefaultDraw: Boolean);
   private
     function Equivalent(AZ: Double): Double;
     function Diameter(AZ: Double): Double;
@@ -615,6 +617,15 @@ begin
     // przejście do następnego przekroju
     z := z + krok;
   end;
+end;
+
+procedure TForm1.tvTreeCustomDrawItem(Sender: TCustomTreeView; Node: TTreeNode;
+  State: TCustomDrawState; var DefaultDraw: Boolean);
+begin
+  if not Assigned(Node.Parent) then
+    Sender.Canvas.Font.Style := [fsBold]
+  else
+    Sender.Canvas.Font.Style := [];
 end;
 
 procedure TForm1.tvTreeDblClick(Sender: TObject);
