@@ -30,6 +30,7 @@ implementation
 
 procedure TForm6.Init(AZ: Double);
 begin
+  Position := poMainFormCenter;
   edtZ.Text := FloatToStr(AZ);
 end;
 

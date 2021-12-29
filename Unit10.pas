@@ -29,6 +29,7 @@ implementation
 
 procedure TForm10.Init(AWspRed: Double);
 begin
+  Position := poMainFormCenter;
   rbDwukierunkowy.Checked := Abs(AWspRed - sqrt(3) / 2) < 0.01;
   rbJednokierunkowy.Checked := not rbDwukierunkowy.Checked;
 end;

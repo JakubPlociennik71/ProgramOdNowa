@@ -481,6 +481,7 @@ var
   load: TLoad;
   points: TAoD;
   section, idx: Integer;
+  today: TDateTime;
 
   procedure AddValues(AFormat: string; AZ, ALeft, ARight: Double);
   begin
@@ -494,6 +495,12 @@ begin
   // Jeśli nie ma obciążeń to nie ma po co generować raportu
   if Shaft.Count = 0 then Exit;
 
+
+  //Aktualna data
+  today := Now;
+  fRaport.Add('Raport wygenerowano dnia  '+DateToStr(today));
+  fRaport.Add('O godzinie  '+TimeToStr(today));
+  fRaport.Add('');
   // Dane materiałowe
   fRaport.Add('1. Dane materiałowe');
   fRaport.Add(Format('  Dopuszczalne naprężenia na zginanie kg [MPa]: %.0f',[naprezeniaG]));

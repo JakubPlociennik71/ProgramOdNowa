@@ -12,6 +12,7 @@ object Form13: TForm13
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  OldCreateOrder = True
   Position = poMainFormCenter
   PixelsPerInch = 96
   TextHeight = 13

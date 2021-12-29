@@ -29,6 +29,7 @@ implementation
 
 procedure TForm13.init(naprezenia: boolean);
 begin
+  Position := poMainFormCenter;
   rbGnace.Checked := naprezenia;
   rbSkrecajace.Checked := not rbGnace.Checked;
 end;

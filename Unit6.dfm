@@ -3,7 +3,7 @@ object Form6: TForm6
   Top = 0
   ActiveControl = edtZ
   BorderStyle = bsDialog
-  Caption = 'Po'#322'o'#380'enie podpory'
+  Caption = 'Po'#322'o'#380'enie podpory [m]'
   ClientHeight = 79
   ClientWidth = 270
   Color = clBtnFace
@@ -12,6 +12,7 @@ object Form6: TForm6
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  OldCreateOrder = True
   Position = poMainFormCenter
   PixelsPerInch = 96
   TextHeight = 13

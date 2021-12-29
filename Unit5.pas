@@ -32,6 +32,7 @@ implementation
 
 procedure TForm5.Init(ATorque: TTorque);
 begin
+  Position := poMainFormCenter;
   edtTorque.Text := '0';
   edtZ.Text := '0';
 

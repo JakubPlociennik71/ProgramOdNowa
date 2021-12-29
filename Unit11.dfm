@@ -16,7 +16,8 @@ object Form11: TForm11
   Padding.Top = 4
   Padding.Right = 4
   Padding.Bottom = 4
-  Position = poScreenCenter
+  OldCreateOrder = True
+  Position = poMainFormCenter
   PixelsPerInch = 96
   TextHeight = 13
   object Label3: TLabel
@@ -49,8 +50,6 @@ object Form11: TForm11
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 2
-    ExplicitTop = 120
-    ExplicitWidth = 242
     object btnOK: TButton
       AlignWithMargins = True
       Left = 72
@@ -61,7 +60,6 @@ object Form11: TForm11
       Caption = 'OK'
       ModalResult = 1
       TabOrder = 0
-      ExplicitLeft = 87
     end
     object btnCancel: TButton
       AlignWithMargins = True
@@ -73,7 +71,6 @@ object Form11: TForm11
       Caption = 'Anuluj'
       ModalResult = 2
       TabOrder = 1
-      ExplicitLeft = 166
     end
   end
   object edtKs: TEdit

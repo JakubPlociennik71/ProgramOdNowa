@@ -727,6 +727,7 @@ object Form1: TForm1
     Top = 16
     object SiaPozaWaem1: TMenuItem
       Action = actSilaPozaWalem
+      Caption = 'Si'#322'a'
     end
     object Momentgncy1: TMenuItem
       Action = actMoment

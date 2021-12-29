@@ -3,7 +3,7 @@ object Form5: TForm5
   Top = 0
   ActiveControl = edtTorque
   BorderStyle = bsDialog
-  Caption = 'Moment skr'#281'caj'#261'cy'
+  Caption = 'Moment skr'#281'caj'#261'cy [kNm]'
   ClientHeight = 97
   ClientWidth = 218
   Color = clBtnFace
@@ -12,6 +12,7 @@ object Form5: TForm5
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  OldCreateOrder = True
   Position = poMainFormCenter
   PixelsPerInch = 96
   TextHeight = 13
@@ -53,8 +54,6 @@ object Form5: TForm5
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 2
-    ExplicitTop = 139
-    ExplicitWidth = 313
     object btnOK: TButton
       AlignWithMargins = True
       Left = 63
@@ -65,7 +64,6 @@ object Form5: TForm5
       Caption = 'OK'
       ModalResult = 1
       TabOrder = 0
-      ExplicitLeft = 158
     end
     object btnCancel: TButton
       AlignWithMargins = True
@@ -77,7 +75,6 @@ object Form5: TForm5
       Caption = 'Anuluj'
       ModalResult = 2
       TabOrder = 1
-      ExplicitLeft = 237
     end
   end
 end

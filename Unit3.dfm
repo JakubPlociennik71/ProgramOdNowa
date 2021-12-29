@@ -3,7 +3,7 @@ object Form3: TForm3
   Top = 0
   ActiveControl = edtFx
   BorderStyle = bsDialog
-  Caption = 'Si'#322'a poza wa'#322'em'
+  Caption = 'Si'#322'a [kN]'
   ClientHeight = 199
   ClientWidth = 239
   Color = clBtnFace

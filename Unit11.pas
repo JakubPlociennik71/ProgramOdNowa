@@ -31,6 +31,7 @@ implementation
 
 procedure TForm11.Init(kg,ks: double);
 begin
+  Position := poMainFormCenter;
   edtKg.Text := FloatToStr(kg);
   edtKs.Text := FloatToStr(ks);
 end;

@@ -12,6 +12,7 @@ object Form10: TForm10
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  OldCreateOrder = True
   Position = poMainFormCenter
   PixelsPerInch = 96
   TextHeight = 13
@@ -39,8 +40,6 @@ object Form10: TForm10
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 2
-    ExplicitTop = 148
-    ExplicitWidth = 395
     object btnOK: TButton
       AlignWithMargins = True
       Left = 149
@@ -51,7 +50,6 @@ object Form10: TForm10
       Caption = 'OK'
       ModalResult = 1
       TabOrder = 0
-      ExplicitLeft = 240
     end
     object btnCancel: TButton
       AlignWithMargins = True
@@ -63,7 +61,6 @@ object Form10: TForm10
       Caption = 'Anuluj'
       ModalResult = 2
       TabOrder = 1
-      ExplicitLeft = 319
     end
   end
 end

@@ -33,6 +33,7 @@ implementation
 
 procedure TForm4.Init(AMoment: TMoment);
 begin
+  Position := poMainFormCenter;
   edtMomentX.Text := '0';
   edtMomentY.Text := '0';
   edtZ.Text := '0';

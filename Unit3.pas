@@ -39,6 +39,7 @@ implementation
 
 procedure TForm3.Init(AForce: TForce);
 begin
+  Position := poMainFormCenter;
   edtFx.Text := '0';
   edtFy.Text := '0';
   edtFz.Text := '0';

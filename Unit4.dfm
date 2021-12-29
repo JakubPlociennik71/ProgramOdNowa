@@ -3,7 +3,7 @@ object Form4: TForm4
   Top = 0
   ActiveControl = edtMomentX
   BorderStyle = bsDialog
-  Caption = 'Moment gn'#261'cy'
+  Caption = 'Moment gn'#261'cy [kNm]'
   ClientHeight = 121
   ClientWidth = 220
   Color = clBtnFace
@@ -12,6 +12,7 @@ object Form4: TForm4
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  OldCreateOrder = True
   Position = poMainFormCenter
   PixelsPerInch = 96
   TextHeight = 13
@@ -68,8 +69,6 @@ object Form4: TForm4
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 3
-    ExplicitTop = 138
-    ExplicitWidth = 293
     object btnOK: TButton
       AlignWithMargins = True
       Left = 65
@@ -80,7 +79,6 @@ object Form4: TForm4
       Caption = 'OK'
       ModalResult = 1
       TabOrder = 0
-      ExplicitLeft = 138
     end
     object btnCancel: TButton
       AlignWithMargins = True
@@ -92,7 +90,6 @@ object Form4: TForm4
       Caption = 'Anuluj'
       ModalResult = 2
       TabOrder = 1
-      ExplicitLeft = 217
     end
   end
 end
