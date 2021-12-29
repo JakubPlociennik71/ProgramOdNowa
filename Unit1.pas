@@ -505,8 +505,8 @@ begin
   fRaport.Add('');
   // Dane materiałowe
   fRaport.Add('1. Dane materiałowe');
-  fRaport.Add(Format('  Dopuszczalne naprężenia na zginanie kg [MPa]: %.0f',[naprezeniaG]));
-  fRaport.Add(Format('  Dopuszczalne naprężenia na skręcanie ks [MPa]: %.0f',[naprezeniaS]));
+  fRaport.Add(Format('  Dopuszczalne naprężenia na zginanie kg [MPa]: %.1f',[naprezeniaG]));
+  fRaport.Add(Format('  Dopuszczalne naprężenia na skręcanie ks [MPa]: %.1f',[naprezeniaS]));
   fRaport.Add('');
 
   // Obciązenia

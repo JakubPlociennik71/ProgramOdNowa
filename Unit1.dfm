@@ -730,11 +730,11 @@ object Form1: TForm1
       Action = actSilaPozaWalem
       Caption = 'Si'#322'a'
     end
-    object Momentgncy1: TMenuItem
-      Action = actMoment
-    end
     object Momentskrcajcy1: TMenuItem
       Action = actTorque
+    end
+    object Momentgncy1: TMenuItem
+      Action = actMoment
     end
     object Zmianapooeniapodporyprzesuwnej1: TMenuItem
       Action = actPrzesuwna

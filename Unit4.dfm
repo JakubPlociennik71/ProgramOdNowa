@@ -5,7 +5,7 @@ object Form4: TForm4
   BorderStyle = bsDialog
   Caption = 'Moment gn'#261'cy [kNm]'
   ClientHeight = 121
-  ClientWidth = 220
+  ClientWidth = 261
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -19,34 +19,34 @@ object Form4: TForm4
   object Label2: TLabel
     Left = 10
     Top = 65
-    Width = 47
+    Width = 66
     Height = 13
-    Caption = 'Odleg'#322'o'#347#263
+    Caption = 'Odleg'#322'o'#347#263' [m]'
   end
   object Label3: TLabel
     Left = 8
     Top = 8
-    Width = 49
+    Width = 80
     Height = 13
-    Caption = 'Warto'#347#263' X'
+    Caption = 'Warto'#347#263' X [kNm]'
   end
   object Label4: TLabel
     Left = 8
     Top = 38
-    Width = 49
+    Width = 80
     Height = 13
-    Caption = 'Warto'#347#263' Y'
+    Caption = 'Warto'#347#263' Y [kNm]'
   end
   object edtMomentX: TEdit
-    Left = 63
-    Top = 5
+    Left = 94
+    Top = 8
     Width = 143
     Height = 21
     TabOrder = 0
     Text = '0'
   end
   object edtMomentY: TEdit
-    Left = 63
+    Left = 94
     Top = 35
     Width = 143
     Height = 21
@@ -54,7 +54,7 @@ object Form4: TForm4
     Text = '0'
   end
   object edtZ: TEdit
-    Left = 63
+    Left = 94
     Top = 62
     Width = 143
     Height = 21
@@ -64,14 +64,15 @@ object Form4: TForm4
   object pnlBottom: TPanel
     Left = 0
     Top = 90
-    Width = 220
+    Width = 261
     Height = 31
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 3
+    ExplicitWidth = 220
     object btnOK: TButton
       AlignWithMargins = True
-      Left = 65
+      Left = 106
       Top = 3
       Width = 73
       Height = 25
@@ -79,10 +80,11 @@ object Form4: TForm4
       Caption = 'OK'
       ModalResult = 1
       TabOrder = 0
+      ExplicitLeft = 65
     end
     object btnCancel: TButton
       AlignWithMargins = True
-      Left = 144
+      Left = 185
       Top = 3
       Width = 73
       Height = 25
@@ -90,6 +92,7 @@ object Form4: TForm4
       Caption = 'Anuluj'
       ModalResult = 2
       TabOrder = 1
+      ExplicitLeft = 144
     end
   end
 end

@@ -5,7 +5,7 @@ object Form5: TForm5
   BorderStyle = bsDialog
   Caption = 'Moment skr'#281'caj'#261'cy [kNm]'
   ClientHeight = 97
-  ClientWidth = 218
+  ClientWidth = 252
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -19,28 +19,28 @@ object Form5: TForm5
   object Label2: TLabel
     Left = 8
     Top = 41
-    Width = 47
+    Width = 66
     Height = 13
-    Caption = 'Odleg'#322'o'#347#263
+    Caption = 'Odleg'#322'o'#347#263' [m]'
   end
   object Label3: TLabel
     Left = 8
     Top = 8
-    Width = 40
+    Width = 71
     Height = 13
-    Caption = 'Warto'#347#263
+    Caption = 'Warto'#347#263' [kNm]'
   end
   object edtTorque: TEdit
-    Left = 63
-    Top = 5
+    Left = 101
+    Top = 8
     Width = 143
     Height = 21
     TabOrder = 0
     Text = '0'
   end
   object edtZ: TEdit
-    Left = 63
-    Top = 38
+    Left = 101
+    Top = 39
     Width = 143
     Height = 21
     TabOrder = 1
@@ -49,14 +49,15 @@ object Form5: TForm5
   object pnlBottom: TPanel
     Left = 0
     Top = 66
-    Width = 218
+    Width = 252
     Height = 31
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 2
+    ExplicitWidth = 218
     object btnOK: TButton
       AlignWithMargins = True
-      Left = 63
+      Left = 97
       Top = 3
       Width = 73
       Height = 25
@@ -64,10 +65,11 @@ object Form5: TForm5
       Caption = 'OK'
       ModalResult = 1
       TabOrder = 0
+      ExplicitLeft = 63
     end
     object btnCancel: TButton
       AlignWithMargins = True
-      Left = 142
+      Left = 176
       Top = 3
       Width = 73
       Height = 25
@@ -75,6 +77,7 @@ object Form5: TForm5
       Caption = 'Anuluj'
       ModalResult = 2
       TabOrder = 1
+      ExplicitLeft = 142
     end
   end
 end

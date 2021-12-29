@@ -19,44 +19,44 @@ object Form3: TForm3
   object Label2: TLabel
     Left = 1
     Top = 89
-    Width = 56
+    Width = 75
     Height = 13
-    Caption = 'Odleg'#322'o'#347#263' X'
+    Caption = 'Odleg'#322'o'#347#263' X [m]'
   end
   object Label3: TLabel
     Left = 0
     Top = 8
-    Width = 49
+    Width = 72
     Height = 13
-    Caption = 'Warto'#347#263' X'
+    Caption = 'Warto'#347#263' X [kN]'
   end
   object Label4: TLabel
     Left = 0
     Top = 35
-    Width = 49
+    Width = 72
     Height = 13
-    Caption = 'Warto'#347#263' Y'
+    Caption = 'Warto'#347#263' Y [kN]'
   end
   object Label8: TLabel
     Left = 0
     Top = 63
-    Width = 49
+    Width = 72
     Height = 13
-    Caption = 'Warto'#347#263' Z'
+    Caption = 'Warto'#347#263' Z [kN]'
   end
   object Label1: TLabel
     Left = 1
     Top = 116
-    Width = 56
+    Width = 75
     Height = 13
-    Caption = 'Odleg'#322'o'#347#263' Y'
+    Caption = 'Odleg'#322'o'#347#263' Y [m]'
   end
   object Label5: TLabel
     Left = 1
     Top = 143
-    Width = 56
+    Width = 75
     Height = 13
-    Caption = 'Odleg'#322'o'#347#263' Z'
+    Caption = 'Odleg'#322'o'#347#263' Z [m]'
   end
   object edtFx: TEdit
     Left = 79
