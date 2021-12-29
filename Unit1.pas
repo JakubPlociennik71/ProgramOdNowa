@@ -584,6 +584,10 @@ begin
   fRaport.Add('');
 
   fRaport.Add('4.4. Moment zredukowany (moment Mz w [Nm], odległość Z w [m])');
+
+  fRaport.Add(Format('    Przeważające naprężenia dla obliczeń: %.s', [fPrzewazajace]));
+  fRaport.Add(Format('    Współczynnik redukcyjny: (%.2f', [reduction]));
+
   for z in points do AddValues('    Z: %.3f; F: %.2f', z, Equivalent(z - EPSILON) * 1000, Equivalent(z) * 1000);
   fRaport.Add('');
 
