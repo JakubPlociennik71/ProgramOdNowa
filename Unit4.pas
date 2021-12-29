@@ -11,8 +11,8 @@ type
     Label2: TLabel;
     Label3: TLabel;
     Label4: TLabel;
-    edtFx: TEdit;
-    edtFy: TEdit;
+    edtMomentX: TEdit;
+    edtMomentY: TEdit;
     edtZ: TEdit;
     pnlBottom: TPanel;
     btnOK: TButton;
@@ -31,19 +31,15 @@ implementation
 
 {$R *.dfm}
 
-uses Unit1, Unit2, Unit3;
-
-
-
 procedure TForm4.Init(AMoment: TMoment);
 begin
-  edtFx.Text := '0';
-  edtFy.Text := '0';
+  edtMomentX.Text := '0';
+  edtMomentY.Text := '0';
   edtZ.Text := '0';
 
   if Assigned(AMoment) then begin
-    edtFx.Text := FloatToStr(AMoment.MomentX);
-    edtFy.Text := FloatToStr(AMoment.MomentY);
+    edtMomentX.Text := FloatToStr(AMoment.MomentX);
+    edtMomentY.Text := FloatToStr(AMoment.MomentY);
     edtZ.Text := FloatToStr(AMoment.Z);
   end;
 end;

@@ -1,6 +1,7 @@
 object Form2: TForm2
   Left = 0
   Top = 0
+  ActiveControl = edtFx
   BorderStyle = bsDialog
   Caption = 'Si'#322'a'
   ClientHeight = 158
@@ -11,7 +12,6 @@ object Form2: TForm2
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  OldCreateOrder = True
   Position = poMainFormCenter
   PixelsPerInch = 96
   TextHeight = 13

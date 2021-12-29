@@ -419,7 +419,7 @@ begin
 
   // ustawiam wysokość kontrolki tak aby mogła pomieścić wszystkie wykresy i kasuję tło
   can := AControl.GetCanvas;
-  AControl.Height := (Length(ASeries.Data) + 2) * (DIAGRAM_HEIGHT + DIAGRAM_SPACING) + DIAGRAM_TOP_MARGIN + DIAGRAM_MARGINS - DIAGRAM_SPACING;
+  AControl.Height := (Length(ASeries.Data) + IfThen(Shaft.Config = lcSpatial, 2, 1)) * (DIAGRAM_HEIGHT + DIAGRAM_SPACING) + DIAGRAM_TOP_MARGIN + DIAGRAM_MARGINS - DIAGRAM_SPACING;
   ClearRect(can, AControl.ClientRect, clWindow);
 
   // obszar przeznaczony na pojedynczy wykres
@@ -429,15 +429,19 @@ begin
   PaintSections(can, ASeries.ZValues);
 
   // schemat obciążeń w płaszczyznach YZ oraz XZ
-  PrepareMap(Shaft.MinZValue, -1, Shaft.MaxZValue, 1, rct);
-  PaintName(can, rct, clWindowText, 'YZ');
-  PaintLoads(can, Shaft, True);
-  rct.Offset(0, DIAGRAM_HEIGHT + DIAGRAM_SPACING);
+  if Shaft.Config in [lcCoplanarY, lcSpatial] then begin
+    PrepareMap(Shaft.MinZValue, -1, Shaft.MaxZValue, 1, rct);
+    PaintName(can, rct, clWindowText, 'Obciążenia YZ');
+    PaintLoads(can, Shaft, True);
+    rct.Offset(0, DIAGRAM_HEIGHT + DIAGRAM_SPACING);
+  end;
 
-  PrepareMap(Shaft.MinZValue, -1, Shaft.MaxZValue, 1, rct);
-  PaintName(can, rct, clWindowText, 'XZ');
-  PaintLoads(can, Shaft, False);
-  rct.Offset(0, DIAGRAM_HEIGHT + DIAGRAM_SPACING);
+  if Shaft.Config in [lcCoplanarX, lcSpatial] then begin
+    PrepareMap(Shaft.MinZValue, -1, Shaft.MaxZValue, 1, rct);
+    PaintName(can, rct, clWindowText, 'Obciążenia XZ');
+    PaintLoads(can, Shaft, False);
+    rct.Offset(0, DIAGRAM_HEIGHT + DIAGRAM_SPACING);
+  end;
 
   // rysuję wykresy
   rct.Height := DIAGRAM_HEIGHT;

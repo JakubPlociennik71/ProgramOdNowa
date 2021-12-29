@@ -8,8 +8,8 @@ uses
 
 type
   TForm10 = class(TForm)
-    RadioButton1: TRadioButton;
-    RadioButton2: TRadioButton;
+    rbDwukierunkowy: TRadioButton;
+    rbJednokierunkowy: TRadioButton;
     pnlBottom: TPanel;
     btnOK: TButton;
     btnCancel: TButton;
@@ -17,7 +17,7 @@ type
     { Private declarations }
   public
     { Public declarations }
-    procedure init(wspRed: double);
+    procedure Init(AWspRed: Double);
   end;
 
 var
@@ -27,16 +27,10 @@ implementation
 
 {$R *.dfm}
 
-uses Unit1, Unit2, Unit3, Unit4, Unit5, Unit6, Unit7, Unit8, Unit9,Loads;
-
-
-
-procedure TForm10.init(wspRed: double);
+procedure TForm10.Init(AWspRed: Double);
 begin
-
-  RadioButton1.Checked:= Abs(wspRed-sqrt(3)/2)<0.01 ;
-  RadioButton2.Checked:= Not RadioButton1.Checked ;
-
+  rbDwukierunkowy.Checked := Abs(AWspRed - sqrt(3) / 2) < 0.01;
+  rbJednokierunkowy.Checked := not rbDwukierunkowy.Checked;
 end;
 
 end.

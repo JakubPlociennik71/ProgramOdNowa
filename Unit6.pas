@@ -16,7 +16,7 @@ type
   private
     { Private declarations }
   public
-    { Public declarations }
+    procedure Init(AZ: Double);
   end;
 
 var
@@ -26,6 +26,11 @@ implementation
 
 {$R *.dfm}
 
-uses Unit1, Unit2, Unit3, Unit4, Unit5;
+{ TForm6 }
+
+procedure TForm6.Init(AZ: Double);
+begin
+  edtZ.Text := FloatToStr(AZ);
+end;
 
 end.

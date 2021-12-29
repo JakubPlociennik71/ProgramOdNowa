@@ -11,7 +11,6 @@ object Form1: TForm1
   Font.Name = 'Tahoma'
   Font.Style = []
   Menu = mmMenu
-  OldCreateOrder = True
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   PixelsPerInch = 96
@@ -30,7 +29,7 @@ object Form1: TForm1
     Height = 681
     Align = alRight
     Anchors = [akLeft, akTop, akRight, akBottom]
-    TabOrder = 0
+    TabOrder = 1
     object pbDiagrams: TPaintBox
       Left = 0
       Top = 0
@@ -49,7 +48,7 @@ object Form1: TForm1
     Height = 681
     Align = alClient
     BevelOuter = bvNone
-    TabOrder = 1
+    TabOrder = 0
     object splLeft: TSplitter
       Left = 0
       Top = 233
@@ -93,14 +92,13 @@ object Form1: TForm1
       Caption = 'Zamiana podp'#243'r'
       OnClick = Zamianapodpr1Click
     end
-    object Usuobcienie1: TMenuItem
+    object miUsunObc: TMenuItem
       Action = actUsunObc
     end
-    object Usuwszystkieobcienia1: TMenuItem
+    object miUsunWszystko: TMenuItem
       Action = actUsunWszystko
-      Caption = 'Reset obci'#261#380'e'#324
     end
-    object Zapiszwyikidopliku1: TMenuItem
+    object miSaveRaport: TMenuItem
       Action = actSaveRaport
     end
   end
@@ -119,26 +117,6 @@ object Form1: TForm1
       ImageIndex = 6
       OnAccept = actSaveRaportAccept
     end
-    object FileExit1: TFileExit
-      Category = 'File'
-      Caption = 'E&xit'
-      Hint = 'Exit|Quits the application'
-      ImageIndex = 7
-    end
-    object FileOpen1: TFileOpen
-      Category = 'File'
-      Caption = '&Open...'
-      Hint = 'Open|Opens an existing file'
-      ImageIndex = 8
-      ShortCut = 16463
-    end
-    object FileOpen2: TFileOpen
-      Category = 'File'
-      Caption = '&Open...'
-      Hint = 'Open|Opens an existing file'
-      ImageIndex = 9
-      ShortCut = 16463
-    end
     object actSila: TAction
       Caption = 'Si'#322'a'
       OnExecute = actSilaExecute
@@ -148,16 +126,28 @@ object Form1: TForm1
       OnExecute = actSilaEditExecute
     end
     object actSilaPozaWalem: TAction
-      Caption = 'Si'#322'a Poza Wa'#322'em'
+      Caption = 'Si'#322'a poza wa'#322'em'
       OnExecute = actSilaPozaWalemExecute
+    end
+    object actSilaPozaWalemEdit: TAction
+      Caption = 'actSilaPozaWalemEdit'
+      OnExecute = actSilaPozaWalemEditExecute
     end
     object actMoment: TAction
       Caption = 'Moment gn'#261'cy'
       OnExecute = actMomentExecute
     end
+    object actMomentEdit: TAction
+      Caption = 'actMomentEdit'
+      OnExecute = actMomentEditExecute
+    end
     object actTorque: TAction
       Caption = 'Moment skr'#281'caj'#261'cy'
       OnExecute = actTorqueExecute
+    end
+    object actTorqueEdit: TAction
+      Caption = 'actTorqueEdit'
+      OnExecute = actTorqueEditExecute
     end
     object actPrzesuwna: TAction
       Caption = 'Zmiana po'#322'o'#380'enia podpory przesuwnej'
@@ -167,53 +157,25 @@ object Form1: TForm1
       Caption = 'Zmiana po'#322'o'#380'enia podpry sta'#322'ej'
       OnExecute = actStalaExecute
     end
-    object HelpContents1: THelpContents
-      Category = 'Help'
-      Caption = '&Contents'
-      Enabled = False
-      Hint = 'Help Contents'
-      ImageIndex = 10
-    end
     object actWyniki: TAction
       Caption = 'Wyniki oblicze'#324
       OnExecute = actWynikiExecute
-    end
-    object actUsunWszystko: TAction
-      Caption = 'Usu'#324' wszystkie obci'#261#380'enia'
-      OnExecute = actUsunWszystkoExecute
     end
     object actUsunObc: TAction
       Caption = 'Usu'#324' obci'#261#380'enie'
       OnExecute = actUsunObcExecute
     end
-    object actMomentEdit: TAction
-      Caption = 'actMomentEdit'
-      OnExecute = actMomentEditExecute
+    object actUsunWszystko: TAction
+      Caption = 'Usu'#324' wszystkie obci'#261#380'enia'
+      OnExecute = actUsunWszystkoExecute
     end
-    object actTorqueEdit: TAction
-      Caption = 'actTorqueEdit'
-      OnExecute = actTorqueEditExecute
-    end
-    object actSilaPozaWalemEdit: TAction
-      Caption = 'actSilaPozaWalemEdit'
-      OnExecute = actSilaPozaWalemEditExecute
-    end
-    object actWspEdit: TAction
-      Caption = 'actWspEdit'
-    end
-    object actWspBezp: TAction
-      Caption = 'actWspBezp'
-      OnExecute = actWspBezpExecute
-    end
-    object actNaprezeniaG: TAction
+    object actNaprezenia: TAction
       Caption = 'actNaprezenia'
-      OnExecute = actNaprezeniaGExecute
+      OnExecute = actNaprezeniaExecute
     end
     object actWspRed: TAction
       Caption = 'actWspRed'
       OnExecute = actWspRedExecute
-    end
-    object TAction
     end
     object actRodzajNapr: TAction
       Caption = 'actRodzajNapr'
@@ -776,10 +738,12 @@ object Form1: TForm1
     end
     object Zmianapooeniapodporyprzesuwnej1: TMenuItem
       Action = actPrzesuwna
+      Visible = False
     end
     object Zmianapooeniapodprystaej1: TMenuItem
       Action = actStala
       Caption = 'Zmiana po'#322'o'#380'enia podpory sta'#322'ej'
+      Visible = False
     end
   end
 end

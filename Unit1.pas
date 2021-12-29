@@ -15,10 +15,7 @@ type
     alActions: TActionList;
     ilImages: TImageList;
     actSaveRaport: TFileSaveAs;
-    FileExit1: TFileExit;
-    FileOpen1: TFileOpen;
     pmPopup: TPopupMenu;
-    FileOpen2: TFileOpen;
     actSila: TAction;
     Sia1: TMenuItem;
     actSilaPozaWalem: TAction;
@@ -32,7 +29,6 @@ type
     Zmianapooeniapodporyprzesuwnej1: TMenuItem;
     Zmianapooeniapodprystaej1: TMenuItem;
     ScrollBox1: TScrollBox;
-    HelpContents1: THelpContents;
     pbDiagrams: TPaintBox;
     splLeft: TSplitter;
     splRight: TSplitter;
@@ -41,56 +37,41 @@ type
     Zamianapodpr1: TMenuItem;
     actWyniki: TAction;
     actUsunWszystko: TAction;
-    Usuwszystkieobcienia1: TMenuItem;
+    miUsunWszystko: TMenuItem;
     actUsunObc: TAction;
-    Usuobcienie1: TMenuItem;
+    miUsunObc: TMenuItem;
     actMomentEdit: TAction;
     actTorqueEdit: TAction;
     actSilaPozaWalemEdit: TAction;
-    Zapiszwyikidopliku1: TMenuItem;
-    actWspEdit: TAction;
-    actWspBezp: TAction;
-    actNaprezeniaG: TAction;
+    miSaveRaport: TMenuItem;
+    actNaprezenia: TAction;
     actWspRed: TAction;
     mmRaport: TMemo;
     actRodzajNapr: TAction;
-
-    procedure UsunClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure Button3Click(Sender: TObject);
-    procedure Button4Click(Sender: TObject);
-    procedure Button5Click(Sender: TObject);
-    procedure Button6Click(Sender: TObject);
-    procedure Button7Click(Sender: TObject);
-    procedure Button9Click(Sender: TObject);
-    procedure Button8Click(Sender: TObject);
     procedure actSilaExecute(Sender: TObject);
     procedure actSilaPozaWalemExecute(Sender: TObject);
     procedure actMomentExecute(Sender: TObject);
     procedure actTorqueExecute(Sender: TObject);
     procedure actPrzesuwnaExecute(Sender: TObject);
     procedure actStalaExecute(Sender: TObject);
-    procedure Wybrwspczynnikaredukujcego1Click(Sender: TObject);
-    procedure pbPaintBoxPaint(Sender: TObject);
     procedure pbDiagramsPaint(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure tvTreeDblClick(Sender: TObject);
     procedure actSilaEditExecute(Sender: TObject);
     procedure Zamianapodpr1Click(Sender: TObject);
     procedure actWynikiExecute(Sender: TObject);
-    procedure actUsunWszystkoExecute(Sender: TObject);
     procedure actUsunObcExecute(Sender: TObject);
     procedure actMomentEditExecute(Sender: TObject);
     procedure actTorqueEditExecute(Sender: TObject);
     procedure actSilaPozaWalemEditExecute(Sender: TObject);
     procedure alActionsUpdate(Action: TBasicAction; var Handled: Boolean);
-    procedure actWspBezpExecute(Sender: TObject);
-    procedure actNaprezeniaGExecute(Sender: TObject);
+    procedure actNaprezeniaExecute(Sender: TObject);
     procedure actWspRedExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure actSaveRaportAccept(Sender: TObject);
     procedure actRodzajNaprExecute(Sender: TObject);
+    procedure actUsunWszystkoExecute(Sender: TObject);
   private
     function Equivalent(AZ: Double): Double;
     function Diameter(AZ: Double): Double;
@@ -101,31 +82,16 @@ type
 
     procedure UpdateTreeData;
   public
-    sila_Y_x: TAoD;
-    sila_Y_y:TAoD;
-    sila_X_x: TAoD;
-    sila_X_y: TAoD;
-    sila_x: TAoD;
-    sila_y: TAoD;
-    moment_y: TAoD;
-    torque_y: TAoD;
-    diameter_y: TAoD;
-    safety_factor: double;
     reduction: double;
-    d: integer;
-    points: TAoD;
-    naprezeniaG,naprezeniaS: double;
-    start: integer;
+    naprezeniaG, naprezeniaS: double;
     normalne: boolean;
-    licznik_obciazen: integer;
-    path: string;
+
     // obsługa drzewka
     fPodpory, fPodporaA, fPodporaB: TTreeNode;
     fObciazenia: TTreeNode;
     fMaterial,fNaprezeniaG,fNaprezeniaS,fPrzewObc,fWspRed: TTreeNode;
-    //fWspolBezp: TTreeNode;
     fRaport: TStringList;
-     przewazajace: string;
+    fPrzewazajace: string;
   end;
 
 var
@@ -135,8 +101,7 @@ implementation
 
 {$R *.dfm}
 
-uses UITypes, Math, Diagrams, Unit2, Unit3, Unit4, Unit5, Unit6, Unit7, Unit8, Unit9, Unit10, Unit11,
-  Unit12,StrUtils, Unit13;
+uses UITypes, Math, StrUtils, Diagrams, Unit2, Unit3, Unit4, Unit5, Unit6, Unit10, Unit11, Unit13;
 
 procedure TForm1.actMomentEditExecute(Sender: TObject);
 var
@@ -149,8 +114,8 @@ begin
   if Form4.ShowModal <> mrOK then Exit;
 
   // konwertuję dane tekstowe na liczbowe
-  mx := StrToFloat(Form4.edtFx.Text);
-  my := StrToFloat(Form4.edtFy.Text);
+  mx := StrToFloat(Form4.edtMomentX.Text);
+  my := StrToFloat(Form4.edtMomentY.Text);
   z := StrToFloat(Form4.edtZ.Text);
 
   // aktualizuję wartość oraz położenie siły
@@ -158,6 +123,7 @@ begin
   m.MomentY:=my;
   m.Z := z;
 end;
+
 procedure TForm1.actMomentExecute(Sender: TObject);
 var
   m: TMoment;
@@ -167,26 +133,25 @@ begin
   if Form4.ShowModal <> mrOK then Exit;
 
   // tworzę moment na podstawie danych z okienka
-  m := Shaft.AddMoment(StrToFloat(Form4.edtFx.Text), StrToFloat(Form4.edtFy.Text), StrToFloat(Form4.edtZ.Text));
+  m := Shaft.AddMoment(StrToFloat(Form4.edtMomentX.Text), StrToFloat(Form4.edtMomentY.Text), StrToFloat(Form4.edtZ.Text));
 
   // jeśli udało się utworzyć siłę to dodaję odpowiedni węzeł do drzewka i aktualizuję dane
   tvTree.Selected := tvTree.Items.AddChildObject(fObciazenia, EmptyStr, m);
   UpdateTreeData;
 end;
 
-procedure TForm1.actNaprezeniaGExecute(Sender: TObject);
+procedure TForm1.actNaprezeniaExecute(Sender: TObject);
 begin
   Form11.Init(naprezeniaG,naprezeniaS);
+
   if Form11.ShowModal <> mrOK then Exit;
 
-  if (StrToFloat(Form11.edtKg.Text)<=0) or (StrToFloat(Form11.edtKs.Text)<=0)  then ShowMessage('Wpisano wartość mniejszą od 0') else begin
+  if (StrToFloat(Form11.edtKg.Text) > 0) and (StrToFloat(Form11.edtKs.Text) > 0) then begin
     naprezeniaG:=StrToFloat(Form11.edtKg.Text);
     naprezeniaS:=StrToFloat(Form11.edtKs.Text);
     UpdateTreeData;
-  end;
-
-
-
+  end else
+    ShowMessage('Wpisano wartość mniejszą od 0');
 end;
 
 procedure TForm1.actPrzesuwnaExecute(Sender: TObject);
@@ -200,19 +165,16 @@ end;
 
 procedure TForm1.actRodzajNaprExecute(Sender: TObject);
 begin
-Form13.init(normalne,przewazajace);
+  Form13.init(normalne);
 
   if Form13.ShowModal <> mrOK then Exit;
 
-   if Form13.RadioButton1.Checked then begin
-    normalne:=true;
-    przewazajace:='Gnące';
-
-
+   if Form13.rbGnace.Checked then begin
+    normalne := True;
+    fPrzewazajace := 'Gnące';
   end else begin
-    normalne:=false;
-    przewazajace:='Skręcające';
-
+    normalne := false;
+    fPrzewazajace := 'Skręcające';
   end;
 
   UpdateTreeData;
@@ -220,7 +182,7 @@ end;
 
 procedure TForm1.actSaveRaportAccept(Sender: TObject);
 begin
-  raport;
+  Raport;
   fRaport.SaveToFile(actSaveRaport.Dialog.FileName);
 end;
 
@@ -289,7 +251,6 @@ begin
   f.Z := z;
   f.X := x;
   f.Y := y;
-
 end;
 
 procedure TForm1.actSilaPozaWalemExecute(Sender: TObject);
@@ -328,13 +289,14 @@ begin
   if Form5.ShowModal <> mrOK then Exit;
 
   // konwertuję dane tekstowe na liczbowe
-  tx := StrToFloat(Form5.edtFx.Text);
+  tx := StrToFloat(Form5.edtTorque.Text);
   z := StrToFloat(Form5.edtZ.Text);
 
   // aktualizuję wartość oraz położenie siły
   t.Torque:=tx;
   t.Z := z;
 end;
+
 procedure TForm1.actTorqueExecute(Sender: TObject);
 var
   t: TTorque;
@@ -344,11 +306,33 @@ begin
   if Form5.ShowModal <> mrOK then Exit;
 
   // tworzę siłę na podstawie danych z okienka
-  t := Shaft.AddTorque(StrToFloat(Form5.edtFx.Text), StrToFloat(Form5.edtZ.Text));
+  t := Shaft.AddTorque(StrToFloat(Form5.edtTorque.Text), StrToFloat(Form5.edtZ.Text));
 
   // jeśli udało się utworzyć siłę to dodaję odpowiedni węzeł do drzewka i aktualizuję dane
   tvTree.Selected := tvTree.Items.AddChildObject(fObciazenia, EmptyStr, t);
   UpdateTreeData;
+end;
+
+procedure TForm1.actWspRedExecute(Sender: TObject);
+begin
+  Form10.Init(reduction);
+
+  if Form10.ShowModal <> mrOK then Exit;
+
+  reduction := IfThen(Form10.rbDwukierunkowy.Checked, sqrt(3) / 2, sqrt(3) / 4);
+  UpdateTreeData;
+end;
+
+procedure TForm1.actWynikiExecute(Sender: TObject);
+begin
+  Raport;
+  mmRaport.Lines.Assign(fRaport);
+end;
+
+procedure TForm1.actUsunObcExecute(Sender: TObject);
+begin
+  Shaft.DeleteLoad(TObject(TVTree.Selected.Data) as TLoad) ;
+  tvTree.Selected.Delete;
 end;
 
 procedure TForm1.actUsunWszystkoExecute(Sender: TObject);
@@ -356,113 +340,24 @@ begin
   Shaft.Clear;
   fObciazenia.DeleteChildren;
   UpdateTreeData;
-
-end;
-
-procedure TForm1.actWspBezpExecute(Sender: TObject);
-begin
-  Form9.Init(safety_factor);
-
-  if Form9.ShowModal <> mrOK then Exit;
-
-  if StrToFloat(Form9.Edit1.Text)<=0 then ShowMessage('Wpisano wartość mniejszą od 0') else begin
-    safety_factor:= StrToFloat(Form9.Edit1.Text);
-    UpdateTreeData;
-  end;
-
-end;
-
-procedure TForm1.actWspRedExecute(Sender: TObject);
-begin
-  Form10.init(reduction);
-
-  if Form10.ShowModal <> mrOK then Exit;
-
-  reduction:=IfThen(Form10.RadioButton1.Checked,sqrt(3)/2,sqrt(3)/4);
-  UpdateTreeData;
-end;
-
-procedure TForm1.actWynikiExecute(Sender: TObject);
-var
-  fa,fb: TP3D;
-  z,m,krok: double;
-begin
-  Raport;
-  mmRaport.Lines.Assign(fRaport);
-
-end;
-
-
-
-procedure TForm1.actUsunObcExecute(Sender: TObject);
-var
-  load: TLoad;
-begin
-
-  load:= TObject(TVTree.Selected.Data) as TLoad;
-  Shaft.DeleteLoad(load) ;
-  tvTree.Selected.Delete;
 end;
 
 procedure TForm1.alActionsUpdate(Action: TBasicAction; var Handled: Boolean);
 var
-load: TLoad;
+  load: TLoad;
 begin
+  load := nil;
 
-  Load:=nil;
-  if assigned(TVTree.selected) then  Load:=   TObject(TVTree.Selected.Data) as TLoad;
-  actusunObc.Enabled:=assigned(Load) and ((Load is TForce)or (Load is TMoment)or (Load is TTorque));
-end;
+  if Assigned(TVTree.Selected) then load := TObject(TVTree.Selected.Data) as TLoad;
+  actusunObc.Enabled := Assigned(load) and ((load is TForce) or (load is TMoment) or (load is TTorque));
 
-procedure TForm1.Button1Click(Sender: TObject);
-begin
-  Shaft.SwapSupports;
+  actUsunWszystko.Enabled := Shaft.Count > 0;
+  actSaveRaport.Enabled := fRaport.Count > 0;
 end;
 
 procedure TForm1.Button2Click(Sender: TObject);
 begin
   Shaft.Clear;
-end;
-
-procedure TForm1.Button3Click(Sender: TObject);
-var
-  fa,fb: TP3D;
-  z,m,krok: double;
-begin
-  fa:=Shaft.SupportA.Force;
-  fb:=Shaft.SupportB.Force;
-
-end;
-
-
-procedure TForm1.Button4Click(Sender: TObject);
-begin
-  Form2.Show;
-end;
-
-procedure TForm1.Button5Click(Sender: TObject);
-begin
-  Form3.Show;
-end;
-
-procedure TForm1.Button6Click(Sender: TObject);
-begin
-  Form4.Show;
-end;
-
-procedure TForm1.Button7Click(Sender: TObject);
-begin
-  Form5.Show;
-end;
-
-procedure TForm1.Button8Click(Sender: TObject);
-begin
-  Form7.Show;
-end;
-
-procedure TForm1.Button9Click(Sender: TObject);
-begin
-  Form6.Show;
 end;
 
 function TForm1.Equivalent(AZ: Double): Double;
@@ -477,7 +372,7 @@ begin
   if normalne then
     Result := Sqrt(Sqr(m) + Sqr(t * reduction))
   else
-    Result := Sqrt(Sqr(m/reduction)  + Sqr(t));
+    Result := Sqrt(Sqr(m / reduction) + Sqr(t));
 end;
 
 function TForm1.Diameter(AZ: Double): Double;
@@ -485,53 +380,39 @@ begin
   if not InRange(Az, Shaft.MinZValue, Shaft.MaxZValue) then Exit(0);
 
   if normalne then
-    Result := Power((32 * Equivalent(Az)) / (Pi * naprezeniaG), 1/3)
+    Result := Power((32 * Equivalent(AZ)) / (Pi * naprezeniaG), 1/3)
   else
-    Result := Power((16 * Equivalent(Az)) / (Pi * naprezeniaS), 1/3);
+    Result := Power((16 * Equivalent(AZ)) / (Pi * naprezeniaS), 1/3);
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
-var Node:TTreeNode;
 begin
-
   fRaport:=TStringList.Create;
 
-  start:=0;
-  normalne:=true;
-  przewazajace:='Gnące';
-  naprezeniaG:=62.5;
-  naprezeniaS:=62.5;
-  reduction:=sqrt(3)/2;
-  safety_factor:=4;
+  normalne := True;
+  fPrzewazajace := 'Gnące';
+  naprezeniaG := 62.5;
+  naprezeniaS := 62.5;
+  reduction := Sqrt(3) / 2;
 
   // tworzenie i konfiguracja drzewka
-
   fMaterial:= tvTree.Items.AddChild(nil, 'Dane materiałowe');
   fPodpory := tvTree.Items.AddChild(nil, 'Podpory');
   fObciazenia := tvTree.Items.AddChild(nil, 'Obciążenia');
 
-  //fWspolBezp:=tvTree.Items.AddChild(fMaterial, 'Współczynnik bezpieczeństwa');
   fNaprezeniaG:=tvTree.Items.AddChild(fMaterial, 'Naprężenia dopuszczalne na zginanie kg [MPa]');
   fNaprezeniaS:=tvTree.Items.AddChild(fMaterial, 'Naprężenia dopuszczalne na skręcanie ks [MPa]');
   fWspRed :=tvTree.Items.AddChild(fMaterial, 'Współczynnik redukcyjny');
   fPrzewObc :=tvTree.Items.AddChild(fMaterial, 'Przeważające naprężenia');
 
-
   fPodporaA := tvTree.Items.AddChild(fPodpory, 'Stała');    // podpora A
   fPodporaB := tvTree.Items.AddChild(fPodpory, 'Ruchoma');  // podpora B
-
-
 
   UpdateTreeData;
   TvTree.FullExpand;
 
-
-
-
-
   // przypisanie procedury obsługiwanej po zmianie danych wałka
   Shaft.OnChange := OnChange;
-  //ListBox1.Items.Add('Wyniki Obliczeń: ');
 end;
 
 procedure TForm1.FormDestroy(Sender: TObject);
@@ -570,13 +451,13 @@ begin
   // serie danych
   AddSeries(series, 'F [N]', clBlue, Shaft.Axial);
 
-  AddSeries(series, 'Ty [N]', clGreen, Shaft.ShearY);
-  AddSeries(series, 'Tx [N]', clGreen, Shaft.ShearX);
-  AddSeries(series, 'T [N]', clGreen, Shaft.Shear);
+  if Shaft.Config in [lcCoplanarY, lcSpatial] then AddSeries(series, 'Ty [N]', clGreen, Shaft.ShearY);
+  if Shaft.Config in [lcCoplanarX, lcSpatial] then AddSeries(series, 'Tx [N]', clGreen, Shaft.ShearX);
+  if Shaft.Config in [lcSpatial] then AddSeries(series, 'T [N]', clGreen, Shaft.Shear);
 
-  AddSeries(series, 'Mgy [Nm]', clRed, Shaft.MomentY);
-  AddSeries(series, 'Mgx [Nm]', clRed, Shaft.MomentX);
-  AddSeries(series, 'Mg [Nm]', clRed, Shaft.Moment);
+  if Shaft.Config in [lcCoplanarY, lcSpatial] then AddSeries(series, 'Mgy [Nm]', clRed, Shaft.MomentY);
+  if Shaft.Config in [lcCoplanarX, lcSpatial] then AddSeries(series, 'Mgx [Nm]', clRed, Shaft.MomentX);
+  if Shaft.Config in [lcSpatial] then AddSeries(series, 'Mg [Nm]', clRed, Shaft.Moment);
 
   AddSeries(series, 'Ms [Nm]', clRed, Shaft.Torque);
 
@@ -592,29 +473,36 @@ begin
   PaintDiagrams;
 end;
 
-procedure TForm1.pbPaintBoxPaint(Sender: TObject);
-begin
-  PaintDiagrams;
-end;
-
 procedure TForm1.Raport;
+const
+  SECTION_COUNT = 25;
 var
-
-  fa,fb: TReaction;
-  z,m,krok: double;
+  fa, fb: TReaction;
+  z, m, krok, p: Double;
   load: TLoad;
+  points: TAoD;
+  section, idx: Integer;
+
+  procedure AddValues(AFormat: string; AZ, ALeft, ARight: Double);
+  begin
+    if not SameValue(ALeft, ARight) then fRaport.Add(Format(AFormat,[AZ, ALeft]));
+    fRaport.Add(Format(AFormat,[AZ, ARight]));
+  end;
+
 begin
   fRaport.Clear;
 
-  //Dane materiałowe
-  fRaport.Add('1.Dane materiałowe');
-  //fRaport.Add('');
-  fRaport.Add(Format(' -Dopuszczalne naprężenia na zginanie kg [MPa]: %.0f',[naprezeniaG]));
-  fRaport.Add(Format(' -Dopuszczalne naprężenia na skręcanie ks [MPa]: %.0f',[naprezeniaS]));
+  // Jeśli nie ma obciążeń to nie ma po co generować raportu
+  if Shaft.Count = 0 then Exit;
+
+  // Dane materiałowe
+  fRaport.Add('1. Dane materiałowe');
+  fRaport.Add(Format('  Dopuszczalne naprężenia na zginanie kg [MPa]: %.0f',[naprezeniaG]));
+  fRaport.Add(Format('  Dopuszczalne naprężenia na skręcanie ks [MPa]: %.0f',[naprezeniaS]));
   fRaport.Add('');
-  //Obciązenia
-  fRaport.Add('2.Obciążenia');
-  //fRaport.Add('');
+
+  // Obciązenia
+  fRaport.Add('2. Obciążenia');
   for load in  Shaft do begin
     if load is TForce then fRaport.Add(Format('  Siła [kN]: (%.3f; %.3f; %.3f); Położenie [m]: (%.3f; %.3f; %.3f)',
       [TForce(Load).Fx,TForce(Load).Fy,TForce(Load).Fz,TForce(Load).X,TForce(Load).Y,TForce(Load).Z]));
@@ -625,137 +513,103 @@ begin
     if load is TTorque then fRaport.Add(Format('  Moment skręcający [Nm]: %.3f); Położenie Z [m]: %.3f',
       [TTorque(Load).Torque,TTorque(Load).Z]));
   end;
-//Reakcje
-  fRaport.Add('');
-  fRaport.Add('3.Reakcje');
-  //fRaport.Add('');
-  fa:=Shaft.SupportA;
-  fb:=Shaft.SupportB;
-  fRaport.Add(Format('  Podpora stała Ra [kN]: (%.2f; %.2f; %.2f); Położenie Z [m]: %.3f',
-    [fa.Fx,fa.Fy,fa.Fz,fa.Z]));
-
-  fRaport.Add(Format('  Podpora ruchoma Rb [kN]: (%.2f; %.2f); Położenie Z [m]: %.3f',
-    [fa.Fx,fa.Fy,fa.Z]));
   fRaport.Add('');
 
-//Obliczenia w przekrojach charakterystycznych
-  fRaport.Add('4.Obliczenia w przekrojach charakterystycznych');
-  //fRaport.Add('');
-  fRaport.Add('4.1 Siły tnące (siła F w [kN], odległość Z w [m])');
-  fRaport.Add('4.1.1 Siły tnące w płaszczyźnie XZ');
-  points:=Shaft.ZPositions;
+  // Reakcje
+  fa := Shaft.SupportA;
+  fb := Shaft.SupportB;
+  fRaport.Add('3. Reakcje');
+  fRaport.Add(Format('  Podpora stała Ra [kN]: (%.2f; %.2f; %.2f); Położenie Z [m]: %.3f', [fa.Fx, fa.Fy, fa.Fz, fa.Z]));
+  fRaport.Add(Format('  Podpora ruchoma Rb [kN]: (%.2f; %.2f); Położenie Z [m]: %.3f', [fb.Fx, fb.Fy, fb.Z]));
+  fRaport.Add('');
 
-  for z in points do begin
-
-    fRaport.Add(Format('  Z: %.3f; F: %.3f',[z,Shaft.ShearX(z)]));
-    fRaport.Add(Format('  Z: %.3f; F: %.3f',[z,Shaft.ShearX(z-epsilon)]));
-
-
+  // Obliczenia w przekrojach charakterystycznych
+  points := Shaft.ZPositions;
+  section := 1;
+  fRaport.Add('4. Obliczenia w przekrojach charakterystycznych');
+  fRaport.Add(' 4.1 Siły tnące (siła F w [kN], odległość Z w [m])');
+  if Shaft.Config in [lcCoplanarX, lcSpatial] then begin
+    fRaport.Add(Format('  4.1.%d Płaszczyzna XZ', [section]));
+    for z in points do AddValues('    Z: %.3f; F: %.3f', z, Shaft.ShearX(z - EPSILON), Shaft.ShearX(z));
+    fRaport.Add('');
+    Inc(section);
   end;
 
-  fRaport.Add('');
-  fRaport.Add('4.1.1 Siły tnące w płaszczyźnie XY');
-   for z in points do begin
-
-    fRaport.Add(Format('  Z: %.3f; F: %.3f',[z,Shaft.ShearY(z)]));
-    fRaport.Add(Format('  Z: %.3f; F: %.3f',[z,Shaft.ShearY(z-epsilon)]));
-
-
+  if Shaft.Config in [lcCoplanarY, lcSpatial] then begin
+    fRaport.Add(Format('  4.1.%d Płaszczyzna YZ', [section]));
+    for z in points do AddValues('    Z: %.3f; F: %.3f', z, Shaft.ShearY(z - EPSILON), Shaft.ShearY(z));
+    fRaport.Add('');
+    Inc(section);
   end;
 
-  fRaport.Add('');
-  fRaport.Add('4.1.1 Siły tnące');
-   for z in points do begin
-
-    fRaport.Add(Format('  Z: %.3f; F: %.3f',[z,Shaft.Shear(z)]));
-    fRaport.Add(Format('  Z: %.3f; F: %.3f',[z,Shaft.Shear(z-epsilon)]));
-
-
+  if Shaft.Config in [lcSpatial] then begin
+    fRaport.Add(Format('  4.1.%d Wypadkowa', [section]));
+    for z in points do AddValues('    Z: %.3f; F: %.3f', z, Shaft.Shear(z - EPSILON), Shaft.Shear(z));
+    fRaport.Add('');
   end;
 
-  fRaport.Add('4.2 Momenty gnące (momenty M w [Nm], odległość Z w [m])');
-  fRaport.Add('4.2.1 Momenty gnące w płaszczyźnie XZ');
-
-  for z in points do begin
-
-    fRaport.Add(Format('  Z: %.3f; M: %.3f',[z,Shaft.MomentX(z)*1000]));
-    fRaport.Add(Format('  Z: %.3f; M: %.3f',[z,Shaft.MomentX(z-epsilon)*1000]));
-
-
+  // momenty gnące
+  section := 1;
+  fRaport.Add(' 4.2 Momenty gnące (momenty Mg w [Nm], odległość Z w [m])');
+  if Shaft.Config in [lcCoplanarX, lcSpatial] then begin
+    fRaport.Add(Format('  4.2.%d Płaszczyzna XZ', [section]));
+    for z in points do AddValues('    Z: %.3f; Mg: %.2f', z, Shaft.MomentX(z - EPSILON) * 1000, Shaft.MomentX(z) * 1000);
+    fRaport.Add('');
+    Inc(section);
   end;
 
-  fRaport.Add('');
-  fRaport.Add('4.2.2 Momenty gnące w płaszczyźnie XY');
-
-  for z in points do begin
-
-    fRaport.Add(Format('  Z: %.3f; M: %.3f',[z,Shaft.MomentY(z)*1000]));
-    fRaport.Add(Format('  Z: %.3f; M: %.3f',[z,Shaft.MomentY(z-epsilon)*1000]));
-
-
+  if Shaft.Config in [lcCoplanarY, lcSpatial] then begin
+    fRaport.Add(Format('  4.2.%d Płaszczyzna YZ', [section]));
+    for z in points do AddValues('    Z: %.3f; Mg: %.2f', z, Shaft.MomentY(z - EPSILON) * 1000, Shaft.MomentY(z) * 1000);
+    fRaport.Add('');
+    Inc(section);
   end;
 
-  fRaport.Add('');
-  fRaport.Add('4.2.3 Momenty gnące');
-
-  for z in points do begin
-
-    fRaport.Add(Format('  Z: %.3f; M: %.3f',[z,Shaft.Moment(z)*1000]));
-    fRaport.Add(Format('  Z: %.3f; M: %.3f',[z,Shaft.Moment(z-epsilon)*1000]));
-
-
+  if Shaft.Config in [lcSpatial] then begin
+    fRaport.Add(Format('4.2.%d Wypadkowy', [section]));
+    for z in points do AddValues('    Z: %.3f; Mg: %.2f', z, Shaft.Moment(z - EPSILON) * 1000, Shaft.Moment(z) * 1000);
+    fRaport.Add('');
   end;
 
+  fRaport.Add('4.3 Momenty skręcające (momenty Ms w [Nm], odległość Z w [m])');
+  for z in points do AddValues('    Z: %.3f; Ms: %.2f', z, Shaft.Torque(z - EPSILON) * 1000, Shaft.Torque(z) * 1000);
   fRaport.Add('');
-  fRaport.Add('4.3 Momenty skręcające(momenty M w [Nm], odległość Z w [m])');
 
-  for z in points do begin
-
-    fRaport.Add(Format('  Z: %.3f; Ms: %.3f',[z,Shaft.Torque(z)*1000]));
-    fRaport.Add(Format('  Z: %.3f; Ms: %.3f',[z,Shaft.Torque(z-epsilon)*1000]));
-
-
-  end;
-
-  fRaport.Add('');
   fRaport.Add('4.4. Moment zredukowany (moment Mz w [Nm], odległość Z w [m])');
-
-  for z in points do begin
-
-    fRaport.Add(Format('  Z: %.3f; Mz: %.3f',[z,Equivalent(z)*1000]));
-    fRaport.Add(Format('  Z: %.3f; Mz: %.3f',[z,Equivalent(z-epsilon)*1000]));
-
-
-  end;
-
+  for z in points do AddValues('    Z: %.3f; F: %.2f', z, Equivalent(z - EPSILON) * 1000, Equivalent(z) * 1000);
   fRaport.Add('');
-  fRaport.Add('4.5 Średnica teoretyczna (średnica w [mm], odległość Z w [m])');
 
-  for z in points do begin
-
-    fRaport.Add(Format(' -Z: %.3f ; Mz: %.3f',[z,Diameter(z)*100]));
-    fRaport.Add(Format(' -Z: %.3f ; Mz: %.3f',[z,Diameter(z-epsilon)*100]));
-
-
-  end;
-
+  fRaport.Add('4.5 Średnica teoretyczna (średnica D w [mm], odległość Z w [m])');
+  for z in points do AddValues('    Z: %.3f; F: %.2f', z, Diameter(z - EPSILON) * 100, Diameter(z) * 100);
   fRaport.Add('');
-  fRaport.Add('5 Średnica teoretyczna w 30 równo oddalonych od siebie przekrojach');
-  fRaport.Add('(średnica w [mm], odległość Z w [m])');
-  m:=maxValue(points);
-  krok:=m/30;
-  z:=0;
-  While (z <= m) do
-  begin
 
-    fRaport.Add(Format('  Z: %.3f; Mz: %.3f',[z,Diameter(z)*100]));
-    fRaport.Add(Format('  Z: %.3f; Mz: %.3f',[z,Diameter(z-epsilon)*100]));
+  // Zarys teoretyczny wałka
+  idx := 0;
+  m := MaxValue(points);
+  z := MinValue(points);
+  krok := (m - z) / SECTION_COUNT;
+  fRaport.Add('5. Zarys teoretyczny wałka (średnica D w [mm], odległość Z w [m])');
+  while CompareValue(z, m) <= 0 do begin
+    // obsługa granic przedziałów
+    if CompareValue(z, points[idx] - EPSILON) >= 0 then begin
+      // obsługa punktów charakterystycznych o wartości Z mniejszej niż aktualna pozycja
+      p := points[idx];
+      while (idx < Length(points)) and (CompareValue(z, points[idx]) >= 0) do begin
+        p := points[idx];
+        AddValues('    Z: %.3f; D: %.2f', p, Diameter(p - EPSILON) * 100, Diameter(p) * 100);
+        Inc(idx);
+      end;
 
-    z:=z+krok;
+      // na koniec dodawany jest wpis akualnej pozycji
+      if (CompareValue(z, p) > 0) then
+        fRaport.Add(Format('    Z: %.3f; D: %.2f',[z, Diameter(z) * 100]));
+    end else
+      fRaport.Add(Format('    Z: %.3f; D: %.2f',[z, Diameter(z) * 100]));
+
+    // przejście do następnego przekroju
+    z := z + krok;
   end;
-
 end;
-
 
 procedure TForm1.tvTreeDblClick(Sender: TObject);
 var
@@ -763,20 +617,17 @@ var
 begin
   sel := (Sender as TTreeView).Selected;
 
-  if sel = fNaprezeniaG then actNaprezeniaG.Execute else
-  if sel = fNaprezeniaS then actNaprezeniaG.Execute else
+  if sel = fNaprezeniaG then actNaprezenia.Execute else
+  if sel = fNaprezeniaS then actNaprezenia.Execute else
   if sel = fWspRed then actWspRed.Execute else
   if sel = fPrzewObc then actRodzajNapr.Execute else
 
   if sel = fPodporaA then actStala.Execute else
   if sel = fPodporaB then actPrzesuwna.Execute else
 
-
   if TObject(sel.Data) is TForce then actSilaPozaWalemEdit.Execute;
   if TObject(sel.Data) is TMoment then actMomentEdit.Execute;
   if TObject(sel.Data) is TTorque then actTorqueEdit.Execute;
-
-
 end;
 
 procedure TForm1.UpdateTreeData;
@@ -789,7 +640,7 @@ begin
   fNaprezeniaG.Text:= Format('Dopuszczalne naprężenia na zginanie kg [MPa]: %.1f', [naprezeniaG]);
   fNaprezeniaS.Text:= Format('Dopuszczalne naprężenia na skręcanie ks [MPa]: %.1f', [naprezeniaS]);
   fWspRed.Text:= Format('Współczynnik redukcyjny: %s', [IfThen(abs(reduction - sqrt(3)/2)<0.01, '√3/2', '√3/4')]);
-  fPrzewObc.Text:= Format('Przeważające naprężenia: %s', [przewazajace]);
+  fPrzewObc.Text:= Format('Przeważające naprężenia: %s', [fPrzewazajace]);
   // aktualizacja informacji o podporach
   fPodporaA.Text := Format('Stała Ra: (%.2f; %.2f; %.2f), Położenie Z: %.2f', [Shaft.SupportA.Fx, Shaft.SupportA.Fy, Shaft.SupportA.Fz, Shaft.SupportA.Z]);
   fPodporaB.Text := Format('Przesuwna Rb: (%.2f; %.2f), Położenie Z: %.2f', [Shaft.SupportB.Fx, Shaft.SupportB.Fy, Shaft.SupportB.Z]);
@@ -807,39 +658,7 @@ begin
   end;
 
   //Generowanie raportu po każdej zmianie
-  //raport;
   actWyniki.Execute;
-
-end;
-
-procedure TForm1.UsunClick(Sender: TObject);
-//var
-//  ob: TLoad;
-begin
-  if tvTree.Selected.Enabled = false then
-    MessageDlg('Nie można usunąć', mtInformation, [mbOk], 0)
-  else
-    tvTree.Selected.Delete;
-end;
-
-procedure TForm1.Wybrwspczynnikaredukujcego1Click(Sender: TObject);
-begin
-
-
-  if Form10.ShowModal <> mrOK then Exit;
-
-  if Form10.RadioButton1.Checked = true then begin
-    Form1.reduction:=sqrt(3)/2;
-
-
-
-  end ;
-
-  if Form10.RadioButton2.Checked = true then begin
-    Form1.reduction:=sqrt(3)/4;
-  end;
-
-
 end;
 
 procedure TForm1.Zamianapodpr1Click(Sender: TObject);

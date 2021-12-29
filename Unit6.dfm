@@ -1,6 +1,7 @@
 object Form6: TForm6
   Left = 0
   Top = 0
+  ActiveControl = edtZ
   BorderStyle = bsDialog
   Caption = 'Po'#322'o'#380'enie podpory'
   ClientHeight = 79
@@ -37,8 +38,6 @@ object Form6: TForm6
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 1
-    ExplicitTop = 133
-    ExplicitWidth = 266
     object btnOK: TButton
       AlignWithMargins = True
       Left = 115
@@ -49,7 +48,6 @@ object Form6: TForm6
       Caption = 'OK'
       ModalResult = 1
       TabOrder = 0
-      ExplicitLeft = 54
     end
     object btnCancel: TButton
       AlignWithMargins = True
@@ -61,7 +59,6 @@ object Form6: TForm6
       Caption = 'Anuluj'
       ModalResult = 2
       TabOrder = 1
-      ExplicitLeft = 133
     end
   end
 end

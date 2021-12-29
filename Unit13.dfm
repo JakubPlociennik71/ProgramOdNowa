@@ -1,6 +1,7 @@
 object Form13: TForm13
   Left = 0
   Top = 0
+  ActiveControl = rbGnace
   BorderStyle = bsDialog
   Caption = 'Wyb'#243'r przewa'#380'aj'#261'cego obci'#261#380'enia'
   ClientHeight = 124
@@ -11,13 +12,12 @@ object Form13: TForm13
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  OldCreateOrder = False
   Position = poMainFormCenter
   PixelsPerInch = 96
   TextHeight = 13
-  object RadioButton1: TRadioButton
+  object rbGnace: TRadioButton
     Left = 8
-    Top = 8
+    Top = 16
     Width = 385
     Height = 17
     Caption = 'Napr'#281#380'enie gn'#261'ce'
@@ -29,7 +29,7 @@ object Form13: TForm13
     ParentFont = False
     TabOrder = 0
   end
-  object RadioButton2: TRadioButton
+  object rbSkrecajace: TRadioButton
     Left = 8
     Top = 47
     Width = 385
@@ -51,9 +51,6 @@ object Form13: TForm13
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 2
-    ExplicitLeft = -12
-    ExplicitTop = 148
-    ExplicitWidth = 395
     object btnOK: TButton
       AlignWithMargins = True
       Left = 71
@@ -64,7 +61,6 @@ object Form13: TForm13
       Caption = 'OK'
       ModalResult = 1
       TabOrder = 0
-      ExplicitLeft = 240
     end
     object btnCancel: TButton
       AlignWithMargins = True
@@ -76,7 +72,6 @@ object Form13: TForm13
       Caption = 'Anuluj'
       ModalResult = 2
       TabOrder = 1
-      ExplicitLeft = 319
     end
   end
 end

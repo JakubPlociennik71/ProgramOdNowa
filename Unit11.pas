@@ -29,12 +29,10 @@ implementation
 
 {$R *.dfm}
 
-uses Diagrams, Loads, Unit1, Unit10, Unit2, Unit3, Unit4, Unit5, Unit6, Unit7,
-  Unit8, Unit9;
-
 procedure TForm11.Init(kg,ks: double);
 begin
   edtKg.Text := FloatToStr(kg);
   edtKs.Text := FloatToStr(ks);
 end;
+
 end.

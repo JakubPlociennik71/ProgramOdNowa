@@ -1,10 +1,11 @@
 object Form11: TForm11
   Left = 0
   Top = 0
+  ActiveControl = edtKg
   BorderStyle = bsToolWindow
   Caption = 'Napr'#281#380'enia dopuszczalne'
-  ClientHeight = 155
-  ClientWidth = 250
+  ClientHeight = 102
+  ClientWidth = 235
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -15,16 +16,15 @@ object Form11: TForm11
   Padding.Top = 4
   Padding.Right = 4
   Padding.Bottom = 4
-  OldCreateOrder = True
   Position = poScreenCenter
   PixelsPerInch = 96
   TextHeight = 13
   object Label3: TLabel
     Left = 7
-    Top = 7
-    Width = 89
+    Top = 10
+    Width = 88
     Height = 13
-    Caption = 'Warto'#347#263'  kg [MPA]'
+    Caption = 'Warto'#347#263'  kg [MPa]'
   end
   object Label2: TLabel
     Left = 7
@@ -43,17 +43,17 @@ object Form11: TForm11
   end
   object pnlBottom: TPanel
     Left = 4
-    Top = 120
-    Width = 242
+    Top = 67
+    Width = 227
     Height = 31
     Align = alBottom
     BevelOuter = bvNone
-    TabOrder = 1
-    ExplicitTop = 76
-    ExplicitWidth = 530
+    TabOrder = 2
+    ExplicitTop = 120
+    ExplicitWidth = 242
     object btnOK: TButton
       AlignWithMargins = True
-      Left = 87
+      Left = 72
       Top = 3
       Width = 73
       Height = 25
@@ -61,11 +61,11 @@ object Form11: TForm11
       Caption = 'OK'
       ModalResult = 1
       TabOrder = 0
-      ExplicitLeft = 375
+      ExplicitLeft = 87
     end
     object btnCancel: TButton
       AlignWithMargins = True
-      Left = 166
+      Left = 151
       Top = 3
       Width = 73
       Height = 25
@@ -73,7 +73,7 @@ object Form11: TForm11
       Caption = 'Anuluj'
       ModalResult = 2
       TabOrder = 1
-      ExplicitLeft = 454
+      ExplicitLeft = 166
     end
   end
   object edtKs: TEdit
@@ -81,7 +81,7 @@ object Form11: TForm11
     Top = 34
     Width = 121
     Height = 21
-    TabOrder = 2
+    TabOrder = 1
     Text = '0'
   end
 end

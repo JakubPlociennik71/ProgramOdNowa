@@ -31,8 +31,6 @@ implementation
 
 {$R *.dfm}
 
-uses Unit1;
-
 procedure TForm2.Init(AForce: TForce);
 begin
   edtFx.Text := '0';

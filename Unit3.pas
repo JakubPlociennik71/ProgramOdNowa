@@ -37,12 +37,6 @@ implementation
 
 {$R *.dfm}
 
-uses Unit1, Unit2;
-
-
-
-
-
 procedure TForm3.Init(AForce: TForce);
 begin
   edtFx.Text := '0';
@@ -52,7 +46,6 @@ begin
   edtY.Text := '0';
   edtZ.Text := '0';
 
-
   if Assigned(AForce) then begin
     edtFx.Text := FloatToStr(AForce.Fx);
     edtFy.Text := FloatToStr(AForce.Fy);
@@ -60,8 +53,6 @@ begin
     edtX.Text := FloatToStr(AForce.X);
     edtY.Text := FloatToStr(AForce.Y);
     edtZ.Text := FloatToStr(AForce.Z);
-
-
   end;
 end;
 

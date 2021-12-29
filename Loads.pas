@@ -82,10 +82,12 @@ type
     property Fz;
   end;
 
+  TLoadConfig = (lcCoplanarX, lcCoplanarY, lcSpatial);
+
   TShaft = class(TObjectList<TLoad>)
   type
     TLoadCalculator = reference to function (ALoad: TLoad; AZ: Double): Double;
- private
+  private
     fSupportA: TReaction;         // podpora stała (obciążenia pod dowolnym kątem)
     fSupportB: TReaction;         // podpora ruchoma (obciążenie promieniowe)
     fOnChange: TNotifyEvent;      // procedure obsługi zdarzenia, wywoływana po wykonaniu obliczeń
@@ -93,6 +95,7 @@ type
     fUpdateRequest: Boolean;      // flaga przechowująca informacje o tym, że dane lub obliczenia uległy zmianie
     fMinZValue: Double;
     fMaxZValue: Double;
+    fConfig: TLoadConfig;         // przechowuje konfigurację obciążeń (płaski układ sił, przestrzenny układ sił)
     function Calculate(ACalculator: TLoadCalculator; AZ: Double): Double;
     procedure Update;
     procedure ValidityCheck;
@@ -128,6 +131,7 @@ type
     function Moment(AZ: Double): Double;
     function Torque(AZ: Double): Double;
     // właściwości
+    property Config: TLoadConfig read fConfig;
     property MinZValue: Double read fMinZValue;
     property MaxZValue: Double read fMaxZValue;
     property SupportA: TReaction read fSupportA;
@@ -654,6 +658,8 @@ procedure TShaft.Update;
 
 var
   zvals: TAoD;
+  xexists, yexists: Boolean;
+  load: TLoad;
 begin
   // ustawiam flagę żądania aktualizacji reakcji
   fUpdateRequest := True;
@@ -664,9 +670,22 @@ begin
   // sortuję obciążenia i aktualizuję zakres zmienności Z
   Sort;
 
+  // aktualizuję minimalną i maksymalną wartość współrzędnej Z
   zvals := ZPositions;
   fMinZValue := zvals[0];
   fMaxZValue := zvals[High(zvals)];
+
+  // sprawdzam czy przypadkiem układ sił nie jest układem płaskim. W takiej sytuacji nie trzeba rysować wszystkich wykresów
+  xexists := False;
+  yexists := False;
+  for load in ToArray do begin
+    xexists := xexists or ((load is TForce) and (TForce(load).Fx <> 0)) or ((load is TMoment) and (TMoment(load).MomentX <> 0));
+    yexists := yexists or ((load is TForce) and (TForce(load).Fy <> 0)) or ((load is TMoment) and (TMoment(load).MomentY <> 0));
+  end;
+
+  if xexists and yexists then fConfig := lcSpatial else
+  if xexists then fConfig := lcCoplanarX else
+  fConfig := lcCoplanarY;
 
   // obliczam reakcje, obsługuję zdarzenie (jeśli jest taka potrzeba) i kasuję flagę żądania aktualizacji
   if fUpdateRequest then CalculateReactions;
