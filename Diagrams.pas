@@ -168,7 +168,7 @@ const
     pt, pt1: TPoint;
   begin
     pt := Map(AZ, 0);
-    Inc(pt.Y, Sign(AY) * 25);
+    Dec(pt.Y, Sign(AY) * 25);
 
     // jeśli siła jest przyłożona poza wałem to rysuję punkt
     ACanvas.Pen.Width := 3;
@@ -299,7 +299,7 @@ const
 
     // rysowanie obciążeń
     for load in Shaft do
-      if load is TForce then PaintForce(ACanvas, clBlack, load.Z, TForce(load).FZ, IfThen(AYZ, TForce(load).FY, TForce(load).FX), load.Y) else
+      if load is TForce then PaintForce(ACanvas, clBlack, load.Z, TForce(load).FZ, IfThen(AYZ, TForce(load).FY, TForce(load).FX), IfThen(AYZ, load.Y, load.X)) else
       if load is TMoment then PaintMoment(ACanvas, clBlack, load.Z, IfThen(AYZ, TMoment(load).MomentY, TMoment(load).MomentX)) else
       if load is TTorque then PaintTorque(ACanvas, clBlack, load.Z, IfThen(AYZ, TTorque(load).Torque));
 

@@ -1,2 +1,4 @@
 /Win32/Debug/*.dcu
 /__history/*.*
+/Project1.dproj.local
+/Project1.identcache

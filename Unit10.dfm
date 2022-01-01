@@ -12,7 +12,6 @@ object Form10: TForm10
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  OldCreateOrder = True
   Position = poMainFormCenter
   PixelsPerInch = 96
   TextHeight = 13
@@ -21,7 +20,7 @@ object Form10: TForm10
     Top = 33
     Width = 385
     Height = 17
-    Caption = 'Zmienny kierunek obrotu wa'#322'u (wsp. '#945' = '#8730'3 / 2)'
+    Caption = 'Zmienny kierunek obrotu wa'#322'u (wsp. '#945' = '#8730'3 )'
     TabOrder = 0
   end
   object rbJednokierunkowy: TRadioButton
@@ -29,7 +28,7 @@ object Form10: TForm10
     Top = 73
     Width = 385
     Height = 17
-    Caption = 'Sta'#322'y kierunek obrotu wa'#322'u (wsp. '#945' = '#8730'3 / 4)'
+    Caption = 'Sta'#322'y kierunek obrotu wa'#322'u (wsp. '#945' = '#8730'3 / 2)'
     TabOrder = 1
   end
   object pnlBottom: TPanel

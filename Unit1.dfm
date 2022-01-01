@@ -11,7 +11,6 @@ object Form1: TForm1
   Font.Name = 'Tahoma'
   Font.Style = []
   Menu = mmMenu
-  OldCreateOrder = True
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   PixelsPerInch = 96
@@ -21,7 +20,6 @@ object Form1: TForm1
     Top = 0
     Height = 681
     Align = alRight
-    ExplicitLeft = 433
   end
   object ScrollBox1: TScrollBox
     Left = 440
@@ -38,8 +36,6 @@ object Form1: TForm1
       Height = 425
       Align = alTop
       OnPaint = pbDiagramsPaint
-      ExplicitLeft = 1
-      ExplicitTop = 3
     end
   end
   object pnlLeft: TPanel
@@ -57,8 +53,6 @@ object Form1: TForm1
       Height = 3
       Cursor = crVSplit
       Align = alTop
-      ExplicitLeft = -1
-      ExplicitTop = 115
     end
     object tvTree: TTreeView
       Left = 0
